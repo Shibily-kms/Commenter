@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 
 function Otp() {
+
     const location = useLocation()
     const navigate = useNavigate()
     const [number, setNumber] = useState('')
@@ -15,7 +16,7 @@ function Otp() {
         if (location.state) {
             setNumber(location.state.mobile.slice(7, 10))
         } else {
-            navigate('/sign-up')
+            navigate('/sign-in')
         }
     }, [])
     const handleChange = (e) => {
@@ -26,11 +27,19 @@ function Otp() {
         e.preventDefault()
         axios.post('/verify-otp', { otp: otp, mobile: location.state.mobile }).then((response) => {
             if (response.data.success) {
-                axios.post('/sign-up', location.state).then((result) => {
-                    if (result.data.success) {
-                        navigate('/sign-in')
-                    }
-                })
+                if (location.state.forgot) {
+                    navigate('/new-password', {
+                        state: {
+                            emailId: location.state.email
+                        }
+                    })
+                } else {
+                    axios.post('/sign-up', location.state).then((result) => {
+                        if (result.data.success) {
+                            navigate('/sign-in')
+                        }
+                    })
+                }
             }
         }).catch((error) => {
             setError(error.response.data.message)

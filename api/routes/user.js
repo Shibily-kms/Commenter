@@ -1,12 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { checkSignUpData, sendOtp, verifyOtp, doSingUp } = require('../controllers/auth-controller')
+const { checkSignUpData, sendOtp, verifyOtp, doSingUp, verifyUserNameOrEmail, setNewPassword } = require('../controllers/auth-controller')
 
 // Sing Up And Otp
 router.post('/check-signup', checkSignUpData)
-router.post('/otp', sendOtp)
 router.post('/send-otp', sendOtp)
 router.post('/verify-otp', verifyOtp)
-router.post('/sign-up',doSingUp)  
+router.post('/sign-up', doSingUp)
+
+//  Forgot Password
+router.post('/verify-username-or-email', verifyUserNameOrEmail);
+router.post('/new-password', setNewPassword)
 
 module.exports = router;

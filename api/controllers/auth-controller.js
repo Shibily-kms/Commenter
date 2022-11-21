@@ -30,8 +30,6 @@ module.exports = {
             otpHelper.dosms(body.number).then((response) => {
                 if (response) {
                     res.status(201).json({ success: true, message: 'Otp Sended to this number' })
-                } else {
-                    res.status(400).json({ success: false, message: "Otp Can't  send" })
                 }
             })
 
@@ -65,6 +63,41 @@ module.exports = {
                 } else {
                     res.status(400).json({ success: false, message: 'User Sign up not completed , try now' })
                 }
+            })
+
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    // Forgot Password
+
+    verifyUserNameOrEmail: async (req, res, next) => {
+        try {
+            let body = req.body
+            await UserModel.findOne({ $or: [{ userName: body.name }, { emailId: body.name }] }).then((data) => {
+                if (data) {
+                    res.status(201).json({ success: true, message: 'User is Available', emailId: data.emailId, mobile: data.mobile })
+                } else {
+                    res.status(400).json({ error: true, message: 'Invalid user name or email Id' })
+                }
+            })
+
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    setNewPassword: async (req, res, next) => {
+        try {
+            let body = req.body
+            body.password = await bcrypt.hash(body.password, 10)
+            await UserModel.updateOne({ emailId: body.emailId }, {
+                $set: {
+                    password: body.password
+                }
+            }).then((result)=>{
+                res.status(201).json({success:true,message : 'password updated'})
             })
 
         } catch (error) {

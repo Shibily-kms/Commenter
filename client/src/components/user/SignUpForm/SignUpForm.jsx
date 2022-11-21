@@ -47,7 +47,7 @@ function SignUpForm() {
             axios.post('/check-signup', form).then((response) => {
                 if (response.data.success) {
                     // Send Otp to number
-                    axios.post('/otp', { number: form.mobile }).then((result) => {
+                    axios.post('/send-otp', { number: form.mobile }).then((result) => {
                         if (result.data.success) {
                             navigate('/otp', {
                                 state: form

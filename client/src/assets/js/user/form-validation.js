@@ -48,4 +48,28 @@ let signUpFormFunction = function (obj) {
     }
 }
 
-export { signUpFormFunction };
+let passwordValidation = (obj) => {
+    if ( obj.password === null || obj.cpassword === null ) {
+        return {
+            success: false,
+            message: 'Fill the form Completed'
+        }
+    } else if (obj.password.length < 6) {
+        return {
+            success: false,
+            message: 'Password must be at least 6 characters long'
+        }
+    } else if (obj.password !== obj.cpassword) {
+        return {
+            success: false,
+            message: 'Password not match'
+        }
+    } else {
+        return {
+            success: true,
+            message: 'Validation Completed'
+        }
+    }
+}
+
+export { signUpFormFunction, passwordValidation };
