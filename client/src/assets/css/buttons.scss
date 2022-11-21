@@ -1,0 +1,35 @@
+
+// Botton Functions
+@mixin  normalButton() {
+    padding: 10px;
+    color: $blackColor;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    outline: none;
+    font-weight: 500;
+    background-color: $secondaryColor;
+}
+
+
+
+// Class Name
+.button{
+    @include normalButton();
+}
+
+.button-color{
+    @include normalButton();
+    background: linear-gradient(90.5deg, #D60067 2.72%, #9100D6 99.92%);
+    color : white;
+}
+
+.button-outline{
+    @include normalButton();
+    
+
+}

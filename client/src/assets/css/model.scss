@@ -1,0 +1,74 @@
+@import './user-root.scss';
+
+
+// Shadow
+@mixin normalShadow {
+    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.25);
+}
+
+
+@mixin normalBox($color: $primaryColor, $radius: 10px) {
+    @include normalShadow();
+    background-color: $color;
+    border-radius: $radius;
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+}
+
+@mixin normalInput ($fontSize: 14px) {
+    font-size: $fontSize;
+    padding: 14px;
+    color: $blackColor;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    outline: none;
+    font-weight: 500;
+    background-color: $secondaryColor;
+}
+
+
+// Input Group
+.inputDiv {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+   
+
+    input {
+        @include normalInput;
+        
+        &:focus {
+            background-color: $secondaryColor600;
+        }
+
+        &:focus~label,
+        &:valid~label {
+            top: 0px;
+            left: 20px;
+            font-size: 11px;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+    }
+
+    label {
+        font-size: 14px;
+        position: absolute;
+        top: 14px;
+        left: 25px;
+        color: $lightDarkColor;
+        transition: 0.5s ease-in-out;
+        font-weight: 500;
+       
+    }
+
+
+}
