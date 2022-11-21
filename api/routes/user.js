@@ -1,20 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const { checkSignUpData, sendOtp, verifyOtp, doSingUp } = require('../controllers/auth-controller')
 
-router.get('/',(req,res,next)=>{
-    res.status(200).json({ message: "Get Connected" })
-})
-router.post('/',(req,res,next)=>{
-    console.log(req.body,'this body data');
-    res.status(200).json({ message: "Post Connected" })
-})
-router.put('/',(req,res,next)=>{
-    console.log(req.body,'this body data');
-    res.status(200).json({ message: "Put Connected" })
-})
-router.delete('/',(req,res,next)=>{
-    console.log(req.body,'this body data');
-    res.status(200).json({ message: "delete Connected" })
-})
+// Sing Up And Otp
+router.post('/check-signup', checkSignUpData)
+router.post('/otp', sendOtp)
+router.post('/send-otp', sendOtp)
+router.post('/verify-otp', verifyOtp)
+router.post('/sign-up',doSingUp)  
 
 module.exports = router;
