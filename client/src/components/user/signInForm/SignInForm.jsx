@@ -41,7 +41,14 @@ function SignInForm() {
     const handleSumbit = (e) => {
         e.preventDefault();
         if (page === "SignIn") {
-
+            axios.post('/sign-in', form, { withCredentials: true }).then((response) => {
+                if (response) {
+                    console.log(response.data, 'success');
+                    navigate('/')
+                }
+            }).catch((error) => {
+                setError(error.response.data.message)
+            })
         } else {
             axios.post('/verify-username-or-email', { name: form.userName }).then((response) => {
                 if (response.data.success) {
@@ -51,7 +58,7 @@ function SignInForm() {
                                 state: {
                                     email: response.data.emailId,
                                     mobile: response.data.mobile,
-                                    forgot:true
+                                    forgot: true
                                 }
                             })
                         }
@@ -67,7 +74,7 @@ function SignInForm() {
 
     return (
         <div>
-            <form action="" onSubmit={handleSumbit}>
+            <form action="" onSubmit={handleSumbit} >
                 <div className='row'>
 
                     <div className="inputDiv col-12 my-2">
@@ -78,7 +85,7 @@ function SignInForm() {
                         '' :
                         <>
                             <div className="inputDiv col-12 my-2">
-                                <input type={show ? 'text' : 'password'}
+                                <input type={show ? 'text' : 'password'} onChange={handleChange}
                                     id='password' required name='password' />
                                 <label htmlFor="password">Password</label>
                                 <div className='show-icon' onClick={handlePasswordShow}>
@@ -99,8 +106,6 @@ function SignInForm() {
 
                         <button type='submit' className='button button-color w-100 mt-2 '>
                             {page === 'SignIn' ? 'Sign In' : 'Submit'}</button>
-
-
 
                     </div>
                 </div>

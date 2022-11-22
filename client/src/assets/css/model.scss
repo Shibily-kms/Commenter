@@ -39,11 +39,11 @@
     display: flex;
     flex-direction: column;
     position: relative;
-   
+
 
     input {
         @include normalInput;
-        
+
         &:focus {
             background-color: $secondaryColor600;
         }
@@ -67,8 +67,34 @@
         color: $lightDarkColor;
         transition: 0.5s ease-in-out;
         font-weight: 500;
-       
+
     }
 
+}
 
+// Button Loding
+.button-loading-icon {
+    font-size: 20px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

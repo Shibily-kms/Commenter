@@ -8,10 +8,10 @@ import NewPasswod from '../pages/user/NewPasswod'
 function User() {
   return (
     <Routes>
-      <Route element={<Signup />} path='/sign-up' />
-      <Route element={<Otp />} path='/otp' />
-      <Route element={<SignIn />} path='/sign-in' />
-      <Route element={<NewPasswod />} path='/new-password' />
+      <Route path='/sign-up' element={<Signup />} />
+      <Route path='/otp' element={<Otp />} />
+      <Route path='/sign-in' element={<SignIn />} />
+      <Route path='/new-password' element={<NewPasswod />} />
     </Routes>
   )
 }
