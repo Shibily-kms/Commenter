@@ -3,8 +3,11 @@ import axios from '../../../config/axios'
 import './signInForm.scss'
 import { FaRegEye } from "@react-icons/all-files/fa/FaRegEye";
 import { FaRegEyeSlash } from "@react-icons/all-files/fa/FaRegEyeSlash";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { userLoagIN, reset } from '../../../Redux/features/auth/authSlice'
+import { RiLoader2Line } from '@react-icons/all-files/ri/RiLoader2Line'
 
 function SignInForm() {
     // States
@@ -13,7 +16,11 @@ function SignInForm() {
     const [error, setError] = useState('')
     const [form, setForm] = useState({ userName: null, password: null })
 
+    const { user, isLoading, isSuccess, isError, message } = useSelector((state) => state.userAuth)
+
+
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     // Input Password Show
     const handlePasswordShow = () => {
@@ -30,7 +37,7 @@ function SignInForm() {
 
     // Input Change Handle
     const handleChange = (e) => {
-        setError('')
+        dispatch(reset())
         setForm({
             ...form,
             [e.target.name]: e.target.value
@@ -41,14 +48,10 @@ function SignInForm() {
     const handleSumbit = (e) => {
         e.preventDefault();
         if (page === "SignIn") {
-            axios.post('/sign-in', form, { withCredentials: true }).then((response) => {
-                if (response) {
-                    console.log(response.data, 'success');
-                    navigate('/')
-                }
-            }).catch((error) => {
-                setError(error.response.data.message)
-            })
+            dispatch(userLoagIN(form))
+
+           
+
         } else {
             axios.post('/verify-username-or-email', { name: form.userName }).then((response) => {
                 if (response.data.success) {
@@ -71,6 +74,13 @@ function SignInForm() {
             })
         }
     }
+    useEffect(() => {
+        if (isSuccess || user) {
+            navigate('/',{
+                replace:true
+            })
+        }
+    }, [isError, isSuccess, user, message, dispatch,])
 
     return (
         <div>
@@ -103,8 +113,13 @@ function SignInForm() {
                             <button type='button' className='error-div button w-100 mt-2 '>{error}</button>
                             : ''
                         }
+                        {isError ?
+                            <button type='button' className='error-div button w-100 mt-2 '>{message}</button>
+                            : ''
+                        }
 
-                        <button type='submit' className='button button-color w-100 mt-2 '>
+                        <button type='submit' className='button button-color w-100 mt-2 '> {isLoading ?
+                            <span className=''><RiLoader2Line className='button-loading-icon' /></span> : ''}
                             {page === 'SignIn' ? 'Sign In' : 'Submit'}</button>
 
                     </div>

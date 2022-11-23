@@ -144,6 +144,30 @@ module.exports = {
             throw error;
         }
     },
+    getUserData: async (req, res, next) => {
+        try {
+
+            const jwtToken = jwt.verify(req.cookies.commender, process.env.TOKEN_KEY)
+
+            if (jwtToken) {
+
+                const userId = jwtToken.userId
+                const user = await UserModel.findOne({ urId: userId })
+                res.status(200).json({
+                    user: user,
+                    status: true,
+                    message: 'User Verified'
+                })
+            } else {
+
+                res.status(400).json({ status: false, error: true, message: 'Auth filed' })
+            }
+        } catch (error) {
+
+            res.status(400).json({ status: false, error: true, message: 'Auth filed' })
+
+        }
+    },
 
     // User Auth End
 
@@ -151,16 +175,16 @@ module.exports = {
     // Admin Auth Start
     doAdminSignIn: (req, res, next) => {
         try {
-            console.log(req.body,'her');
+
             const maxAge = 60 * 60 * 24;
             const { emailId, password } = req.body
             let adminData = {
                 email: process.env.ADMIN_EMAIL,
                 password: process.env.ADMIN_PASSWORD
             }
-            console.log(emailId ,adminData.email,'data');
-            if(emailId == adminData.email){
-                if(password == adminData.password){
+
+            if (emailId == adminData.email) {
+                if (password == adminData.password) {
                     const token = jwt.sign({ email: adminData.email }, process.env.TOKEN_KEY, { expiresIn: maxAge })
 
                     res.cookie("commenderAdmin", token, {
@@ -169,27 +193,50 @@ module.exports = {
                         maxAge: maxAge * 1000
                     })
                     res.status(201).json({
-                        status : true,
-                        success : true,
-                        admin : adminData.emailId,
-                        message : 'Authentication Completed'
+                        status: true,
+                        success: true,
+                        admin: adminData.emailId,
+                        message: 'Authentication Completed'
                     })
-                }else{
+                } else {
                     res.status(400).json({
-                        status : false,
-                        error : true,
-                        message : 'Incurrent Password'
+                        status: false,
+                        error: true,
+                        message: 'Incurrent Password'
                     })
                 }
-            }else{
+            } else {
                 res.status(400).json({
-                    status : false,
-                    error : true,
-                    message : 'Invalid Email Id'
+                    status: false,
+                    error: true,
+                    message: 'Invalid Email Id'
                 })
             }
         } catch (error) {
-            throw error ;
+            throw error;
+        }
+    },
+    checkAdminData: (req, res, next) => {
+        try {
+
+            const jwtToken = jwt.verify(req.cookies.commenderAdmin, process.env.TOKEN_KEY)
+
+            if (jwtToken) {
+
+                const email = jwtToken.email
+                res.status(200).json({
+                    admin: email,
+                    status: true,
+                    message: 'Admin Verified'
+                })
+            } else {
+
+                res.status(400).json({ status: false, error: true, message: 'Auth filed' })
+            }
+        } catch (error) {
+
+            res.status(400).json({ status: false, error: true, message: 'Auth filed' })
+
         }
     }
     // Admin Auth End

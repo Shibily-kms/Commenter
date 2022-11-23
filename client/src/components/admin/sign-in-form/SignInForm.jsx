@@ -11,14 +11,15 @@ import { useEffect } from 'react';
 
 
 function SignInForm() {
-
+    
     const dispatch = useDispatch()
     // States
     const [show, setShow] = useState('')
     const [form, setForm] = useState({ emailId: null, password: null })
-
+    
     const { admin, isLoading, isSuccess, isError, message } = useSelector((state) => state.adminAuth)
-
+    const navigate = useNavigate();
+    
     // Input Password Show
     const handlePasswordShow = () => {
         if (show) {
@@ -47,7 +48,6 @@ function SignInForm() {
         }
     }, [isError, isSuccess, admin, message, dispatch,])
 
-    const navigate = useNavigate();
     return (
         <div>
             <div className="container-custom signPage">

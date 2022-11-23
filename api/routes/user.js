@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { checkSignUpData, sendOtp, verifyOtp, doSingUp, verifyUserNameOrEmail, setNewPassword,
-    doSingIn, check } = require('../controllers/auth-controller')
+    doSingIn, getUserData } = require('../controllers/auth-controller')
 
 // Sing Up And Otp
 router.post('/check-signup', checkSignUpData)
@@ -15,7 +15,7 @@ router.post('/new-password', setNewPassword);
 
 // Sign In
 router.post('/sign-in', doSingIn)
-
+router.get('/get-user',getUserData)
 
 
 module.exports = router;
