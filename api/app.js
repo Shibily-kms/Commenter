@@ -6,10 +6,9 @@ app.use(cookieParser())
 const dotenv = require('dotenv').config({ path: '../.env' })
 const connectDB = require('./config/db')
 
-
-const { errorHandler } = require('./middlewares/error-middleware')
 connectDB()
 
+const { errorHandler } = require('./middlewares/error-middleware')
 
 // routes
 const userRouter = require('./routes/user')

@@ -1,12 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userAuthReducer from '../features/auth/authSlice'
-import adminAuthRduce from '../features/adminAuth/adminAuthSlice'
+import adminAuthReducer from '../features/adminAuth/adminAuthSlice'
+import sidebarReducer from '../features/sidebar/sidebarSlice'
 
 export const store = configureStore({
     reducer: {
         // User
         userAuth: userAuthReducer,
         // Admin
-        adminAuth: adminAuthRduce
+        adminAuth: adminAuthReducer,
+        // Each
+        sidebarToggle : sidebarReducer
     }
 })

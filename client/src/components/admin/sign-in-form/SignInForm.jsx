@@ -44,8 +44,10 @@ function SignInForm() {
 
     useEffect(() => {
         if (isSuccess || admin) {
+            console.log('hii');
             navigate('/admin')
         }
+        console.log('in sign in');
     }, [isError, isSuccess, admin, message, dispatch,])
 
     return (

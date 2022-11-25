@@ -1,17 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../../config/axios'
 const INITIAL_STATE = {
-    user : null,
-    isError  : false,
-    isSuccess : false,
-    isLoading : false,
-    message : ''
+    user: null,
+    isError: false,
+    isSuccess: false,
+    isLoading: false,
+    message: ''
 }
 
 // User LogIn
-export const userLoagIN  = createAsyncThunk('user/login',async(formData,thunkAPI)=>{
+export const userLoagIN = createAsyncThunk('user/login', async (formData, thunkAPI) => {
     try {
-        return await axios.post('/sign-in',formData,{withCredentials:true})
+        return await axios.post('/sign-in', formData, { withCredentials: true })
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
@@ -19,13 +19,11 @@ export const userLoagIN  = createAsyncThunk('user/login',async(formData,thunkAPI
 })
 // User Get Data
 export const getUserData = createAsyncThunk('user/get-data', async (thunkAPI) => {
-   
+
     try {
-       
         return await axios.get('/get-user', { withCredentials: true });
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
-      
         return thunkAPI.rejectWithValue(message)
     }
 })
@@ -34,7 +32,7 @@ const userAuthSlice = createSlice({
     name: 'userAuth',
     initialState: INITIAL_STATE,
     reducers: {
-        reset:(state)=>{
+        reset: (state) => {
             state.isError = false
             state.isSuccess = false
             state.isLoading = false
@@ -42,34 +40,34 @@ const userAuthSlice = createSlice({
         },
         logOut: (state) => {
             state.user = null
-            console.log(state.user,'LogOutAuth');
+            console.log(state.user, 'LogOutAuth');
         }
     },
-    extraReducers:{
+    extraReducers: {
         [userLoagIN.pending]: (state) => {
             state.isLoading = true
         },
         [userLoagIN.fulfilled]: (state, action) => {
-           
+
             state.isLoading = false
             state.isSuccess = true
             state.user = action.payload.data.user
 
         },
         [userLoagIN.rejected]: (state, action) => {
-           
+
             state.isLoading = false
             state.isError = true
             state.message = action.payload
         },
         [getUserData.fulfilled]: (state, action) => {
-          
+
             state.isSuccess = true
             state.user = action.payload.data.user
         }
     }
 })
 
-export const { reset,logOut } = userAuthSlice.actions;
+export const { reset, logOut } = userAuthSlice.actions;
 
 export default userAuthSlice.reducer;
