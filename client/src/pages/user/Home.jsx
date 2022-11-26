@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { logOut } from '../../Redux/features/auth/authSlice'
+import { logOut } from '../../Redux/features/user/authSlice'
 import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react';
@@ -13,14 +13,11 @@ function Dashboard() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const LogOut = () => {
-    console.log('logOut');
     dispatch(logOut())
     removeCookie('commender', { path: '/' })
-
   }
 
   useEffect(() => {
-    console.log(user,'hi user efect');
     if (!user) {
       navigate('/sign-in')
     }

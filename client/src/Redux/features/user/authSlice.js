@@ -40,7 +40,6 @@ const userAuthSlice = createSlice({
         },
         logOut: (state) => {
             state.user = null
-            console.log(state.user, 'LogOutAuth');
         }
     },
     extraReducers: {

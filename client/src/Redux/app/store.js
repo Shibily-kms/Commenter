@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userAuthReducer from '../features/auth/authSlice'
-import adminAuthReducer from '../features/adminAuth/adminAuthSlice'
+import userAuthReducer from '../features/user/authSlice'
+import adminAuthReducer from '../features/admin/adminAuthSlice'
 import sidebarReducer from '../features/sidebar/sidebarSlice'
+import adminUserList from '../features/admin/userList'
 
 export const store = configureStore({
     reducer: {
@@ -9,6 +10,7 @@ export const store = configureStore({
         userAuth: userAuthReducer,
         // Admin
         adminAuth: adminAuthReducer,
+        userList : adminUserList,
         // Each
         sidebarToggle : sidebarReducer
     }

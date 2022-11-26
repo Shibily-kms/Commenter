@@ -6,7 +6,7 @@ import SignIn from '../pages/user/SignIn'
 import NewPasswod from '../pages/user/NewPasswod'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getUserData, reset } from '../Redux/features/auth/authSlice'
+import { getUserData, reset } from '../Redux/features/user/authSlice'
 import { useNavigate } from 'react-router-dom'
 import Home from '../pages/user/Home'
 
@@ -18,11 +18,12 @@ function User() {
   useEffect(() => {
     dispatch(getUserData())
     dispatch(reset())
-    console.log(user,'useeffect IN user page');
     if (!userId) {
       navigate('/sign-in')
     }
   }, [userId])
+
+  
   return (
     <Routes>
       <Route path='/sign-up' element={<Signup />} />

@@ -1,9 +1,11 @@
 const UserModel = require('../models/user-model')
+const { customId } = require('../helpers/customId-helpers')
 const otpHelper = require('../helpers/otp-helpers')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const { customId } = require('../helpers/customId-helpers')
 
+
+// Admin And User Authenditaion
 module.exports = {
 
     // User Auth Start
@@ -229,10 +231,7 @@ module.exports = {
                     status: true,
                     message: 'Admin Verified'
                 })
-            } else {
-
-                res.status(400).json({ status: false, error: true, message: 'Auth filed' })
-            }
+            } 
         } catch (error) {
 
             res.status(400).json({ status: false, error: true, message: 'Auth filed' })

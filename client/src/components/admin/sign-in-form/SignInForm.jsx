@@ -5,8 +5,9 @@ import { FaRegEye } from "@react-icons/all-files/fa/FaRegEye";
 import { FaRegEyeSlash } from "@react-icons/all-files/fa/FaRegEyeSlash";
 import { RiLoader2Line } from '@react-icons/all-files/ri/RiLoader2Line'
 import { useSelector, useDispatch } from 'react-redux'
-import { loginAdmin,reset } from '../../../Redux/features/adminAuth/adminAuthSlice'
+import { loginAdmin,reset } from '../../../Redux/features/admin/adminAuthSlice'
 import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 
 
 
@@ -16,8 +17,8 @@ function SignInForm() {
     // States
     const [show, setShow] = useState('')
     const [form, setForm] = useState({ emailId: null, password: null })
-    
-    const { admin, isLoading, isSuccess, isError, message } = useSelector((state) => state.adminAuth)
+    const [cookies, setCookie] = useCookies(['commenderAdmin']);
+    const { isLoading,  isError, message } = useSelector((state) => state.adminAuth)
     const navigate = useNavigate();
     
     // Input Password Show
@@ -40,15 +41,14 @@ function SignInForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(loginAdmin(form))
+        navigate('/admin')
     }
 
     useEffect(() => {
-        if (isSuccess || admin) {
-            console.log('hii');
+        if (cookies.commenderAdmin) {
             navigate('/admin')
         }
-        console.log('in sign in');
-    }, [isError, isSuccess, admin, message, dispatch,])
+    }, [])
 
     return (
         <div>

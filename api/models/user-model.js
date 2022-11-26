@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 
 const userSchema = new mongoose.Schema({
+    urId: {
+        type: String,
+        required: [true, ""]
+    },
     firstName: {
         type: String,
         required: [true, "Pleace provide a first name"]
@@ -30,10 +34,11 @@ const userSchema = new mongoose.Schema({
     cover: {
         type: String
     },
-    urId: {
+    status: {
         type: String,
-        required: [true, ""]
+        default: 'Active',
     }
+
 },
     {
         timestamps: true

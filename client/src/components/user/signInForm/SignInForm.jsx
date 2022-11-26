@@ -6,7 +6,7 @@ import { FaRegEyeSlash } from "@react-icons/all-files/fa/FaRegEyeSlash";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { userLoagIN, reset } from '../../../Redux/features/auth/authSlice'
+import { userLoagIN, reset } from '../../../Redux/features/user/authSlice'
 import { RiLoader2Line } from '@react-icons/all-files/ri/RiLoader2Line'
 
 function SignInForm() {
