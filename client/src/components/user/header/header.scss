@@ -1,0 +1,97 @@
+@import '../../../assets/css/user-root.scss';
+@import '../../../assets//css/model.scss';
+
+.user-header {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 25px;
+
+    .sction-one {
+        width: 50%;
+        display: flex;
+        align-items: center;
+
+        img{
+            width: 35px;
+            height: 35px;
+            margin-right: 8px;
+        }
+        h4{
+            font-family: 'Grand Hotel', cursive !important;
+            font-size: 32px;
+            font-weight: normal;
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    h4 {
+        font-weight: 600;
+        margin: 0;
+        color: $darkColor;
+
+    }
+
+    .sction-two {
+        display: flex;
+        justify-content: flex-end;
+        width: 50%;
+        align-items: center;
+
+        .round-icon {
+            margin: 0 5px;
+            font-size: 21px;
+            position: relative;
+
+            span {
+                background-color: $redColor;
+                color: $primaryColor;
+                font-size: 12px;
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                border-radius: 100px;
+                -webkit-border-radius: 100px;
+                -moz-border-radius: 100px;
+                -ms-border-radius: 100px;
+                -o-border-radius: 100px;
+                padding: 0 5px;
+            }
+
+        }
+
+        .search {
+            @extend.round-icon;
+            width: auto;
+            border-radius: 100px;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            -ms-border-radius: 100px;
+            -o-border-radius: 100px;
+            padding: 0 10px;
+
+            input {
+                outline: none;
+                border: 0;
+                background: none;
+                font-size: 15px;
+                margin-left: 7px;
+            }
+        }
+
+
+    }
+
+    @media screen and (max-width: 1150px) {
+        .menu-icon {
+            display: flex;
+        }
+    }
+
+    @media screen and (min-width: 1150px) {
+        .menu-icon {
+            display: none;
+        }
+    }
+}

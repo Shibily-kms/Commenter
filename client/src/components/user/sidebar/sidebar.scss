@@ -1,0 +1,96 @@
+@import '../../../assets/css/user-root.scss';
+@import '../../../assets/css/model.scss';
+
+
+.user-sidebar-div {
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    padding: 10px;
+    height: auto;
+
+    a {
+        text-decoration: none;
+    }
+
+
+    hr {
+        margin: 0;
+        padding: 0;
+    }
+
+    .title-div {
+        .image {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+
+            img {
+                width: 70px;
+            }
+        }
+
+        .title {
+            text-align: center;
+            margin-top: 7px;
+
+            h4 {
+                font-family: 'Grand Hotel', cursive !important;
+                font-size: 45px;
+            }
+        }
+
+    }
+
+    // Menu
+    .menu-div {
+        .menu-items {
+            margin-top: 10px;
+
+            .menu {
+                
+                width: 100%;
+                display: flex;
+                margin: 5px 0;
+                align-items: center;
+                padding: 10px 5px 10px 15px;
+                color: $blackColor;
+                border-radius: 5px;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                -ms-border-radius: 5px;
+                -o-border-radius: 5px;
+
+                &:hover{
+                    background-color: $secondaryColor600;
+                }
+
+                h5 {
+                    margin: 0;
+                    margin-left: 10px;
+                    font-size: 16px;
+                }
+            }
+            .active{
+                .menu{
+                    
+                    position: relative;
+                    div{
+                        position: absolute;
+                        width: 5px;
+                        height: 31px;
+                        background-color: $roseColor;
+                        left: -10px;
+                        top: 4px;
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                        
+                    }
+                }
+            }
+        }
+    }
+}

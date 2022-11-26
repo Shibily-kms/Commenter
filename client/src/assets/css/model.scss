@@ -112,13 +112,15 @@
     -moz-border-radius: 100%;
     -ms-border-radius: 100%;
     -o-border-radius: 100%;
-    color: $lightDarkColor;
+    color: $darkColor;
     transition: 0.8s ease-in-out;
     -webkit-transition: 0.8s ease-in-out;
     -moz-transition: 0.8s ease-in-out;
     -ms-transition: 0.8s ease-in-out;
     -o-transition: 0.8s ease-in-out;
     cursor: pointer;
+    font-size: 21px;
+    
 }
 
 // Scroll bar

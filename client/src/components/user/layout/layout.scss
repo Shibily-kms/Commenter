@@ -1,0 +1,195 @@
+@import '../../../assets/css/user-root.scss';
+@import '../../../assets/css/model.scss';
+
+.user-body {
+    width: 100%;
+    min-height: 100vh;
+    max-width: auto;
+    padding-top: 50px;
+    overflow: hidden;
+    background-color: $backgroundColor;
+
+    .header {
+        background-color: $primaryColor;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        z-index: 10;
+        @include normalShadow;
+    }
+
+    .page {
+        width: 100%;
+        display: flex;
+        position: relative;
+        padding-left: 0;
+
+
+        .sidebar {
+            width: 300px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: 0.2s ease-in-out;
+            -webkit-transition: 0.2s ease-in-out;
+            -moz-transition: 0.2s ease-in-out;
+            -ms-transition: 0.2s ease-in-out;
+            -o-transition: 0.2s ease-in-out;
+            padding: 65px 10px 10px 10px;
+        }
+
+        .contentBody {
+
+            width: 100%;
+            padding: 15px;
+
+            .section-div {
+                display: flex;
+               
+                
+
+                .section-one {
+                    background-color: rebeccapurple;
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                 
+
+                    .content-div {
+                        width: 500px;
+
+                        .content {
+                            background-color: sandybrown;
+                        }
+                    }
+                }
+
+                .section-two {
+                    background-color: saddlebrown;
+                    // position: relative;
+                    min-width: 280px;
+                    max-width: 100%;
+                    position: relative;
+
+                    .columnThree {
+                        background-color: yellowgreen;
+                        position: fixed;
+                        width: 280px;
+                        height: 100%;
+                        overflow: scroll;
+
+                        &::-webkit-scrollbar {
+                            display: none;
+                        }
+
+                    }
+                }
+            }
+
+
+            // .columnThreeBoader {
+            //     position: relative;
+
+            //     width: 150px;
+            //     background-color: red;
+
+            //     .columnThree {
+            //         position: fixed;
+            //         height: 100%;
+            //         overflow: auto;
+            //         scroll-behavior: smooth;
+            //         // width: 30%;
+
+
+            //         &::-webkit-scrollbar {
+            //             display: none;
+            //         }
+            //     }
+
+            // }
+
+
+            // .content-div {
+            //     width: 100%;
+
+
+            //     .content {
+            //         background-color: $primaryColor;
+            //         border-radius: 10px;
+            //         -webkit-border-radius: 10px;
+            //         -moz-border-radius: 10px;
+            //         -ms-border-radius: 10px;
+            //         -o-border-radius: 10px;
+            //         @include normalShadow;
+            //         padding: 10px;
+            //     }
+            // }
+        }
+
+
+    }
+
+
+    @media screen and (max-width: 1150px) {
+        .page {
+            padding-left: 0;
+
+            .sidebar {
+                top: 0;
+                left: -300px;
+            }
+
+            .show-top {
+                top: 0;
+                left: 0;
+                z-index: 9;
+
+            }
+
+            .shadow {
+                position: absolute;
+                width: 100%;
+                height: 100vh;
+                top: 0;
+                transition: 0.8s ease-in-out;
+                -webkit-transition: 0.8s ease-in-out;
+                -moz-transition: 0.8s ease-in-out;
+                -ms-transition: 0.8s ease-in-out;
+                -o-transition: 0.8s ease-in-out;
+                background-color: rgba(161, 161, 161, 0.562);
+                z-index: 8;
+            }
+
+            .contentBody {
+                padding: 15px 40px;
+            }
+
+        }
+
+    }
+
+    @media screen and (min-width: 1150px) {
+        .page {
+            padding-left: 300px;
+        }
+    }
+    @media screen and (max-width: 900px) {
+        .page {
+            .section-two {
+                display: none;
+            }
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .page {
+            .contentBody {
+                padding: 15px 15px;
+            }
+
+        }
+    }
+}

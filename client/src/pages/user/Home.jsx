@@ -4,6 +4,7 @@ import { logOut } from '../../Redux/features/user/authSlice'
 import { useCookies } from "react-cookie";
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react';
+import Layout from '../../components/user/layout/Layout'
 
 function Dashboard() {
   const [cookies, setCookie, removeCookie] = useCookies(['commender'])
@@ -22,9 +23,11 @@ function Dashboard() {
       navigate('/sign-in')
     }
   }, [])
+  
 
   return (
     <div>
+      <Layout columnTwo={'hi'} />
       <h1>Home Page</h1>
       <h4 className='bg-danger' onClick={()=> LogOut()}>LogOut</h4>
 
