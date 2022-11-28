@@ -4,13 +4,11 @@ const { customId } = require('../helpers/customId-helpers')
 // About User 
 module.exports = {
     getUserList: async (req, res, next) => {
-        console.log('here');
         try {
-            let userList = await UserModel.find()
+            const userList = await UserModel.find()
 
             userList.forEach(object => {
-                delete object['password'];
-                delete object['cover'];
+                delete object._doc['password'];
             });
 
             res.status(201).json({

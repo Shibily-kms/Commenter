@@ -10,7 +10,7 @@ import { RiLogoutCircleLine } from "@react-icons/all-files/ri/RiLogoutCircleLine
 
 import { NavLink,useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { logOut } from '../../../Redux/features/admin/adminAuthSlice'
+import { logOut } from '../../../Redux/features/user/authSlice'
 import { useCookies } from "react-cookie";
 
 function Sidebar() {
@@ -19,9 +19,9 @@ function Sidebar() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const LogOut = () => {
-        removeCookie('commenderAdmin', { path: '/' })
+        removeCookie('commender', { path: '/' })
         dispatch(logOut())
-        navigate('/admin/sign-in')
+        navigate('/sign-in')
     }
 
     return (

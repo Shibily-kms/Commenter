@@ -110,6 +110,7 @@ module.exports = {
             throw error;
         }
     },
+
     doSingIn: async (req, res) => {
         try {
 
@@ -122,6 +123,7 @@ module.exports = {
 
                 let status = await bcrypt.compare(body.password, user.password);
                 if (status) {
+                    delete user._doc.password
                     const token = jwt.sign({ userId: user.urId }, process.env.TOKEN_KEY, { expiresIn: maxAge })
 
                     res.cookie("commender", token, {
@@ -155,6 +157,7 @@ module.exports = {
 
                 const userId = jwtToken.userId
                 const user = await UserModel.findOne({ urId: userId })
+                delete user._doc.password
                 res.status(200).json({
                     user: user,
                     status: true,

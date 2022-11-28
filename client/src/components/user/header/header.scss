@@ -8,16 +8,17 @@
     padding: 0 25px;
 
     .sction-one {
-        width: 50%;
+        width: 35%;
         display: flex;
         align-items: center;
 
-        img{
+        img {
             width: 35px;
             height: 35px;
             margin-right: 8px;
         }
-        h4{
+
+        h4 {
             font-family: 'Grand Hotel', cursive !important;
             font-size: 32px;
             font-weight: normal;
@@ -36,13 +37,33 @@
     .sction-two {
         display: flex;
         justify-content: flex-end;
-        width: 50%;
+        width: 65%;
         align-items: center;
+
+
+        .profile-icon {
+            min-width: 38px;
+            height: 38px;
+            background-color: rgb(199, 199, 199);
+            border-radius: 100px;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            -ms-border-radius: 100px;
+            -o-border-radius: 100px;
+            overflow: hidden;
+            
+            img {
+                min-width: 38px;
+                height: 38px;
+            }
+}
 
         .round-icon {
             margin: 0 5px;
             font-size: 21px;
             position: relative;
+            min-width: 38px;
+            height: 38px;
 
             span {
                 background-color: $redColor;

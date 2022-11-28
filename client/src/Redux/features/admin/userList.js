@@ -57,7 +57,6 @@ export const adminUserList = createSlice({
             state.message = action.payload.data.message
         },
         [userBlockOrUnblock.fulfilled]: (state, action) => {
-            console.log(state.users, action, 'cahnge')
             state.isLoading = false
             state.isSuccess = true
             state.message = action.payload.data.message

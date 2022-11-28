@@ -1,13 +1,13 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
 import axios from '../../../config/axios'
 import './signInForm.scss'
 import { FaRegEye } from "@react-icons/all-files/fa/FaRegEye";
 import { FaRegEyeSlash } from "@react-icons/all-files/fa/FaRegEyeSlash";
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLoagIN, reset } from '../../../Redux/features/user/authSlice'
 import { RiLoader2Line } from '@react-icons/all-files/ri/RiLoader2Line'
+import { useCookies } from 'react-cookie'
 
 function SignInForm() {
     // States
@@ -15,7 +15,7 @@ function SignInForm() {
     const [page, setPage] = useState('SignIn')
     const [error, setError] = useState('')
     const [form, setForm] = useState({ userName: null, password: null })
-
+    const [cookies, setCookie] = useCookies(['commender'])
     const { user, isLoading, isSuccess, isError, message } = useSelector((state) => state.userAuth)
 
 
@@ -50,7 +50,7 @@ function SignInForm() {
         if (page === "SignIn") {
             dispatch(userLoagIN(form))
 
-           
+
 
         } else {
             axios.post('/verify-username-or-email', { name: form.userName }).then((response) => {
@@ -75,12 +75,10 @@ function SignInForm() {
         }
     }
     useEffect(() => {
-        if (isSuccess || user) {
-            navigate('/',{
-                replace:true
-            })
+        if (cookies.commender || user) {
+            navigate('/')
         }
-    }, [isError, isSuccess, user, message, dispatch,])
+    }, [isError, isSuccess, user, message, dispatch])
 
     return (
         <div>

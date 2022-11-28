@@ -7,23 +7,23 @@ import NewPasswod from '../pages/user/NewPasswod'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getUserData, reset } from '../Redux/features/user/authSlice'
-import { useNavigate } from 'react-router-dom'
 import Home from '../pages/user/Home'
+import { useCookies } from 'react-cookie';
+
+
 
 function User() {
-  const navigate = useNavigate()
+  const [cookies, setCookie] = useCookies(['commender']);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.userAuth)
-  const userId = user ?  user.urId  : null
   useEffect(() => {
-    dispatch(getUserData())
-    dispatch(reset())
-    if (!userId) {
-      navigate('/sign-in')
+    if (!user && cookies.commender) {
+      dispatch(getUserData())
+      dispatch(reset())
     }
-  }, [userId])
+  }, [])
 
-  
+
   return (
     <Routes>
       <Route path='/sign-up' element={<Signup />} />

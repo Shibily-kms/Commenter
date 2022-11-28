@@ -15,7 +15,6 @@ function UserList() {
     dispatch(reset())
   }
   useEffect(() => {
-    console.log('working');
     if(isError){
       toast.error(message)
     }

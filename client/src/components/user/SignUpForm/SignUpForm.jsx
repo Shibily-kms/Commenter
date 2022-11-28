@@ -1,15 +1,15 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import './signupForm.scss'
 import axios from '../../../config/axios'
-import { signUpFormFunction } from '../../../assets/js/user/form-validation'
-import { useState } from 'react'
+import { signUpFormFunction } from '../../../assets/js/user/form-validation' 
 import { useNavigate } from 'react-router-dom'
 import { FaRegEye } from "@react-icons/all-files/fa/FaRegEye";
 import { FaRegEyeSlash } from "@react-icons/all-files/fa/FaRegEyeSlash";
-
+import { useCookies } from 'react-cookie'
 
 function SignUpForm() {
     const navigate = useNavigate()
+    const [cookies, setCookie] = useCookies(['commender']);
     // Get Form Input data
     const [form, setForm] = useState({
         firstName: null, lastName: null, userName: null, emailId: null, dob: null, password: null, cpassword: null, mobile: null
@@ -65,6 +65,12 @@ function SignUpForm() {
             setError(validate.message)
         }
     }
+
+    useEffect(() => {
+        if (cookies.commender) {
+            navigate('/')
+        }
+    }, [])
 
 
 

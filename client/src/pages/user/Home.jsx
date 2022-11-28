@@ -28,9 +28,6 @@ function Dashboard() {
   return (
     <div>
       <Layout columnTwo={'hi'} />
-      <h1>Home Page</h1>
-      <h4 className='bg-danger' onClick={()=> LogOut()}>LogOut</h4>
-
     </div>
   )
 }
