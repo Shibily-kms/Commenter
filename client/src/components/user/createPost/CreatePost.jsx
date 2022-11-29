@@ -33,44 +33,41 @@ function CreatePost() {
         inputRef.current.click();
     }
 
-    // const doPostThis = () => {
-    //     if (showImg || form.text) {
-    //         console.log('post form');
-    //         setForm({
-    //             ...form,
-    //             file: imageData
-    //         })
-    //         dispatch(doPost(form))
-    //         return true;
-    //     } else {
-    //         toast.error('Type Something')
-    //     }
-    // }
-
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (showImg) {
-            setLoading(true)
-            const formData = new FormData()
-            formData.append('file', showImg)
-            formData.append('upload_preset', 'commenter');
-            formData.append('cloud_name', 'dayygqvpv')
-           await axiosFile.post('/image/upload', formData).then((response) => {
-                let obj = {
-                    format: response.data.format,
-                    name: response.data.public_id,
-                    type: response.data.resource_type,
-                }
-                setForm({
-                    ...form,
-                    file: [...form.file, obj]
-                })
-                
-            }).catch((error) => {
-                console.log(error, 'errpr response');
-            })
-            dispatch(doPost(form))
+        if (showImg || form.text) {
+            if (!showImg) {
+                dispatch(doPost(form))
+            } else {
+                setLoading(true)
+                const formData = new FormData()
+                formData.append('file', showImg)
+                formData.append('upload_preset', 'commenter');
+                formData.append('cloud_name', 'dayygqvpv')
+                await axiosFile.post('/image/upload', formData).then((response) => {
+                    if (response) {
+                        let obj = {
+                            format: response.data.format,
+                            name: response.data.public_id,
+                            type: response.data.resource_type,
+                        }
+                        setForm({
+                            ...form,
+                            file: [...form.file, obj]
+                        })
+                        setForm({
+                            ...form
+                        })
+                        dispatch(doPost(form))
+                    }
 
+                }).catch((error) => {
+                    console.log(error, 'errpr response');
+                })
+            }
+
+        } else {
+            toast.error('Type Something')
         }
 
     }
@@ -79,6 +76,10 @@ function CreatePost() {
         if (!fileObj) {
             return;
         }
+        setForm({
+            ...form,
+            urId: user.urId
+        })
         setShowImg(event.target.files[0])
     }
     useEffect(() => {
