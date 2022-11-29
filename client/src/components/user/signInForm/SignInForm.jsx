@@ -50,8 +50,6 @@ function SignInForm() {
         if (page === "SignIn") {
             dispatch(userLoagIN(form))
 
-
-
         } else {
             axios.post('/verify-username-or-email', { name: form.userName }).then((response) => {
                 if (response.data.success) {

@@ -10,6 +10,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie';
 import Logo from '../../../assets/icons/newLogo.png'
+import Profile from '../../../assets/icons/profile.jpeg'
 
 function Header() {
   const dispatch = useDispatch()
@@ -53,7 +54,7 @@ function Header() {
 
           {/* Profile */}
           <div className="profile-icon">
-           <img src={Logo} alt="" />
+           <img src={Profile} alt="" />
             
           </div>
 

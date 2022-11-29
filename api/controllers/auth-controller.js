@@ -31,8 +31,10 @@ module.exports = {
 
     sendOtp: async (req, res, next) => {
         try {
+            console.log('here');
             let body = req.body
-            otpHelper.dosms(body.number).then((response) => {
+            console.log(body,'body');
+            otpHelper.dosms(body.number).then((response) => {     
                 if (response) {
                     res.status(201).json({ success: true, message: 'Otp Sended to this number' })
                 }
@@ -231,7 +233,7 @@ module.exports = {
                 const email = jwtToken.email
                 res.status(200).json({
                     admin: email,
-                    status: true,
+                    status: true, 
                     message: 'Admin Verified'
                 })
             } 

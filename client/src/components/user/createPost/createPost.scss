@@ -1,0 +1,206 @@
+@import '../../../assets/css/user-root.scss';
+@import '../../../assets/css/model.scss';
+@import '../../../assets/css/buttons.scss';
+
+.create-post-tag> {
+    .boader {
+        background-color: $primaryColor;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        @include normalShadow;
+        display: flex;
+        padding: 10px;
+        align-items: center;
+        position: relative;
+
+
+        .image {
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+            border: solid 1px rgb(206, 206, 206);
+
+            img {
+                width: 40px;
+                height: 40px;
+            }
+
+            border-radius: 100px;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            -ms-border-radius: 100px;
+            -o-border-radius: 100px;
+        }
+
+        input {
+            width: 100%;
+            margin-left: 10px;
+            @include normalInput;
+        }
+
+        .icon {
+            position: absolute;
+            right: 20px;
+            font-size: 28px;
+            color: $roseColor;
+            cursor: pointer;
+        }
+    }
+
+    .postModal {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 5;
+
+        .pages {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            padding: 15px;
+            position: relative;
+
+            .shadow {
+                background-color: rgba(231, 210, 225, 0.452);
+                width: 100%;
+                height: 100vh;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            @media screen and (max-width: 550px) {
+                .boader-div {
+                    width: 100%;
+                }
+            }
+
+            .boader-div {
+                display: block;
+                padding: 20px;
+                @include normalBox();
+                z-index: 10;
+                width: 500px;
+                position: relative;
+
+
+                .top {
+                    text-align: center;
+                    position: relative;
+
+                    h4 {
+                        font-size: 18px;
+                        font-weight: bold;
+                    }
+
+                    .round-icon {
+                        position: absolute;
+                        right: -10px;
+                        top: -10px;
+                    }
+                }
+
+                .content {
+
+                    .section-one>.profile {
+                        display: flex;
+                        width: 100%;
+                        position: relative;
+                        align-items: center;
+
+                        >div{
+                           h5{
+                            font-size: 14px;
+                            font-weight: 600;
+                            margin: 0;
+                            padding: 0;
+                           }
+                           select{
+                            outline: none;
+                            border: none;
+                           }
+                        }
+
+                        .icon {
+                            position: absolute;
+                            right: 15px;
+                            top: 20px;
+                            z-index: 1;
+                            .round-icon{   
+                                color: $vilateColor;
+                            }
+                        }
+
+                        .image {
+                            width: 40px;
+                            height: 40px;
+                            overflow: hidden;
+                            border: solid 1px rgb(206, 206, 206);
+                            margin-right: 10px;
+
+                            img {
+                                width: 40px;
+                                height: 40px;
+                            }
+
+                            border-radius: 100px;
+                            -webkit-border-radius: 100px;
+                            -moz-border-radius: 100px;
+                            -ms-border-radius: 100px;
+                            -o-border-radius: 100px;
+                        }
+                    }
+                }
+                .content>form>.section-two{
+                    display: block;
+                    margin-top: 10px;
+                    background:none;
+                    overflow: auto;
+                    max-height: 300px;
+                    textarea{
+                        width: 100%;
+                        background:none;
+                        border: none;
+                        outline: none;
+                        height: 150px;
+                        resize: none;
+                    }
+                    img{
+                        width: 100%;
+                        height: auto;
+                        border-radius: 10px;
+                        -webkit-border-radius: 10px;
+                        -moz-border-radius: 10px;
+                        -ms-border-radius: 10px;
+                        -o-border-radius: 10px;
+}
+                }
+                .content>form>.section-three{
+                    margin-top: 10px;
+                    button{
+                        width: 100%;
+                    }
+                }
+            }   
+            .boader-div>.loading{
+                position: absolute;
+                top: 0;
+                left: 0;
+                background-color: rgba(247, 211, 211, 0.418);
+                width: 100%;
+                height: 100%;
+                z-index: 4;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+}

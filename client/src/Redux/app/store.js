@@ -3,6 +3,7 @@ import userAuthReducer from '../features/user/authSlice'
 import adminAuthReducer from '../features/admin/adminAuthSlice'
 import sidebarReducer from '../features/sidebar/sidebarSlice'
 import adminUserList from '../features/admin/userList'
+import userPostReducer from '../features/user/userPostSlice'
 
 export const store = configureStore({
     reducer: {
@@ -10,8 +11,9 @@ export const store = configureStore({
         userAuth: userAuthReducer,
         // Admin
         adminAuth: adminAuthReducer,
-        userList : adminUserList,
+        userList: adminUserList,
+        userPost: userPostReducer,
         // Each
-        sidebarToggle : sidebarReducer
+        sidebarToggle: sidebarReducer
     }
 })

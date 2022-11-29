@@ -3,7 +3,7 @@ let signUpFormFunction = function (obj) {
     let uregex = /^[A-Za-z0-9 ]+$/
 
     let firstnameValid = regex.test(obj.firstName);
-    let lastnameValid = regex.test(obj.lastName);
+    let lastnameValid = regex.test(obj.lastName);  
     let usernameValid = uregex.test(obj.userName);
 
     if (obj.firstName === null || obj.lastName === null || obj.userName === null || obj.emailId === null || obj.dob === null ||
@@ -72,4 +72,8 @@ let passwordValidation = (obj) => {
     }
 }
 
-export { signUpFormFunction, passwordValidation };
+const postValidation = ()=>{
+
+}
+
+export { signUpFormFunction, passwordValidation, postValidation };

@@ -8,7 +8,7 @@ import { IoNotificationsSharp } from "@react-icons/all-files/io5/IoNotifications
 import { AiFillSetting } from "@react-icons/all-files/ai/AiFillSetting";
 import { RiLogoutCircleLine } from "@react-icons/all-files/ri/RiLogoutCircleLine";
 
-import { NavLink,useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { logOut } from '../../../Redux/features/user/authSlice'
 import { useCookies } from "react-cookie";
@@ -29,42 +29,42 @@ function Sidebar() {
             <div className="user-sidebar-div">
                 <div className="menu-div">
                     <div className="menu-items">
-                        <NavLink  to='/' end >
+                        <NavLink to='/' end >
                             <div className="menu">
                                 <HiHome />
                                 <h5>Home</h5>
                                 <div></div>
                             </div>
                         </NavLink>
-                        <NavLink  to='/friends' end >
+                        <NavLink to='/friends' end >
                             <div className="menu">
                                 <FaUserFriends />
                                 <h5>Friends</h5>
                                 <div></div>
                             </div>
                         </NavLink>
-                        <NavLink  to='/message' end >
+                        <NavLink to='/message' end >
                             <div className="menu">
                                 <RiMessage2Fill />
                                 <h5>Message</h5>
                                 <div></div>
                             </div>
                         </NavLink>
-                        <NavLink  to='/notifications' end >
+                        <NavLink to='/notifications' end >
                             <div className="menu">
                                 <IoNotificationsSharp />
                                 <h5>Notifications</h5>
                                 <div></div>
                             </div>
                         </NavLink>
-                        <NavLink  to='/settings' end >
+                        <NavLink to='/settings' end >
                             <div className="menu">
                                 <AiFillSetting />
                                 <h5>Settings</h5>
                                 <div></div>
                             </div>
                         </NavLink>
-                       
+
                         <div className='cursor-pointer' onClick={() => LogOut()}>
                             <div className="menu">
                                 <RiLogoutCircleLine />

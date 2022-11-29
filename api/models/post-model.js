@@ -6,12 +6,12 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: [true, ""]
     },
-    psId: String,
+    postId: String,
     text: String,
-    image: [],
-    video: [],
+    file: [],
     comments: [],
-    reactions: []
+    reactions: [],
+    createDate: Date
 
 
 },
