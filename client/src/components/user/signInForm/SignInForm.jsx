@@ -15,7 +15,7 @@ function SignInForm() {
     const [page, setPage] = useState('SignIn')
     const [error, setError] = useState('')
     const [form, setForm] = useState({ userName: null, password: null })
-    const [cookies, setCookie] = useCookies(['commender'])
+    const [cookies, setCookie] = useCookies(['commenter'])
     const { user, isLoading, isSuccess, isError, message } = useSelector((state) => state.userAuth)
 
 
@@ -73,7 +73,7 @@ function SignInForm() {
         }
     }
     useEffect(() => {
-        if (cookies.commender || user) {
+        if (cookies.commenter || user) {
             navigate('/')
         }
     }, [isError, isSuccess, user, message, dispatch])

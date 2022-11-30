@@ -11,11 +11,11 @@ import { useCookies } from "react-cookie";
 
 function Sidebar() {
 
-    const [cookies, setCookie, removeCookie] = useCookies(['commenderAdmin'])
+    const [cookies, setCookie, removeCookie] = useCookies(['commenterAdmin'])
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const LogOut = () => {
-        removeCookie('commenderAdmin', { path: '/' })
+        removeCookie('commenterAdmin', { path: '/' })
         dispatch(logOut())
         navigate('/admin/sign-in')
     }

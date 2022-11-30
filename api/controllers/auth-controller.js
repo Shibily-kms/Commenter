@@ -126,7 +126,7 @@ module.exports = {
                     delete user._doc.password
                     const token = jwt.sign({ userId: user.urId }, process.env.TOKEN_KEY, { expiresIn: maxAge })
 
-                    res.cookie("commender", token, {
+                    res.cookie("commenter", token, {
                         withCrdentials: true,
                         httpOnly: false,
                         maxAge: maxAge * 1000
@@ -151,7 +151,7 @@ module.exports = {
     getUserData: async (req, res, next) => {
         try {
 
-            const jwtToken = jwt.verify(req.cookies.commender, process.env.TOKEN_KEY)
+            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
 
             if (jwtToken) {
 
@@ -192,7 +192,7 @@ module.exports = {
                 if (password == adminData.password) {
                     const token = jwt.sign({ email: adminData.email }, process.env.TOKEN_KEY, { expiresIn: maxAge })
 
-                    res.cookie("commenderAdmin", token, {
+                    res.cookie("commenterAdmin", token, {
                         withCrdentials: true,
                         httpOnly: false,
                         maxAge: maxAge * 1000
@@ -224,7 +224,7 @@ module.exports = {
     checkAdminData: (req, res, next) => {
         try {
 
-            const jwtToken = jwt.verify(req.cookies.commenderAdmin, process.env.TOKEN_KEY)
+            const jwtToken = jwt.verify(req.cookies.commenterAdmin, process.env.TOKEN_KEY)
 
             if (jwtToken) {
 

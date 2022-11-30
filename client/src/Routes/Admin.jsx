@@ -11,11 +11,11 @@ import { useCookies } from 'react-cookie';
 
 function Admin() {
   const dispatch = useDispatch();
-  const [cookies, setCookie] = useCookies(['commenderAdmin']);
+  const [cookies, setCookie] = useCookies(['commenterAdmin']);
   const { admin } = useSelector((state) => state.adminAuth)
 
   useEffect(() => {
-    if (!admin && cookies.commenderAdmin) {
+    if (!admin && cookies.commenterAdmin) {
       dispatch(getAdminData())
       dispatch(reset())
     }

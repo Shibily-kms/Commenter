@@ -17,7 +17,7 @@ function SignInForm() {
     // States
     const [show, setShow] = useState('')
     const [form, setForm] = useState({ emailId: null, password: null })
-    const [cookies, setCookie] = useCookies(['commenderAdmin']);
+    const [cookies, setCookie] = useCookies(['commenterAdmin']);
     const { isLoading,  isError, message } = useSelector((state) => state.adminAuth)
     const navigate = useNavigate();
     
@@ -45,7 +45,7 @@ function SignInForm() {
     }
 
     useEffect(() => {
-        if (cookies.commenderAdmin) {
+        if (cookies.commenterAdmin) {
             navigate('/admin')
         }
     }, [])

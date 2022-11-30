@@ -9,7 +9,7 @@ import { useCookies } from 'react-cookie'
 
 function SignUpForm() {
     const navigate = useNavigate()
-    const [cookies, setCookie] = useCookies(['commender']);
+    const [cookies, setCookie] = useCookies(['commenter']);
     // Get Form Input data
     const [form, setForm] = useState({
         firstName: null, lastName: null, userName: null, emailId: null, dob: null, password: null, cpassword: null, mobile: null
@@ -67,7 +67,7 @@ function SignUpForm() {
     }
 
     useEffect(() => {
-        if (cookies.commender) {
+        if (cookies.commenter) {
             navigate('/')
         }
     }, [])

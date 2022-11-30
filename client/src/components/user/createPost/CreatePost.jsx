@@ -4,7 +4,7 @@ import { GrClose } from "@react-icons/all-files/gr/GrClose";
 import './createPost.scss'
 import Profile from '../../../assets/icons/profile.jpeg'
 import { useSelector, useDispatch } from 'react-redux'
-import { doPost } from '../../../Redux/features/user/userPostSlice'
+import { doPost,reset } from '../../../Redux/features/user/userPostSlice'
 import { toast } from 'react-toastify'
 import Spinner from '../../Spinner'
 import axiosFile from '../../../config/axiosFile'
@@ -87,6 +87,7 @@ function CreatePost() {
             setLoading(false)
             setForm({ text: '', file: [], urId: null })
             toast.success(message)
+            dispatch(reset())
         }
         if (isError || error) {
             setLoading(false)
@@ -98,7 +99,7 @@ function CreatePost() {
             setReady(false)
         }
 
-    }, [isSuccess, isError, ready])
+    }, [isSuccess, isError, ready,message])
 
     return (
         <div>

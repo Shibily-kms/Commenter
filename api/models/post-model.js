@@ -11,6 +11,15 @@ const postSchema = new mongoose.Schema({
     file: [],
     comments: [],
     reactions: [],
+    commentCount: {
+        type: Number,
+        default: 0
+    },
+    reactCount: {
+        type: Number,
+        default: 0,
+    },
+
     createDate: Date
 
 

@@ -18,6 +18,15 @@ export const doPost = createAsyncThunk('user/do-post', async (formData, thunkAPI
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
         return thunkAPI.rejectWithValue(message)
     }
+});
+
+export const getUserPost = createAsyncThunk('user/get-user-post', async (thunkAPI) => {
+    try {
+        return await axios.get('/user-post', { withCredentials: true })
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
 })
 
 
@@ -29,6 +38,7 @@ const userPostSlice = createSlice({
             state.isLoading = false
             state.isSuccess = false
             state.isError = false
+            state.message = ''
         }
     },
     extraReducers: {
@@ -40,9 +50,26 @@ const userPostSlice = createSlice({
             state.isSuccess = true
             state.message = action.payload.data.message
             state.count = state.count + 1
-            state.posts = [...state.posts, action.payload.data.post]
+            state.posts = [action.payload.data.post, ...state.posts]
         },
         [doPost.rejected]: (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+        },
+        [getUserPost.pending]: (state) => {
+           
+            state.isLoading = true
+        },
+        [getUserPost.fulfilled]: (state, action) => {
+            state.isLoading = false
+          
+            state.message = action.payload.data.message
+            state.count = action.payload.data.posts.length
+            state.posts = action.payload.data.posts
+        },
+        [getUserPost.rejected]: (state, action) => {
+          
             state.isLoading = false
             state.isError = true
             state.message = action.payload

@@ -14,10 +14,10 @@ function Header() {
   const navigate = useNavigate()
   const { action } = useSelector((state) => state.sidebarToggle)
   const { admin } = useSelector((state) => state.adminAuth)
-  const [cookies, setCookie] = useCookies(['commenderAdmin']);
+  const [cookies, setCookie] = useCookies(['commenterAdmin']);
 
   useEffect(()=>{
-    if (!cookies.commenderAdmin) {
+    if (!cookies.commenterAdmin) {
       navigate('/admin/sign-in')
   }
   },[])

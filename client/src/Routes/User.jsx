@@ -8,15 +8,16 @@ import Otp from '../pages/user/Otp'
 import SignIn from '../pages/user/SignIn'
 import NewPasswod from '../pages/user/NewPasswod'
 import Home from '../pages/user/home/Home'
+import Profile from '../pages/user/profile/Profile'
 
 
 
 function User() {
-  const [cookies, setCookie] = useCookies(['commender']);
+  const [cookies, setCookie] = useCookies(['commenter']);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.userAuth)
   useEffect(() => {
-    if (!user && cookies.commender) {
+    if (!user && cookies.commenter) {
       dispatch(getUserData())
       dispatch(reset())
     }
@@ -30,6 +31,7 @@ function User() {
       <Route path='/sign-in' element={<SignIn />} />
       <Route path='/new-password' element={<NewPasswod />} />
       <Route path='/' element={<Home />} />
+      <Route path='/profile' element={<Profile />} />
     </Routes>
   )
 }

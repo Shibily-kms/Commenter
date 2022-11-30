@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 module.exports = {
     verifyAdmin: (req, res, next) => {
         try {
-            const jwtToken = jwt.verify(req.cookies.commenderAdmin, process.env.TOKEN_KEY)
+            const jwtToken = jwt.verify(req.cookies.commenterAdmin, process.env.TOKEN_KEY)
 
             if (jwtToken) {
                 next()
@@ -17,7 +17,7 @@ module.exports = {
 
     verifyUser: (req, res, next) => {
         try {
-            const jwtToken = jwt.verify(req.cookies.commender, process.env.TOKEN_KEY)
+            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
 
             if (jwtToken) {
                 next()

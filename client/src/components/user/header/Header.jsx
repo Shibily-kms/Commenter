@@ -17,10 +17,10 @@ function Header() {
   const navigate = useNavigate()
   const { action } = useSelector((state) => state.sidebarToggle)
   const { admin } = useSelector((state) => state.adminAuth)
-  const [cookies, setCookie] = useCookies(['commender']);
+  const [cookies, setCookie] = useCookies(['commenter']);
 
   useEffect(() => {
-    if (!cookies.commender) {
+    if (!cookies.commenter) {
       navigate('/sign-in')
     }
   }, [])
@@ -53,7 +53,7 @@ function Header() {
           </div>
 
           {/* Profile */}
-          <div className="profile-icon">
+          <div className="profile-icon" style={{cursor:'pointer'}} onClick={()=>navigate('/profile')}>
            <img src={Profile} alt="" />
             
           </div>
