@@ -16,8 +16,9 @@ function CreatePost() {
     const { user } = useSelector((state) => state.userAuth)
     const [loading, setLoading] = useState(false)
     const { isSuccess, isError, isLoading, message } = useSelector((state) => state.userPost)
+    const [error, setError] = useState(false)
     const [form, setForm] = useState({ text: '', file: [], urId: null })
-    const [imageData, setImageData] = useState([])
+    const [ready, setReady] = useState(false)
     const dispatch = useDispatch()
     const inputRef = useRef(null);
 
@@ -55,14 +56,11 @@ function CreatePost() {
                             ...form,
                             file: [...form.file, obj]
                         })
-                        setForm({
-                            ...form
-                        })
-                        dispatch(doPost(form))
+                        setReady(true)
                     }
 
                 }).catch((error) => {
-                    console.log(error, 'errpr response');
+                    setError('Network down')
                 })
             }
 
@@ -90,11 +88,17 @@ function CreatePost() {
             setForm({ text: '', file: [], urId: null })
             toast.success(message)
         }
-        if (isError) {
+        if (isError || error) {
             setLoading(false)
-            toast.error(message)
+            toast.error(message || error)
+            setError(false)
         }
-    }, [isSuccess, isError])
+        if (ready) {
+            dispatch(doPost(form))
+            setReady(false)
+        }
+
+    }, [isSuccess, isError, ready])
 
     return (
         <div>

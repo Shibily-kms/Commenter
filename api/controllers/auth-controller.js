@@ -31,9 +31,7 @@ module.exports = {
 
     sendOtp: async (req, res, next) => {
         try {
-            console.log('here');
             let body = req.body
-            console.log(body,'body');
             otpHelper.dosms(body.number).then((response) => {     
                 if (response) {
                     res.status(201).json({ success: true, message: 'Otp Sended to this number' })
