@@ -3,9 +3,11 @@ import ProfileTop from '../../../components/user/profileTop/ProfileTop'
 import CreatePost from '../../../components/user/createPost/CreatePost'
 import Post from '../../../components/user/post/Post'
 import { useSelector, useDispatch } from 'react-redux'
-import { getUserPost,reset } from '../../../Redux/features/user/userPostSlice'
+import { getUserPost, reset } from '../../../Redux/features/user/userPostSlice'
 import { useEffect } from 'react'
 import Spinner from '../../../components/Spinner'
+import EditProfile from '../../../components/user/profileInfo/EditProfile'
+import './columnTwo.scss'
 
 function ColumnTwo() {
   const dispatch = useDispatch();
@@ -23,6 +25,9 @@ function ColumnTwo() {
       </div>
       <div className="addPost" style={{ marginTop: '80px' }}>
         <CreatePost />
+      </div>
+      <div>
+        <EditProfile classTitle={'isSmall'} />
       </div>
       <div className="posts">
         <h5 className='subTitle' style={{ marginTop: '10px' }}>Your Posts</h5>

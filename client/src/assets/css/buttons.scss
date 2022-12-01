@@ -1,7 +1,7 @@
 @import './user-root.scss';
 
 // Botton Functions
-@mixin  normalButton() {
+@mixin normalButton() {
     padding: 10px;
     color: $blackColor;
     background: none;
@@ -19,28 +19,36 @@
 
 
 // Class Name
-.button{
+.button {
     @include normalButton();
+
+    &:hover {
+        background-color: $lightDarkColor;
+    }
 }
 
-.button-color{
+.button-color {
     @include normalButton();
     background: linear-gradient(90.5deg, #D60067 2.72%, #9100D6 99.92%);
-    color : white;
+    color: white;
+
+    &:hover {
+        background: linear-gradient(90.5deg, #b30056 2.72%, #7c00b6 99.92%);
+    }
 }
 
-.button-outline{
+.button-outline {
     @include normalButton();
-    
+
 }
 
-.button-red{
+.button-red {
     @include normalButton();
-    background-color : rgb(230, 10, 10);
+    background-color: rgb(230, 10, 10);
     color: white;
 }
 
-.button-green{
+.button-green {
     @include normalButton();
     background-color: rgb(0, 173, 0);
     color: white;

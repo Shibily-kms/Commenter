@@ -28,7 +28,7 @@ function Post(props) {
                                 <img src={Profile} alt="" />
                             </div>
                             <div>
-                                <h5>{props.self.firstName + '' + props.self.lastName}</h5>
+                                <h5>{props?.self?.firstName + ' ' + props?.self?.lastName}</h5>
                                 <p>{date}</p>
                             </div>
 

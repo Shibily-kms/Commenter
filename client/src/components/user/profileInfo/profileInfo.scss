@@ -1,0 +1,100 @@
+@import '../../../assets/css/user-root.scss';
+@import '../../../assets/css/model.scss';
+
+.profileColumnThree>.border {
+    @include normalShadow();
+    background-color: $secondaryColor;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    padding: 10px;
+
+    .head {
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+    }
+
+    .content {
+        width: 100%;
+
+        .itemDiv {
+            display: flex;
+            align-items: center;
+            height: 37px;
+
+            span {
+                font-size: 14px;
+                font-style: italic;
+            }
+
+            .icon {
+                margin-right: 8px;
+                font-size: 26px;
+                color: $lightDarkColor;
+
+            }
+
+            p {
+                margin: 0;
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+            .image {
+                width: 30px;
+                height: 30px;
+                border-radius: 100px;
+                -webkit-border-radius: 100px;
+                -moz-border-radius: 100px;
+                -ms-border-radius: 100px;
+                -o-border-radius: 100px;
+                overflow: hidden;
+                margin-right: 5px;
+
+                img {
+                    width: 30px;
+
+                }
+            }
+        }
+    }
+}
+
+
+// Edit Profile
+
+.isSmall{
+    display: none;
+}
+.isLarge{
+    display: block;
+}
+
+.editProfile {
+    margin-top: 15px;
+
+    button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .editProfile {
+       
+        button {
+            width: 50%;
+            margin: 0 5px;
+        }
+    }
+    .isSmall{
+        display: flex;
+    }
+    .isLarge{
+        display: none;
+    }
+}
