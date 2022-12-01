@@ -23,7 +23,7 @@ module.exports = {
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             if (jwtToken) {
                 const urId = jwtToken.userId
-                await PostModel.find({ urId }).sort({createDate:-1}).then((posts) => {
+                await PostModel.find({ urId }).sort({ createDate: -1 }).then((posts) => {
                     res.status(201).json({ success: true, error: false, posts, message: 'user all posts' })
                 }).catch((error) => {
                     res.status(400).json({ success: false, error: true, message: "Requseted data is Empty" })
@@ -31,6 +31,41 @@ module.exports = {
             }
         } catch (error) {
             throw error;
+        }
+    },
+    likePost: async (req, res, next) => {
+        try {
+            const { urId, postId, like } = req.body
+            if (like) {
+                await PostModel.updateOne({ postId }, {
+                    $push: {
+                        reactions: urId
+                    },
+                    $inc: {
+                        reactCount: 1
+                    }
+                }).then(() => {
+                    res.status(201).json({ success: true, error: false, urId, postId, like: true, message: 'liked' })
+                }).catch((error) => {
+                    res.status(201).json({ success: true, error: false, message: "can't find the post" })
+                })
+            } else {
+                await PostModel.updateOne({ postId }, {
+                    $pull: {
+                        reactions: urId
+                    },
+                    $inc: {
+                        reactCount: -1
+                    }
+                }).then(() => {
+                    res.status(201).json({ success: true, error: false, urId, postId, like: false, message: 'Unliked' })
+                }).catch((error) => {
+                    res.status(201).json({ success: true, error: false, message: "can't find the post" })
+                })
+
+            }
+        } catch (error) {
+
         }
     }
 }
