@@ -1,4 +1,5 @@
 @import '../../../assets/css/model.scss';
+@import '../../../assets/css/user-root.scss';
 
 .post-model>.boader {
     @include normalBox();
@@ -29,6 +30,7 @@
                     margin: 0;
                     color: gray;
                     font-size: 12px;
+
                 }
 
             }
@@ -55,20 +57,67 @@
 
         .options {
             font-size: 20px;
+            position: relative;
+
+            .DropIcon {
+                padding: 0 5px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: $secondaryColor600;
+                    border-radius: 100px;
+                    -webkit-border-radius: 100px;
+                    -moz-border-radius: 100px;
+                    -ms-border-radius: 100px;
+                    -o-border-radius: 100px;
+                }
+            }
+
+            .DropBox {
+                position: absolute;
+                background-color: $primaryColor;
+                border-radius: 10px;
+                -webkit-border-radius: 10px;
+                -moz-border-radius: 10px;
+                -ms-border-radius: 10px;
+                -o-border-radius: 10px;
+                @include normalShadow;
+                z-index: 5;
+                padding: 5px 0;
+                right: 35px;
+                top: 0;
+
+                .itemDiv {
+                    display: flex;
+                    align-items: center;
+                    padding: 9px 15px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $secondaryColor300;
+                    }
+
+                    p {
+                        margin: 0;
+                        font-size: 13px;
+                        margin-left: 5px;
+                    }
+
+                }
+            }
         }
     }
 
     .content {
+        width: 100%;
 
-
-        textarea {
+        pre {
+            overflow: hidden;
             width: 100%;
-            height: auto;
             background: none;
             border: none;
-            outline: none;
-            resize: none;
             font-size: 12px;
+            white-space: pre-wrap;
         }
 
         img {
@@ -82,11 +131,9 @@
 
         .reactions-count {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             margin-top: 5px;
-            &:first-child{
-                display: none;
-            }
+
 
             .icon {
                 display: flex;
@@ -127,12 +174,32 @@
 
             .reaction {
                 font-size: 23px;
-                margin-right: 7px
+                margin-right: 7px;
+                cursor: pointer;
+                width: 30px;
+            }
+
+            .likeAnimation:first-child {
+                color: #0d6efd;
+                animation: likeAnimation .5s;
+                -webkit-animation: likeAnimation .5s;
+}
+
+            @keyframes likeAnimation {
+                50% {
+                    transform: rotate(-10deg);
+                    -webkit-transform: rotate(-10deg);
+                    -moz-transform: rotate(-10deg);
+                    -ms-transform: rotate(-10deg);
+                    -o-transform: rotate(-10deg);
+                    font-size: 25px;
+                }
             }
 
             .comment {
                 width: 100%;
                 position: relative;
+
                 input {
                     @include normalInput(13px);
                     padding: 8px;
@@ -143,10 +210,11 @@
                     -o-border-radius: 100px;
                     width: 100%;
                 }
-                div{
+
+                div {
                     position: absolute;
                     right: 8px;
-                    top:0;
+                    top: 0;
                     font-size: 22px;
                     background-color: $secondaryColor300;
                 }

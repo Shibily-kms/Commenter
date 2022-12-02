@@ -13,7 +13,6 @@ import { FaGlobe } from "@react-icons/all-files/fa/FaGlobe";
 function ProfileInfo() {
     const { user } = useSelector((state) => state.userAuth)
     useEffect(() => {
-        console.log('profile info effect');
     }, [])
     return (
         <div>

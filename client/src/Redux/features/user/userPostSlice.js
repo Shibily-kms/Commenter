@@ -29,6 +29,15 @@ export const getUserPost = createAsyncThunk('user/get-user-post', async (thunkAP
     }
 })
 
+export const likePost = createAsyncThunk('user/like-post', async (data, thunkAPI) => {
+    try {
+        return await axios.put('/like', data, { withCredentials: true })
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 
 const userPostSlice = createSlice({
     name: 'userPosts',
@@ -58,19 +67,33 @@ const userPostSlice = createSlice({
             state.message = action.payload
         },
         [getUserPost.pending]: (state) => {
-           
+
             state.isLoading = true
         },
         [getUserPost.fulfilled]: (state, action) => {
             state.isLoading = false
-          
+
             state.message = action.payload.data.message
             state.count = action.payload.data.posts.length
             state.posts = action.payload.data.posts
         },
         [getUserPost.rejected]: (state, action) => {
-          
+
             state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+        },
+        [likePost.fulfilled]: (state, action) => {
+            const objIndex = state.posts.findIndex((obj => obj.postId == action.payload.data.postId));
+            if (action.payload.data.like) {
+                state.posts[objIndex].reactCount++
+                state.posts[objIndex].reactions.push(action.payload.data.urId)
+            } else {
+                state.posts[objIndex].reactCount--
+                state.posts[objIndex].reactions = state.posts[objIndex].reactions.filter(item => item !== action.payload.data.urId)
+            }
+        },
+        [likePost.rejected]: (state, action) => {
             state.isError = true
             state.message = action.payload
         },

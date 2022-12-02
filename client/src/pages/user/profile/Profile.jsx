@@ -5,9 +5,7 @@ import ColumnTwo from './ColumnTwo';
 import ColumnThree from './ColumnThree';
 
 function Profile() {
-    useEffect(()=>{
-        console.log('profile page eeffect');
-    },{})
+
 
     return (
         <div>

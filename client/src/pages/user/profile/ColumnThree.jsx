@@ -6,7 +6,6 @@ import EditProfile from '../../../components/user/profileInfo/EditProfile'
 
 function ColumnThree() {
   useEffect(()=>{
-    console.log('working column three');
   },[])
   return (
     <div>
