@@ -3,7 +3,7 @@ const router = express.Router();
 const { checkSignUpData, sendOtp, verifyOtp, doSingUp, verifyUserNameOrEmail, setNewPassword,
     doSingIn, getUserData } = require('../controllers/auth-controller')
 const { verifyUser } = require('../middlewares/verify-middleware')
-const { doPost,getUserPost,likePost } = require('../controllers/post-controller')
+const { doPost, getUserPost, likePost, savePost, removeSavePost } = require('../controllers/post-controller')
 
 // Sing Up And Otp
 router.post('/check-signup', checkSignUpData)
@@ -22,7 +22,8 @@ router.get('/get-user', getUserData)
 // Post
 router.post('/post', verifyUser, doPost)
 router.get('/user-post', verifyUser, getUserPost)
-router.put('/like',verifyUser,likePost)
-
+router.put('/like', verifyUser, likePost)
+router.put('/save-post', verifyUser, savePost)
+router.delete('/save-post', verifyUser, removeSavePost)
 
 module.exports = router;

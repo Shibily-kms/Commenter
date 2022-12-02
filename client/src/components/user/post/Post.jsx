@@ -33,8 +33,10 @@ function Post(props) {
         }
     }
     const handleLike = () => {
-
         dispatch(likePost(data))
+    }
+    const handleSave = () =>{
+        
     }
 
     useEffect(() => {
@@ -76,7 +78,7 @@ function Post(props) {
                             </div>
                             {show ?
                                 <div className="DropBox">
-                                    <div className="itemDiv">
+                                    <div className="itemDiv" onClick={handleSave}>
                                         <MdSave />
                                         <p>Save </p>
                                     </div>
