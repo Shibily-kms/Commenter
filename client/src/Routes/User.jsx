@@ -9,6 +9,7 @@ import SignIn from '../pages/user/SignIn'
 import NewPasswod from '../pages/user/NewPasswod'
 import Home from '../pages/user/home/Home'
 import Profile from '../pages/user/profile/Profile'
+import SavePost from '../pages/user/savePost/SavePost';
 
 
 
@@ -32,6 +33,7 @@ function User() {
       <Route path='/new-password' element={<NewPasswod />} />
       <Route path='/' element={<Home />} />
       <Route path='/profile' element={<Profile />} />
+      <Route path="/save-posts" element={<SavePost/>}/>
     </Routes>
   )
 }

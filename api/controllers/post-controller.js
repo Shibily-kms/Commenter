@@ -12,7 +12,7 @@ module.exports = {
             body.postId = customId(10, 'PS')
             body.createDate = new Date();
             await PostModel.create(body).then((result) => {
-                console.log(result,'result');
+                console.log(result, 'result');
                 res.status(201).json({ success: true, error: false, post: result, message: 'new post Added' })
             }).catch((error) => {
                 res.status(400).json({ success: false, error: true, message: 'posts validation failed' })
@@ -24,6 +24,7 @@ module.exports = {
     // Get Post
     getUserPost: async (req, res, next) => {
         try {
+            console.log('here coming');
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             if (jwtToken) {
                 const urId = jwtToken.userId
@@ -74,6 +75,7 @@ module.exports = {
         }
     },
     // Save Post
+
     savePost: async (req, res, next) => {
         try {
             console.log('hi here');
@@ -96,13 +98,13 @@ module.exports = {
     // Remove post from list
     removeSavePost: async (req, res, next) => {
         try {
-            const { urId, postId } = req.body
+            const { urId, postId } = req.params
             await UserModel.updateOne({ urId }, {
                 $pull: {
                     savePost: postId
                 }
             }).then(() => {
-                res.status(201).json({ success: true, message: 'Removed form savelist' })
+                res.status(201).json({ success: true, postId, message: 'Removed form savelist' })
             }).catch((error) => {
                 res.status(400).json({ error: true, message: 'try now' })
             })
@@ -117,9 +119,37 @@ module.exports = {
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             if (jwtToken) {
                 const urId = jwtToken.userId
-                await UserModel.findOne({ urId }).then((result) => {
-                    res.status(201).json({ success: true, posts: result.savePost, message: 'get all save posts' })
+                await UserModel.aggregate([
+                    {
+                        $match: {
+                            urId
+                        }
+                    },
+                    {
+                        $unwind: '$savePost'
+                    },
+                    {
+                        $lookup: {
+                            from: 'posts',
+                            localField: 'savePost',
+                            foreignField: 'postId',
+                            as: 'posts'
+                        }
+                    },
+                    {
+                        $project: {
+                            posts: 1, _id: 0
+                        }
+                    }
+
+                ]).then((posts) => {
+                    posts = posts.filter((post, index) => {
+                        return post.posts[0]
+                    })
+                    posts = posts.sort((a, b) => a - b)
+                    res.status(201).json({ success: true, posts: posts, message: 'get all save posts' })
                 })
+
             } else {
                 res.status(400).json({ error: true, message: 'Token missed' })
             }
@@ -128,14 +158,14 @@ module.exports = {
         }
     },
 
-    deletePost: async(req, res, next) => {
+    deletePost: async (req, res, next) => {
         try {
-            console.log(req.params,'body');
+            console.log(req.params, 'body');
             const { urId, postId } = req.params
-            await PostModel.deleteOne({urId,postId}).then((result)=>{
-                res.status(201).json({success:true,postId,message:'Post removed'})
-            }).catch((error)=>{
-                res.status(400).json({error:true,message:"Can't delete post"})
+            await PostModel.deleteOne({ urId, postId }).then((result) => {
+                res.status(201).json({ success: true, postId, message: 'Post removed' })
+            }).catch((error) => {
+                res.status(400).json({ error: true, message: "Can't delete post" })
             })
         } catch (error) {
             throw error;

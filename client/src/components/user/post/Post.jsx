@@ -1,25 +1,27 @@
 import React, { useEffect } from 'react'
 import './post.scss'
-import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
-import { AiFillLike } from "@react-icons/all-files/ai/AiFillLike";
-import { RiMessage2Fill } from "@react-icons/all-files/ri/RiMessage2Fill";
-import { MdSave } from "@react-icons/all-files/md/MdSave";
-import { AiOutlineLike } from "@react-icons/all-files/ai/AiOutlineLike";
-import { MdSend } from "@react-icons/all-files/md/MdSend";
-import { RiShareForwardFill } from "@react-icons/all-files/ri/RiShareForwardFill";
-import { BsTrashFill } from "@react-icons/all-files/bs/BsTrashFill";
-import { GrFormClose } from "@react-icons/all-files/gr/GrFormClose";
 import Profile from '../../../assets/icons/profile.jpeg'
 import { useState } from 'react';
 import { postDateFormatChange } from '../../../assets/js/user/post-helpers'
 import { useSelector, useDispatch } from 'react-redux'
 import { likePost, removePost } from '../../../Redux/features/user/userPostSlice'
 import axios from '../../../config/axios'
-
+import { useNavigate } from 'react-router-dom';
+// Icons
+import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
+import { AiFillLike } from "@react-icons/all-files/ai/AiFillLike";
+import { RiMessage2Fill } from "@react-icons/all-files/ri/RiMessage2Fill";
+import { MdSave } from "@react-icons/all-files/md/MdSave";
+import { AiOutlineLike } from "@react-icons/all-files/ai/AiOutlineLike";
+import { MdSend } from "@react-icons/all-files/md/MdSend";
+import { AiOutlineLink } from "@react-icons/all-files/ai/AiOutlineLink";
+import { BsTrashFill } from "@react-icons/all-files/bs/BsTrashFill";
+import { GrFormClose } from "@react-icons/all-files/gr/GrFormClose";
 
 
 function Post(props) {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { user } = useSelector((state) => state.userAuth)
     const [date, setDate] = useState('time')
     const [show, setShow] = useState(false)
@@ -48,6 +50,13 @@ function Post(props) {
             console.log('some error occurd');
         })
     }
+    const handleRemoveSave = () => {
+        axios.delete('/save-post/' + user.urId + '/' + props.data.postId, { withCredentials: true }).then((result) => {
+            navigate('/save-posts')
+        }).catch((error) => {
+            console.log('some error occued');
+        })
+    }
     const handleRemove = () => {
         const confirmBox = window.confirm('Are you delete this post')
         if (confirmBox) {
@@ -58,22 +67,25 @@ function Post(props) {
 
     useEffect(() => {
         console.log(props, 'reacitoans');
-        let arr = props?.data?.reactions.filter(item => item == user?.urId)
-        if (arr[0]) {
-            setPostLike(true)
-        } else {
-            setPostLike(false)
-        }
-        let checkSave = user?.savePost.filter(item => item == props.data.postId)
-        checkSave = checkSave === undefined ? [] : checkSave
-        if (checkSave[0]) {
-            setSave(true)
-        } else {
-            setSave(false)
+        if (!props.data.NULL) {
+            let arr = props?.data?.reactions.filter(item => item == user?.urId)
+            arr = arr === undefined ? [] : arr
+            if (arr[0]) {
+                setPostLike(true)
+            } else {
+                setPostLike(false)
+            }
+            let checkSave = user?.savePost.filter(item => item == props.data.postId)
+            checkSave = checkSave === undefined ? [] : checkSave
+            if (checkSave[0]) {
+                setSave(true)
+            } else {
+                setSave(false)
+            }
         }
 
 
-        setDate(postDateFormatChange(props.data.createDate))
+        setDate(postDateFormatChange(props?.data?.createDate))
         setData({
             ...data,
             urId: user?.urId,
@@ -104,10 +116,22 @@ function Post(props) {
                             </div>
                             {show ?
                                 <div className="DropBox">
-                                    {save ? <div className="itemDiv" >
-                                        <MdSave />
-                                        <p >Goto Save </p>
-                                    </div>
+                                    {save ?
+                                        <>
+                                            {props.savePage ?
+                                                <div onClick={handleRemoveSave} className="itemDiv" >
+                                                    <MdSave />
+                                                    <p >Clear</p>
+                                                </div>
+
+                                                :
+                                                <div className="itemDiv" onClick={() => { navigate('/save-posts') }}>
+                                                    <MdSave />
+                                                    <p >Goto Save </p>
+                                                </div>
+
+                                            }
+                                        </>
                                         :
                                         <div className="itemDiv" onClick={handleSave}>
                                             <MdSave />
@@ -115,8 +139,8 @@ function Post(props) {
                                         </div>
                                     }
                                     <div className="itemDiv">
-                                        <RiShareForwardFill />
-                                        <p>Share</p>
+                                        <AiOutlineLink />
+                                        <p>Copy Link</p>
                                     </div>
 
                                     {user.urId === props.data.urId ?
@@ -131,52 +155,62 @@ function Post(props) {
                                 : ''}
                         </div>
                     </div>
-                    <div className="content">
-                        {props.data.text ?
-                            <pre >{props.data.text}</pre>
-                            : ''
-                        }
-                        {props.data.file[0]?.type === 'image' ?
-                            <img src={'http://res.cloudinary.com/dayygqvpv/image/upload/v1669717856/' + props.data.file[0].name + '.' + props.data.file[0].format} alt="" />
-                            : ''
-                        }
-                        <div className="reactions-count">
-                            <div style={{ display: 'flex' }}>
-                                <div className="icon">
-                                    <span className='simpale bg-primary'><AiFillLike /></span>
-                                    <span>{props.data.reactCount}</span>
-                                </div>
-                                <div className="icon">
-                                    <span className='simpale ' style={{ backgroundColor: '#ce1085' }}><RiMessage2Fill /></span>
-                                    <span>0</span>
-                                </div>
-                            </div>
+                    {props?.data?.NULL ?
+                        <>
                             <div>
-                                <div className="icon">
-                                    <span className='simpale bg-secondary'><MdSave /></span>
-                                    <span>0</span>
+                                <p style={{ textAlign: 'center', paddingTop: '15px', paddingBottom: '15px' }}>Can't not read this post</p>
+                            </div>
+                        </>
+                        :
+                        <>
+                            <div className="content">
+                                {props.data.text ?
+                                    <pre >{props.data.text}</pre>
+                                    : ''
+                                }
+                                {props.data.file[0]?.type === 'image' ?
+                                    <img src={'http://res.cloudinary.com/dayygqvpv/image/upload/v1669717856/' + props.data.file[0].name + '.' + props.data.file[0].format} alt="" />
+                                    : ''
+                                }
+                                <div className="reactions-count">
+                                    <div style={{ display: 'flex' }}>
+                                        <div className="icon">
+                                            <span className='simpale bg-primary'><AiFillLike /></span>
+                                            <span>{props.data.reactCount}</span>
+                                        </div>
+                                        <div className="icon">
+                                            <span className='simpale ' style={{ backgroundColor: '#ce1085' }}><RiMessage2Fill /></span>
+                                            <span>0</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="icon">
+                                            <span className='simpale bg-secondary'><MdSave /></span>
+                                            <span>0</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div className="bottom">
-                        <div className="comment-side">
+                            <div className="bottom">
+                                <div className="comment-side">
 
-                        </div>
-                        <div className="reaction-side">
-                            <div className="reaction ">
-                                <div className={postLike ? 'likeAnimation' : ''} onClick={handleLike}>
-                                    {postLike ? <AiFillLike /> : <AiOutlineLike />}
+                                </div>
+                                <div className="reaction-side">
+                                    <div className="reaction ">
+                                        <div className={postLike ? 'likeAnimation' : ''} onClick={handleLike}>
+                                            {postLike ? <AiFillLike /> : <AiOutlineLike />}
+                                        </div>
+                                    </div>
+                                    <div className="comment">
+                                        <input type="text" placeholder='Comment...' />
+                                        <div>
+                                            <MdSend />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="comment">
-                                <input type="text" placeholder='Comment...' />
-                                <div>
-                                    <MdSend />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </>
+                    }
                 </div>
             </div>
         </div>
