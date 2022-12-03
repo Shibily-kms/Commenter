@@ -92,6 +92,7 @@
                     align-items: center;
                     padding: 9px 15px;
                     cursor: pointer;
+                    min-width: max-content;
 
                     &:hover {
                         background-color: $secondaryColor300;

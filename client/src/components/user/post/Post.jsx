@@ -13,7 +13,8 @@ import Profile from '../../../assets/icons/profile.jpeg'
 import { useState } from 'react';
 import { postDateFormatChange } from '../../../assets/js/user/post-helpers'
 import { useSelector, useDispatch } from 'react-redux'
-import { likePost } from '../../../Redux/features/user/userPostSlice'
+import { likePost, removePost } from '../../../Redux/features/user/userPostSlice'
+import axios from '../../../config/axios'
 
 
 
@@ -24,6 +25,8 @@ function Post(props) {
     const [show, setShow] = useState(false)
     const [postLike, setPostLike] = useState(false)
     const [data, setData] = useState({ urId: null, postId: null, like: false })
+    const [save, setSave] = useState(false)
+
 
     const handleShow = () => {
         if (show) {
@@ -35,17 +38,40 @@ function Post(props) {
     const handleLike = () => {
         dispatch(likePost(data))
     }
-    const handleSave = () =>{
-        
+    const handleSave = () => {
+        console.log({ urId: user?.urId, postId: props?.data?.postId }, 'put data');
+        axios.put('/save-post', { urId: user?.urId, postId: props?.data?.postId }, { withCredentials: true }).then((result) => {
+            if (result) {
+                setSave(true)
+            }
+        }).catch((error) => {
+            console.log('some error occurd');
+        })
+    }
+    const handleRemove = () => {
+        const confirmBox = window.confirm('Are you delete this post')
+        if (confirmBox) {
+            setShow(false)
+            dispatch(removePost({ urId: user?.urId, postId: props?.data?.postId }))
+        }
     }
 
     useEffect(() => {
-        let arr = props.data.reactions.filter(item => item == user?.urId)
+        console.log(props, 'reacitoans');
+        let arr = props?.data?.reactions.filter(item => item == user?.urId)
         if (arr[0]) {
             setPostLike(true)
         } else {
             setPostLike(false)
         }
+        let checkSave = user?.savePost.filter(item => item == props.data.postId)
+        checkSave = checkSave === undefined ? [] : checkSave
+        if (checkSave[0]) {
+            setSave(true)
+        } else {
+            setSave(false)
+        }
+
 
         setDate(postDateFormatChange(props.data.createDate))
         setData({
@@ -55,7 +81,7 @@ function Post(props) {
             like: postLike ? false : true
         })
 
-    }, [props, postLike])
+    }, [props, postLike, setSave])
     return (
         <div>
             <div className="post-model">
@@ -78,18 +104,29 @@ function Post(props) {
                             </div>
                             {show ?
                                 <div className="DropBox">
-                                    <div className="itemDiv" onClick={handleSave}>
+                                    {save ? <div className="itemDiv" >
                                         <MdSave />
-                                        <p>Save </p>
+                                        <p >Goto Save </p>
                                     </div>
+                                        :
+                                        <div className="itemDiv" onClick={handleSave}>
+                                            <MdSave />
+                                            <p>Save </p>
+                                        </div>
+                                    }
                                     <div className="itemDiv">
                                         <RiShareForwardFill />
                                         <p>Share</p>
                                     </div>
-                                    <div className="itemDiv">
-                                        <BsTrashFill />
-                                        <p>Remove</p>
-                                    </div>
+
+                                    {user.urId === props.data.urId ?
+                                        <div className="itemDiv" onClick={handleRemove}>
+                                            <BsTrashFill />
+                                            <p>Remove</p>
+                                        </div>
+                                        : ''
+                                    }
+
                                 </div>
                                 : ''}
                         </div>

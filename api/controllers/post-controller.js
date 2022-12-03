@@ -12,7 +12,8 @@ module.exports = {
             body.postId = customId(10, 'PS')
             body.createDate = new Date();
             await PostModel.create(body).then((result) => {
-                res.status(201).json({ success: true, error: false, post: body, message: 'new post Added' })
+                console.log(result,'result');
+                res.status(201).json({ success: true, error: false, post: result, message: 'new post Added' })
             }).catch((error) => {
                 res.status(400).json({ success: false, error: true, message: 'posts validation failed' })
             })
@@ -75,7 +76,9 @@ module.exports = {
     // Save Post
     savePost: async (req, res, next) => {
         try {
+            console.log('hi here');
             const { urId, postId } = req.body
+            console.log(req.body, 'body')
             await UserModel.updateOne({ urId }, {
                 $push: {
                     savePost: postId
@@ -123,6 +126,21 @@ module.exports = {
         } catch (error) {
             throw error;
         }
+    },
+
+    deletePost: async(req, res, next) => {
+        try {
+            console.log(req.params,'body');
+            const { urId, postId } = req.params
+            await PostModel.deleteOne({urId,postId}).then((result)=>{
+                res.status(201).json({success:true,postId,message:'Post removed'})
+            }).catch((error)=>{
+                res.status(400).json({error:true,message:"Can't delete post"})
+            })
+        } catch (error) {
+            throw error;
+        }
     }
+
 
 }
