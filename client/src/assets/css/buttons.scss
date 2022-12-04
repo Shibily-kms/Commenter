@@ -37,9 +37,9 @@
     }
 }
 
-.button-outline {
+.button-gray {
     @include normalButton();
-
+    background-color: #acacac;
 }
 
 .button-red {

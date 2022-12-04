@@ -66,8 +66,9 @@ function Post(props) {
     }
 
     useEffect(() => {
-        console.log(props, 'reacitoans');
-        if (!props.data.NULL) {
+        // console.log(props, 'reacitoans');
+      
+
             let arr = props?.data?.reactions.filter(item => item == user?.urId)
             arr = arr === undefined ? [] : arr
             if (arr[0]) {
@@ -82,7 +83,7 @@ function Post(props) {
             } else {
                 setSave(false)
             }
-        }
+        
 
 
         setDate(postDateFormatChange(props?.data?.createDate))
@@ -104,7 +105,7 @@ function Post(props) {
                                 <img src={Profile} alt="" />
                             </div>
                             <div>
-                                <h5>{props?.self?.firstName + ' ' + props?.self?.lastName}</h5>
+                                <h5>{props?.data?.firstName + ' ' + props?.data?.lastName}</h5>
                                 <p>{date}</p>
                             </div>
 
@@ -118,7 +119,7 @@ function Post(props) {
                                 <div className="DropBox">
                                     {save ?
                                         <>
-                                            {props.savePage ?
+                                            {props?.savePage ?
                                                 <div onClick={handleRemoveSave} className="itemDiv" >
                                                     <MdSave />
                                                     <p >Clear</p>
@@ -143,7 +144,7 @@ function Post(props) {
                                         <p>Copy Link</p>
                                     </div>
 
-                                    {user.urId === props.data.urId ?
+                                    {user?.urId === props?.data?.urId ?
                                         <div className="itemDiv" onClick={handleRemove}>
                                             <BsTrashFill />
                                             <p>Remove</p>
@@ -164,11 +165,11 @@ function Post(props) {
                         :
                         <>
                             <div className="content">
-                                {props.data.text ?
+                                {props?.data?.text ?
                                     <pre >{props.data.text}</pre>
                                     : ''
                                 }
-                                {props.data.file[0]?.type === 'image' ?
+                                {props?.data?.file[0]?.type === 'image' ?
                                     <img src={'http://res.cloudinary.com/dayygqvpv/image/upload/v1669717856/' + props.data.file[0].name + '.' + props.data.file[0].format} alt="" />
                                     : ''
                                 }
@@ -176,7 +177,7 @@ function Post(props) {
                                     <div style={{ display: 'flex' }}>
                                         <div className="icon">
                                             <span className='simpale bg-primary'><AiFillLike /></span>
-                                            <span>{props.data.reactCount}</span>
+                                            <span>{props?.data?.reactCount}</span>
                                         </div>
                                         <div className="icon">
                                             <span className='simpale ' style={{ backgroundColor: '#ce1085' }}><RiMessage2Fill /></span>

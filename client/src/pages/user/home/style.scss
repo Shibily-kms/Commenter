@@ -1,0 +1,15 @@
+@import '../../../assets/css/user-root.scss' ;
+
+.PeopleYouMayKnow {
+    background-color: $lightColor400;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    padding: 8px;
+    h4{
+        font-size: 14px;
+        font-weight: bold;
+    }
+}

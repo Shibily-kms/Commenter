@@ -49,7 +49,7 @@ function CoulmnTwo() {
             <>
               {savePost ? savePost.map((post, index) => {
 
-                return <Post  savePage={true} key={index} data={post?.posts[0] ? post.posts[0] : { NULL: true }} self={user} />
+                return <Post savePage={true} key={index} data={post} />
 
               }) : ''}
             </>

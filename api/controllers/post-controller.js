@@ -26,14 +26,39 @@ module.exports = {
         try {
             console.log('here coming');
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-            if (jwtToken) {
-                const urId = jwtToken.userId
-                await PostModel.find({ urId }).sort({ createDate: -1 }).then((posts) => {
-                    res.status(201).json({ success: true, error: false, posts, message: 'user all posts' })
-                }).catch((error) => {
-                    res.status(400).json({ success: false, error: true, message: "Requseted data is Empty" })
-                })
-            }
+            const urId = jwtToken.userId
+            await PostModel.aggregate([
+                {
+                    $match: {
+                        urId
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'urId',
+                        foreignField: 'urId',
+                        as: 'author'
+                    }
+                },
+                {
+                    $addFields: {
+                        firstName: { $first: '$author.firstName' },
+                        lastName: { $first: '$author.lastName' },
+                        userName: { $first: '$author.userName' },
+                    }
+                },
+                {
+                    $project: {
+                        author: 0
+                    }
+                }
+            ]).then((posts) => {
+                res.status(201).json({ success: true, error: false, posts, message: 'user all posts' })
+            }).catch((error) => {
+                res.status(400).json({ success: false, error: true, message: "Requseted data is Empty" })
+            })
+
         } catch (error) {
             throw error;
         }
@@ -129,6 +154,11 @@ module.exports = {
                         $unwind: '$savePost'
                     },
                     {
+                        $project: {
+                            _id: 0, urId: 1, savePost: 1
+                        }
+                    },
+                    {
                         $lookup: {
                             from: 'posts',
                             localField: 'savePost',
@@ -137,16 +167,38 @@ module.exports = {
                         }
                     },
                     {
+                        $unwind: '$posts'
+                    },
+                    {
+                        $lookup: {
+                            from: 'users',
+                            localField: 'posts.urId',
+                            foreignField: 'urId',
+                            as: 'how'
+                        }
+                    },
+                    {
                         $project: {
-                            posts: 1, _id: 0
+                            post: '$posts',
+                            firstName: { $first: '$how.firstName' },
+                            lastName: { $first: '$how.lastName' },
+                            userName: { $first: '$how.userName' },
                         }
                     }
+                    
+                    
+                  
 
                 ]).then((posts) => {
-                    posts = posts.filter((post, index) => {
-                        return post.posts[0]
+                    posts = posts.map((item) => {
+                        item.post.firstName = item.firstName
+                        item.post.lastName = item.lastName
+                        item.post.userName = item.userName
+                        return item.post
                     })
-                    posts = posts.sort((a, b) => a - b)
+                    console.log(posts,'XXXXXXXXsave posts');
+                   
+                    // posts = posts.sort((a, b) => a - b)
                     res.status(201).json({ success: true, posts: posts, message: 'get all save posts' })
                 })
 
@@ -167,6 +219,74 @@ module.exports = {
             }).catch((error) => {
                 res.status(400).json({ error: true, message: "Can't delete post" })
             })
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    // Home Post
+    getHomePost: async (req, res, next) => {
+        try {
+            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
+            const urId = jwtToken.userId
+
+            await UserModel.aggregate([
+                // Step One match get user
+                {
+                    $match: {
+                        urId
+                    }
+                },
+                {
+                    $unwind: '$following'
+                },
+                {
+                    $project: {
+                        _id: 0, urId: 1, following: 1
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'posts',
+                        localField: 'following',
+                        foreignField: 'urId',
+                        as: 'posts'
+                    }
+                },
+                {
+                    $unwind: '$posts'
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'following',
+                        foreignField: 'urId',
+                        as: 'how'
+                    }
+                },
+                {
+                    $project: {
+                        post: '$posts',
+                        firstName: { $first: '$how.firstName' },
+                        lastName: { $first: '$how.lastName' },
+                        userName: { $first: '$how.userName' },
+                    }
+                }
+
+            ]).then((posts) => {
+                posts = posts.map((item) => {
+                    item.post.firstName = item.firstName
+                    item.post.lastName = item.lastName
+                    item.post.userName = item.userName
+                    return item.post
+                })
+                res.status(201).json({ success: true, posts: posts, message: 'get home post', })
+
+            })
+
+            // await PostModel.find().then((posts) => {
+            //     res.status(201).json({ success: true, posts: posts, message: 'get home post', })
+            // })
         } catch (error) {
             throw error;
         }

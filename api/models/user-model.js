@@ -38,7 +38,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'Active',
     },
-    savePost: []
+    savePost: [],
+    following: [],
+    followers :[],
 
 },
     {
