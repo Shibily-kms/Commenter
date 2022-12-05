@@ -41,11 +41,11 @@ module.exports = {
 
     doFollow: async (req, res, next) => {
         try {
-            console.log('her dcodsdsfasdf sd sldf fsd lsj');
+          
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             const urId = jwtToken.userId
             let { followId } = req.body
-            console.log(followId, urId, 'ids');
+          
             await UserModel.updateOne({ urId }, {
                 $push: {
                     following: followId
@@ -62,7 +62,7 @@ module.exports = {
                 })
             })
         } catch (error) {
-            console.log(error, 'se');
+           
         }
     }
 }

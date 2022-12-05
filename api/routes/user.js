@@ -3,7 +3,8 @@ const router = express.Router();
 const { checkSignUpData, sendOtp, verifyOtp, doSingUp, verifyUserNameOrEmail, setNewPassword,
     doSingIn, getUserData } = require('../controllers/auth-controller')
 const { verifyUser } = require('../middlewares/verify-middleware')
-const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, getAllSavePost, getHomePost } = require('../controllers/post-controller')
+const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, getAllSavePost, getHomePost,
+    doComment, removeComment } = require('../controllers/post-controller')
 const { getFriendsSuggestions, doFollow } = require('../controllers/friends-controller')
 // Sing Up And Otp
 router.post('/check-signup', checkSignUpData)
@@ -29,10 +30,14 @@ router.delete('/save-post/:urId/:postId', verifyUser, removeSavePost)
 router.delete('/delete-post/:urId/:postId', verifyUser, deletePost)
 
 // Friends Post
-router.get('/post',verifyUser,getHomePost)
+router.get('/post', verifyUser, getHomePost)
 
 // Friends
 router.get('/friends-suggestions/:count', verifyUser, getFriendsSuggestions)
 router.post('/follow', verifyUser, doFollow)
+
+// Comment
+router.post('/comment', verifyUser, doComment)
+router.delete('/comment/:comId/:postId', verifyUser, removeComment)
 
 module.exports = router;

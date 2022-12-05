@@ -13,11 +13,11 @@ module.exports = {
             body.createDate = new Date();
             await PostModel.create(body).then((result) => {
                 UserModel.findOne({ urId: body.urId }).then((user) => {
-                    console.log(user, 'dslfjsd');
+                 
                     result._doc.firstName = user.firstName
                     result._doc.lastName = user.lastName
                     result._doc.userName = user.userName
-                    console.log(result, 'result');
+                  
                     res.status(201).json({ success: true, error: false, post: result, message: 'new post Added' })
                 })
             }).catch((error) => {
@@ -30,7 +30,7 @@ module.exports = {
     // Get Post
     getUserPost: async (req, res, next) => {
         try {
-            console.log('here coming');
+          
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             const urId = jwtToken.userId
             await PostModel.aggregate([
@@ -78,7 +78,7 @@ module.exports = {
     // Like Post
     likePost: async (req, res, next) => {
         try {
-            console.log(req.body,'bdoy');
+          
             const { urId, postId, like } = req.body
             if (like) {
                 await PostModel.updateOne({ postId }, {
@@ -116,9 +116,9 @@ module.exports = {
 
     savePost: async (req, res, next) => {
         try {
-            console.log('hi here');
+          
             const { urId, postId } = req.body
-            console.log(req.body, 'body')
+          
             await UserModel.updateOne({ urId }, {
                 $push: {
                     savePost: postId
@@ -207,8 +207,7 @@ module.exports = {
                         item.post.userName = item.userName
                         return item.post
                     }).reverse()
-                    console.log(posts, 'XXXXXXXXsave posts');
-
+                  
                     // posts = posts.sort((a, b) => a - b)
                     res.status(201).json({ success: true, posts: posts, message: 'get all save posts' })
                 })
@@ -223,7 +222,7 @@ module.exports = {
 
     deletePost: async (req, res, next) => {
         try {
-            console.log(req.params, 'body');
+         
             const { urId, postId } = req.params
             await PostModel.deleteOne({ urId, postId }).then((result) => {
                 res.status(201).json({ success: true, postId, message: 'Post removed' })
@@ -337,6 +336,64 @@ module.exports = {
 
         } catch (error) {
             throw error;
+        }
+    },
+
+
+    // Comment
+    doComment: async (req, res, next) => {
+        try {
+         
+            const { urId, userName, postId, text } = req.body
+            let obj = {
+                urId,
+                userName,
+                text,
+                time: new Date()
+            }
+            obj.comId = customId(6)
+
+            await PostModel.updateOne({ postId }, {
+                $push: {
+                    comments: obj
+                },
+                $inc: {
+                    commentCount: 1
+                }
+            }).then((result) => {
+             
+                res.status(201).json({ success: true, comment: obj, message: 'Commented' })
+            })
+
+
+        } catch (error) {
+
+        }
+    },
+    removeComment: async (req, res, next) => {
+        try {
+          
+            const { comId, postId } = req.params
+            await PostModel.updateOne({ postId }, {
+                $pull: {
+                    comments: {
+                        comId: comId
+                    }
+                },
+
+                $inc: {
+                    commentCount: -1
+                }
+
+            }).then((response) => {
+
+                res.status(201).json({ success: true, comId, message: 'remove success' })
+            }).catch((error)=>{
+               
+            })
+
+        } catch (error) {
+
         }
     }
 
