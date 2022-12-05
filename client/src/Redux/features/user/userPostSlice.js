@@ -29,25 +29,7 @@ export const getUserPost = createAsyncThunk('user/get-user-post', async (thunkAP
     }
 })
 
-export const likePost = createAsyncThunk('user/like-post', async (data, thunkAPI) => {
-    try {
-        return await axios.put('/like', data, { withCredentials: true })
-    } catch (error) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
-        return thunkAPI.rejectWithValue(message)
-    }
-})
 
-export const removePost = createAsyncThunk('user/remove-post', async (data, thunkAPI) => {
-
-    try {
-        return await axios.delete('/delete-post/' + data.urId + '/' + data.postId, { withCredentials: true })
-    } catch (error) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
-        return thunkAPI.rejectWithValue(message)
-
-    }
-})
 
 
 const userPostSlice = createSlice({
@@ -93,36 +75,8 @@ const userPostSlice = createSlice({
             state.isLoading = false
             state.isError = true
             state.message = action.payload
-        },
-        [likePost.fulfilled]: (state, action) => {
-            const objIndex = state.posts.findIndex((obj => obj.postId == action.payload.data.postId));
-            if (action.payload.data.like) {
-                state.posts[objIndex].reactCount++
-                state.posts[objIndex].reactions.push(action.payload.data.urId)
-            } else {
-                state.posts[objIndex].reactCount--
-                state.posts[objIndex].reactions = state.posts[objIndex].reactions.filter(item => item !== action.payload.data.urId)
-            }
-        },
-        [likePost.rejected]: (state, action) => {
-            state.isError = true
-            state.message = action.payload
-        },
-        [removePost.fulfilled]: (state, action) => {
-            // const objIndex = state.posts.findIndex((obj => obj.postId == action.payload.data.postId));
-            state.posts = state.posts.filter((post) => post.postId !== action.payload.data.postId)
-            // if (action.payload.data.like) {
-            //     state.posts[objIndex].reactCount++
-            //     state.posts[objIndex].reactions.push(action.payload.data.urId)
-            // } else {
-            //     state.posts[objIndex].reactCount--
-            //     state.posts[objIndex].reactions = state.posts[objIndex].reactions.filter(item => item !== action.payload.data.urId)
-            // }
-        },
-        [removePost.rejected]: (state, action) => {
-            state.isError = true
-            state.message = action.payload
         }
+        
     }
 })
 

@@ -12,8 +12,14 @@ module.exports = {
             body.postId = customId(10, 'PS')
             body.createDate = new Date();
             await PostModel.create(body).then((result) => {
-                console.log(result, 'result');
-                res.status(201).json({ success: true, error: false, post: result, message: 'new post Added' })
+                UserModel.findOne({ urId: body.urId }).then((user) => {
+                    console.log(user, 'dslfjsd');
+                    result._doc.firstName = user.firstName
+                    result._doc.lastName = user.lastName
+                    result._doc.userName = user.userName
+                    console.log(result, 'result');
+                    res.status(201).json({ success: true, error: false, post: result, message: 'new post Added' })
+                })
             }).catch((error) => {
                 res.status(400).json({ success: false, error: true, message: 'posts validation failed' })
             })
@@ -52,8 +58,14 @@ module.exports = {
                     $project: {
                         author: 0
                     }
+                },
+                {
+                    $sort: {
+                        createDate: -1
+                    }
                 }
             ]).then((posts) => {
+
                 res.status(201).json({ success: true, error: false, posts, message: 'user all posts' })
             }).catch((error) => {
                 res.status(400).json({ success: false, error: true, message: "Requseted data is Empty" })
@@ -66,6 +78,7 @@ module.exports = {
     // Like Post
     likePost: async (req, res, next) => {
         try {
+            console.log(req.body,'bdoy');
             const { urId, postId, like } = req.body
             if (like) {
                 await PostModel.updateOne({ postId }, {
@@ -185,9 +198,7 @@ module.exports = {
                             userName: { $first: '$how.userName' },
                         }
                     }
-                    
-                    
-                  
+
 
                 ]).then((posts) => {
                     posts = posts.map((item) => {
@@ -195,9 +206,9 @@ module.exports = {
                         item.post.lastName = item.lastName
                         item.post.userName = item.userName
                         return item.post
-                    })
-                    console.log(posts,'XXXXXXXXsave posts');
-                   
+                    }).reverse()
+                    console.log(posts, 'XXXXXXXXsave posts');
+
                     // posts = posts.sort((a, b) => a - b)
                     res.status(201).json({ success: true, posts: posts, message: 'get all save posts' })
                 })
@@ -230,8 +241,7 @@ module.exports = {
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             const urId = jwtToken.userId
 
-            await UserModel.aggregate([
-                // Step One match get user
+            let otherPost = await UserModel.aggregate([
                 {
                     $match: {
                         urId
@@ -267,26 +277,64 @@ module.exports = {
                 {
                     $project: {
                         post: '$posts',
+                        uPost: 1,
                         firstName: { $first: '$how.firstName' },
                         lastName: { $first: '$how.lastName' },
                         userName: { $first: '$how.userName' },
                     }
+                },
+                {
+                    $sort: {
+                        'post.createDate': -1
+                    }
                 }
 
-            ]).then((posts) => {
-                posts = posts.map((item) => {
-                    item.post.firstName = item.firstName
-                    item.post.lastName = item.lastName
-                    item.post.userName = item.userName
-                    return item.post
-                })
-                res.status(201).json({ success: true, posts: posts, message: 'get home post', })
-
+            ])
+            otherPost = otherPost.map((item) => {
+                item.post.firstName = item.firstName
+                item.post.lastName = item.lastName
+                item.post.userName = item.userName
+                return item.post
             })
 
-            // await PostModel.find().then((posts) => {
-            //     res.status(201).json({ success: true, posts: posts, message: 'get home post', })
-            // })
+            let userPost = await PostModel.aggregate([
+                {
+                    $match: {
+                        urId
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'urId',
+                        foreignField: 'urId',
+                        as: 'author'
+                    }
+                },
+                {
+                    $addFields: {
+                        firstName: { $first: '$author.firstName' },
+                        lastName: { $first: '$author.lastName' },
+                        userName: { $first: '$author.userName' },
+                    }
+                },
+                {
+                    $project: {
+                        author: 0
+                    }
+                },
+                {
+                    $sort: {
+                        createDate: -1
+                    }
+                }
+            ])
+
+            let merge = otherPost.concat(userPost)
+            merge = merge.sort((a, b) => b.createDate - a.createDate)
+
+            res.status(201).json({ success: true, posts: merge, message: 'get home post', })
+
         } catch (error) {
             throw error;
         }

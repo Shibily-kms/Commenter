@@ -10,6 +10,8 @@ import EditProfile from '../../../components/user/profileInfo/EditProfile'
 import '../profile/ColumnTwo'
 import axios from '../../../config/axios'
 
+
+
 function CoulmnTwo() {
   const dispatch = useDispatch();
   // const { posts, isLoading, isError, message } = useSelector((state) => state.userPost)
@@ -49,7 +51,7 @@ function CoulmnTwo() {
             <>
               {savePost ? savePost.map((post, index) => {
 
-                return <Post savePage={true} key={index} data={post} />
+                return <Post savePage={true} key={index} data={post}  />
 
               }) : ''}
             </>

@@ -6,7 +6,6 @@ import Spinner from '../../../components/Spinner'
 
 
 function ColumnTwo() {
-    console.log('hi2');
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(false)
     const [author, setAuthor] = useState({})
@@ -34,7 +33,7 @@ function ColumnTwo() {
                                 <>
                                     {posts.map((item) => {
 
-                                        return <Post data={item} />
+                                        return <Post data={item}  />
                                     })}
                                 </> : ''}
                         </>}

@@ -40,6 +40,14 @@ const userAuthSlice = createSlice({
         },
         logOut: (state) => {
             state.user = null
+        },
+        addSavePost: (state, action) => {
+            state?.user?.savePost.push(action.payload.postId)
+        },
+        removeSavePost: (state, action) => {
+            
+            console.log(action, 'aciton');
+            state.user.savePost = state.user.savePost.filter((value) => value != action.payload.postId)
         }
     },
     extraReducers: {
@@ -67,6 +75,6 @@ const userAuthSlice = createSlice({
     }
 })
 
-export const { reset, logOut } = userAuthSlice.actions;
+export const { reset, logOut, addSavePost, removeSavePost } = userAuthSlice.actions;
 
 export default userAuthSlice.reducer;
