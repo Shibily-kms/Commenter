@@ -111,6 +111,7 @@
 
     .content {
         width: 100%;
+        margin-bottom: 10px;
 
         pre {
             overflow: hidden;
@@ -166,60 +167,66 @@
         }
     }
 
-    .bottom {
-        margin-top: 5px;
+    .like-div {
+        hr {
+            margin: 0;
+        }
 
-        .reaction-side {
+        .box {
+            color: $lightDarkColor;
             display: flex;
             align-items: center;
 
-            .reaction {
-                font-size: 23px;
-                margin-right: 7px;
-                cursor: pointer;
-                width: 30px;
-            }
-
-            .likeAnimation:first-child {
+            .like-color {
                 color: #0d6efd;
-                animation: likeAnimation .5s;
-                -webkit-animation: likeAnimation .5s;
-}
-
-            @keyframes likeAnimation {
-                50% {
-                    transform: rotate(-10deg);
-                    -webkit-transform: rotate(-10deg);
-                    -moz-transform: rotate(-10deg);
-                    -ms-transform: rotate(-10deg);
-                    -o-transform: rotate(-10deg);
-                    font-size: 25px;
-                }
             }
-
-            .comment {
+            div {
                 width: 100%;
-                position: relative;
+                text-align: center;
+                cursor: pointer;
 
-                input {
-                    @include normalInput(13px);
-                    padding: 8px;
-                    border-radius: 100px;
-                    -webkit-border-radius: 100px;
-                    -moz-border-radius: 100px;
-                    -ms-border-radius: 100px;
-                    -o-border-radius: 100px;
-                    width: 100%;
+
+                .likeAnimation:first-child {
+
+                    animation: likeAnimation .5s;
+                    -webkit-animation: likeAnimation .5s;
                 }
 
-                div {
-                    position: absolute;
-                    right: 8px;
-                    top: 0;
-                    font-size: 22px;
-                    background-color: $secondaryColor300;
+                @keyframes likeAnimation {
+                    50% {
+                        transform: rotate(-10deg);
+                        -webkit-transform: rotate(-10deg);
+                        -moz-transform: rotate(-10deg);
+                        -ms-transform: rotate(-10deg);
+                        -o-transform: rotate(-10deg);
+                        font-size: 25px;
+                    }
                 }
+
+                .icon {
+                    font-size: 21px;
+                }
+
+                .text {
+                    margin-left: 5px;
+                    font-weight: 600;
+                    font-size: 13px;
+                    margin-top: -5px;
+                }
+
             }
         }
+
+    }
+
+    .bottom {
+        margin-top: 5px;
+
+        hr {
+            margin: 0;
+            padding: 0;
+        }
+
+        
     }
 }

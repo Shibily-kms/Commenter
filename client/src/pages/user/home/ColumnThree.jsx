@@ -10,7 +10,7 @@ function ColumnThree() {
   const [loading, setLoading] = useState(false)
   useEffect(() => {
     setLoading(true)
-    console.log('hi user effect');
+   
     axios.get('/friends-suggestions/10', { withCredentials: true }).then((result) => {
       setLoading(false)
       setSuggest(result.data.users)

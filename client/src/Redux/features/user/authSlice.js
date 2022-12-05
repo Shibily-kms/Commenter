@@ -46,7 +46,6 @@ const userAuthSlice = createSlice({
         },
         removeSavePost: (state, action) => {
             
-            console.log(action, 'aciton');
             state.user.savePost = state.user.savePost.filter((value) => value != action.payload.postId)
         }
     },

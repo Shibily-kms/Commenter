@@ -23,7 +23,7 @@ function CoulmnTwo() {
     dispatch(getUserPost())
     dispatch(reset())
     axios.get('/save-post', { withCredentials: true }).then((data) => {
-      console.log(data, 'data');
+     
       setLoading(false)
       setSavePost(data.data.posts)
     })

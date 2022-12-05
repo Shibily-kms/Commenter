@@ -12,12 +12,12 @@ function NameCard(props) {
 
 
     const handleFollow = () => {
-        console.log(props?.data?.urId, 'urId');
+       
         axios.post('/follow', { followId: props?.data?.urId }, { withCredentials: true }).then((result) => {
-            console.log('followed');
+          
             setFollow(true)
         }).catch((error) => {
-            console.log('followed error');
+          
         })
     }
 

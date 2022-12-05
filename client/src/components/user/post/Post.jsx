@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import './post.scss'
 import Profile from '../../../assets/icons/profile.jpeg'
+import Comment from '../comment/Comment'
 import { useState } from 'react';
 import { postDateFormatChange } from '../../../assets/js/user/post-helpers'
 import { useSelector, useDispatch } from 'react-redux'
@@ -8,16 +9,18 @@ import axios from '../../../config/axios'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { addSavePost, removeSavePost } from '../../../Redux/features/user/authSlice'
+
 // Icons
 import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
 import { AiFillLike } from "@react-icons/all-files/ai/AiFillLike";
 import { RiMessage2Fill } from "@react-icons/all-files/ri/RiMessage2Fill";
 import { MdSave } from "@react-icons/all-files/md/MdSave";
 import { AiOutlineLike } from "@react-icons/all-files/ai/AiOutlineLike";
-import { MdSend } from "@react-icons/all-files/md/MdSend";
 import { AiOutlineLink } from "@react-icons/all-files/ai/AiOutlineLink";
 import { BsTrashFill } from "@react-icons/all-files/bs/BsTrashFill";
 import { GrFormClose } from "@react-icons/all-files/gr/GrFormClose";
+import { BiComment } from "@react-icons/all-files/bi/BiComment";
+
 
 
 function Post(props) {
@@ -25,7 +28,7 @@ function Post(props) {
     const dispatch = useDispatch()
     const [post, setPost] = useState({})
     const { user } = useSelector((state) => state.userAuth)
-    
+
     const [date, setDate] = useState('loading...')
     // Sub
     const [show, setShow] = useState(false)
@@ -42,7 +45,6 @@ function Post(props) {
         }
     }
     const handleLike = (likeStatus) => {
-        console.log(post, 'psot');
         axios.put('/like', { urId: user.urId, postId: post.postId, like: likeStatus ? true : false }, { withCredentials: true }).then((result) => {
             if (result.data.like) {
                 setPostLike(true)
@@ -62,12 +64,12 @@ function Post(props) {
     const handleSave = () => {
         axios.put('/save-post', { urId: user?.urId, postId: post?.postId }, { withCredentials: true }).then((result) => {
             if (result) {
-                console.log(result, 'rsult');
+               
                 dispatch(addSavePost({ postId: post.postId }))
                 setSave(true)
             }
         }).catch((error) => {
-            console.log('some error occurd');
+           
         })
     }
     const handleRemoveSave = () => {
@@ -76,7 +78,7 @@ function Post(props) {
             toast.success('Post removed form save list')
             dispatch(removeSavePost({ postId: post.postId }))
         }).catch((error) => {
-            console.log('some error occued');
+         
         })
     }
     const handleRemove = () => {
@@ -93,7 +95,7 @@ function Post(props) {
     }
 
     useEffect(() => {
-        console.log('it is working');
+      
         let arr = props?.data?.reactions.filter(item => item == user?.urId)
         arr = arr === undefined ? [] : arr
         if (arr[0]) {
@@ -112,7 +114,7 @@ function Post(props) {
 
 
         setDate(postDateFormatChange(props?.data?.createDate))
-        
+
 
         if (props?.data) {
             setPost(props.data)
@@ -200,7 +202,7 @@ function Post(props) {
                                     </div>
                                     <div className="icon">
                                         <span className='simpale ' style={{ backgroundColor: '#ce1085' }}><RiMessage2Fill /></span>
-                                        <span>0</span>
+                                        <span>{post?.commentCount}</span>
                                     </div>
                                 </div>
                                 {/* <div>
@@ -211,23 +213,30 @@ function Post(props) {
                                 </div> */}
                             </div>
                         </div>
-                        <div className="bottom">
-                            <div className="comment-side">
-
-                            </div>
-                            <div className="reaction-side">
-                                <div className="reaction ">
-                                    <div className={postLike ? 'likeAnimation' : ''} onClick={() => { handleLike(postLike ? false : true) }}>
+                        <div className="like-div">
+                            <hr />
+                            <div className="box">
+                                <div className={postLike ? 'like like-color' : 'like'} onClick={() => { handleLike(postLike ? false : true) }}>
+                                    <span className={postLike ? 'icon likeAnimation' : 'icon'}>
                                         {postLike ? <AiFillLike /> : <AiOutlineLike />}
-                                    </div>
+                                    </span>
+                                    <span className='text'>Like</span>
                                 </div>
                                 <div className="comment">
-                                    <input type="text" placeholder='Comment...' />
-                                    <div>
-                                        <MdSend />
-                                    </div>
+                                    <span className='icon'>
+                                        <BiComment />
+                                    </span>
+                                    <span className='text'>Comment</span>
                                 </div>
                             </div>
+                            <hr />
+                        </div>
+                        <div className="bottom">
+
+                            <div className="comment-side">
+                                <Comment data={post.comments} postId={post.postId} urId={post.urId} />
+                            </div>
+
                         </div>
                     </>
 
