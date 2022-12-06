@@ -5,7 +5,7 @@ const { checkSignUpData, sendOtp, verifyOtp, doSingUp, verifyUserNameOrEmail, se
 const { verifyUser } = require('../middlewares/verify-middleware')
 const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, getAllSavePost, getHomePost,
     doComment, removeComment } = require('../controllers/post-controller')
-const { getFriendsSuggestions, doFollow, getProfileInfo } = require('../controllers/friends-controller')
+const { getFriendsSuggestions, doFollow, getProfileInfo, doUnfollow } = require('../controllers/friends-controller')
 // Sing Up And Otp
 router.post('/check-signup', checkSignUpData)
 router.post('/send-otp', sendOtp)
@@ -35,6 +35,7 @@ router.get('/post', verifyUser, getHomePost)
 // Friends
 router.get('/friends-suggestions/:count', verifyUser, getFriendsSuggestions)
 router.post('/follow', verifyUser, doFollow)
+router.post('/unfollow',verifyUser,doUnfollow)
 router.get('/:userName',verifyUser,getProfileInfo)
 
 // Comment

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import ProfileInfo from '../../../components/user/profileInfo/ProfileInfo'
 import EditProfile from '../../../components/user/profileInfo/EditProfile'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+
 
 
 function ColumnThree({ profile }) {

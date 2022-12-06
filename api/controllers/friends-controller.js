@@ -46,24 +46,51 @@ module.exports = {
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             const urId = jwtToken.userId
             let { followId } = req.body
-
+            console.log(req.body, 'followId');
             await UserModel.updateOne({ urId }, {
                 $push: {
                     following: followId
                 }
             }).then((result) => {
+                console.log(result,'hiiii');
                 UserModel.updateOne({ urId: followId }, {
                     $push: {
                         followers: urId
                     }
-                }).then(() => {
-
+                }).then((response) => {
+                    console.log(response,'rsepnse');
                     res.status(201).json({ success: true, message: 'follwing success' })
 
                 })
             })
         } catch (error) {
 
+        }
+    },
+    doUnfollow : async(req,res,next)=>{
+        try {
+            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
+            const urId = jwtToken.userId
+            const {followId} = req.body
+            console.log(req.body, 'followId');
+            await UserModel.updateOne({ urId }, {
+                $pull: {
+                    following: followId
+                }
+            }).then((result) => {
+                console.log(result,'hiiii');
+                UserModel.updateOne({ urId: followId }, {
+                    $pull: {
+                        followers: urId
+                    }
+                }).then((response) => {
+                    console.log(response,'rsepnse');
+                    res.status(201).json({ success: true, message: 'unfollow success' })
+
+                })
+            })
+        } catch (error) {
+            
         }
     },
     getProfileInfo: async (req, res, next) => {

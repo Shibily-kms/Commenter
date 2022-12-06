@@ -1,23 +1,31 @@
 import React from 'react'
 import './nameCard.scss'
 import Profile from '../../../assets/icons/profile.jpeg'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import axios from '../../../config/axios'
-
+import { follow, unfollow } from '../../../Redux/features/user/authSlice'
 
 function NameCard(props) {
     const { user } = useSelector((state) => state.userAuth)
-    const [follow, setFollow] = useState(false)
-
+    const [following, setFollowing] = useState(false)
+    const dispatch = useDispatch()
 
     const handleFollow = () => {
-       
+
         axios.post('/follow', { followId: props?.data?.urId }, { withCredentials: true }).then((result) => {
-          
-            setFollow(true)
+            setFollowing(true)
+            dispatch(follow({ followId: props?.data?.urId }))
         }).catch((error) => {
-          
+
+        })
+    }
+    const handleUnFollow = () => {
+        axios.post('/unfollow', { followId: props?.data?.urId }, { withCredentials: true }).then((result) => {
+            setFollowing(false)
+            dispatch(unfollow({ followId: props?.data?.urId }))
+        }).catch((error) => {
+
         })
     }
 
@@ -25,11 +33,12 @@ function NameCard(props) {
         let check = user?.following.filter((urId) => urId === props?.data?.urId)
         check = check === undefined ? [] : check
         if (check[0]) {
-            setFollow(true)
+            setFollowing(true)
         } else {
-            setFollow(false)
+            setFollowing(false)
         }
     }, [user, props])
+
     return (
         <div>
             <div className="nameCard">
@@ -44,8 +53,8 @@ function NameCard(props) {
                         </div>
                     </div>
                     <div className="cardButton">
-                        {follow ?
-                            <button className='button-gray'>Unfollow</button>
+                        {following ?
+                            <button className='button-gray' onClick={handleUnFollow}>Unfollow</button>
                             :
                             <button className='button-color' onClick={handleFollow}>Follow</button>
                         }

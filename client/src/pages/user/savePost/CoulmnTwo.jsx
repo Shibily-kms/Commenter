@@ -23,7 +23,7 @@ function CoulmnTwo() {
     dispatch(getUserPost())
     dispatch(reset())
     axios.get('/save-post', { withCredentials: true }).then((data) => {
-     
+
       setLoading(false)
       setSavePost(data.data.posts)
     })
@@ -32,7 +32,7 @@ function CoulmnTwo() {
   return (
     <div>
       <div className="userProfile-two">
-        <ProfileTop />
+        <ProfileTop profile={user} />
       </div>
       <div className="addPost" style={{ marginTop: '80px' }}>
         <CreatePost />
@@ -51,7 +51,7 @@ function CoulmnTwo() {
             <>
               {savePost ? savePost.map((post, index) => {
 
-                return <Post savePage={true} key={index} data={post}  />
+                return <Post savePage={true} key={index} data={post} />
 
               }) : ''}
             </>

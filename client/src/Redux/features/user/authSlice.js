@@ -19,7 +19,6 @@ export const userLoagIN = createAsyncThunk('user/login', async (formData, thunkA
 })
 // User Get Data
 export const getUserData = createAsyncThunk('user/get-data', async (thunkAPI) => {
-
     try {
         return await axios.get('/get-user', { withCredentials: true });
     } catch (error) {
@@ -27,6 +26,7 @@ export const getUserData = createAsyncThunk('user/get-data', async (thunkAPI) =>
         return thunkAPI.rejectWithValue(message)
     }
 })
+
 
 const userAuthSlice = createSlice({
     name: 'userAuth',
@@ -45,8 +45,13 @@ const userAuthSlice = createSlice({
             state?.user?.savePost.push(action.payload.postId)
         },
         removeSavePost: (state, action) => {
-            
             state.user.savePost = state.user.savePost.filter((value) => value != action.payload.postId)
+        },
+        follow: (state, action) => {
+            state?.user?.following.push(action.payload.followId)
+        },
+        unfollow: (state, action) => {
+            state.user.following = state.user.following.filter((value) => value != action.payload.followId)
         }
     },
     extraReducers: {
@@ -74,6 +79,6 @@ const userAuthSlice = createSlice({
     }
 })
 
-export const { reset, logOut, addSavePost, removeSavePost } = userAuthSlice.actions;
+export const { reset, logOut, addSavePost, removeSavePost, follow, unfollow } = userAuthSlice.actions;
 
 export default userAuthSlice.reducer;
