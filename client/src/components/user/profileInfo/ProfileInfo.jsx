@@ -10,7 +10,7 @@ import { AiFillHeart } from "@react-icons/all-files/ai/AiFillHeart";
 import { FaUserFriends } from "@react-icons/all-files/fa/FaUserFriends";
 import { FaGlobe } from "@react-icons/all-files/fa/FaGlobe";
 
-function ProfileInfo() {
+function ProfileInfo({ profile }) {
     const { user } = useSelector((state) => state.userAuth)
     useEffect(() => {
     }, [])
@@ -27,50 +27,62 @@ function ProfileInfo() {
                             <div className="image">
                                 <img src={Profile} alt="" />
                             </div>
-                            <span> {user ? '@' + user.userName : ''}</span>
+                            <span> {profile ? '@' + profile.userName : ''}</span>
                         </div>
-                        <div className="itemDiv">
-                            <div className="icon">
-                                <HiUser />
+                        {profile?.location ?
+                            <div className="itemDiv">
+                                <div className="icon">
+                                    <IoIosPin />
+                                </div>
+                                <p>{profile.location}</p>
                             </div>
-                            <p>Gender</p>
-                        </div>
-                        <div className="itemDiv">
-                            <div className="icon">
-                                <IoIosPin />
+                            : <></>}
+                        {profile?.urId === user?.urId ?
+                            <div className="itemDiv">
+                                <div className="icon">
+                                    <FaBirthdayCake />
+                                </div>
+                                <p>Date of Birth</p>
                             </div>
-                            <p>Location</p>
-                        </div>
-                        <div className="itemDiv">
-                            <div className="icon">
-                                <FaBirthdayCake />
-                            </div>
-                            <p>Date of Birth</p>
-                        </div>
+                            : ''}
                         <div className="itemDiv">
                             <div className="icon">
                                 <RiUserFollowFill />
                             </div>
-                            <p>0 Followers</p>
+                            {profile?.urId ?
+                                <p>{profile?.followers.length} Followers</p>
+                                :
+                                <p>Loading...</p>
+                            }
                         </div>
                         <div className="itemDiv">
                             <div className="icon">
                                 <FaUserFriends />
                             </div>
-                            <p>0 Following</p>
+                            {profile?.urId ?
+                                <p>{profile?.following.length} Following</p>
+                                :
+                                <p>Loading...</p>
+                            }
                         </div>
-                        <div className="itemDiv">
-                            <div className="icon">
-                                <AiFillHeart />
+                        {profile?.LifeStatus ?
+                            <div className="itemDiv">
+                                <div className="icon">
+                                    <AiFillHeart />
+                                </div>
+                                <p>{profile.LifeStatus}</p>
                             </div>
-                            <p>Single</p>
-                        </div>
-                        <div className="itemDiv">
-                            <div className="icon">
-                                <FaGlobe />
+                            : <></>}
+                        {profile?.Website ?
+                            <div className="itemDiv">
+                                <div className="icon">
+                                    <FaGlobe />
+                                </div>
+                                <p>{profile.Website}</p>
                             </div>
-                            <p>Website</p>
-                        </div>
+                            : <></>}
+
+
                     </div>
                 </div>
             </div>

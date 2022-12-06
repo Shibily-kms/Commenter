@@ -27,13 +27,14 @@ function User() {
 
   return (
     <Routes>
+      <Route path='/' element={<Home />} />
       <Route path='/sign-up' element={<Signup />} />
       <Route path='/otp' element={<Otp />} />
       <Route path='/sign-in' element={<SignIn />} />
       <Route path='/new-password' element={<NewPasswod />} />
-      <Route path='/' element={<Home />} />
-      <Route path='/profile' element={<Profile />} />
+      <Route path='/:profile' element={<Profile />} />
       <Route path="/save-posts" element={<SavePost/>}/>
+
     </Routes>
   )
 }

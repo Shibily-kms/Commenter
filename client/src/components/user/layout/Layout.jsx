@@ -1,7 +1,7 @@
 import React from 'react'
+import './layout.scss'
 import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
-import './layout.scss'
 import { setTrue, setFalse } from '../../../Redux/features/sidebar/sidebarSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import LogoFrame from './LogoFrame'

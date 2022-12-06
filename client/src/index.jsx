@@ -6,19 +6,19 @@ import './index.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux'
 import { store } from './Redux/app/store'
-import {ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <App />
         <ToastContainer />
       </BrowserRouter>
     </Provider>
-  // </React.StrictMode>
+  </React.StrictMode>
 );
 
 /* /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i */

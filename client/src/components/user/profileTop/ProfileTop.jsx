@@ -1,11 +1,9 @@
 import React from 'react'
 import './profileTop.scss'
 import Profile from '../../../assets/icons/profile.jpeg'
-import { useSelector } from 'react-redux'
 
+function ProfileTop(props) {
 
-function ProfileTop() {
-    const { user } = useSelector((state) => state.userAuth)
     return (
         <div>
             <div className="cover-section">
@@ -17,8 +15,9 @@ function ProfileTop() {
                         <img src={Profile} alt="" />
                     </div>
                     <div className="name">
-                        <h4>{user ? user.firstName + ' ' + user.lastName : 'Loading...'}</h4>
-                        <p>644 Followers | 600 Following</p>
+                        <h4>{props?.profile?.urId ? props.profile.firstName + ' ' + props.profile.lastName : 'Loading...'}</h4>
+                        <p>{props?.profile?.urId ? props.profile.followers.length + ' Followers | ' + props.profile.following.length + ' Following'
+                        : 'Loading...'}</p>
                     </div>
                 </div>
             </div>

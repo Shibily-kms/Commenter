@@ -1,0 +1,56 @@
+@import '../../assets/css/user-root.scss';
+
+.error>.boader {
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .box {
+        width: 450px;
+        max-width: 100%;
+      
+
+        .icon {
+            width: 100%;
+            text-align: center;
+            font-size: 70px;
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+        }
+
+        .content {
+            width: 100%;
+            text-align: center;
+
+            h4 {
+                font-size: 20px;
+                font-weight: 600;
+                color: $lightDarkColor ;
+            }
+
+            p {
+
+                font-size: 13px;
+                color: $lightDarkColor;
+            }
+
+        }
+
+        .bottom {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            button{
+                width: 200px;
+                max-width: 100%;
+            }
+
+           
+        }
+    }
+}

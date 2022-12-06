@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { setTrue, setFalse } from '../../../Redux/features/sidebar/sidebarSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import './header.scss'
@@ -17,6 +17,7 @@ function Header() {
   const navigate = useNavigate()
   const { action } = useSelector((state) => state.sidebarToggle)
   const { admin } = useSelector((state) => state.adminAuth)
+  const { user } = useSelector((state) => state.userAuth)
   const [cookies, setCookie] = useCookies(['commenter']);
 
   useEffect(() => {
@@ -37,8 +38,8 @@ function Header() {
     <>
       <div className=' user-header'>
         <div className=" sction-one">
-          <img src={Logo} alt="" onClick={()=>navigate('/')} />
-          <h4  onClick={()=>navigate('/')}>Commenter</h4>
+          <img src={Logo} alt="" onClick={() => navigate('/')} />
+          <h4 onClick={() => navigate('/')}>Commenter</h4>
         </div>
         <div className="  sction-two">
           {/* Search */}
@@ -53,9 +54,9 @@ function Header() {
           </div>
 
           {/* Profile */}
-          <div className="profile-icon" style={{cursor:'pointer'}} onClick={()=>navigate('/profile')}>
-           <img src={Profile} alt="" />
-            
+          <div className="profile-icon" style={{ cursor: 'pointer' }} onClick={() => navigate('/' + user.userName)}>
+            <img src={Profile} alt="" />
+
           </div>
 
 

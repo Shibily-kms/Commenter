@@ -2,35 +2,43 @@ import React from 'react'
 import ProfileTop from '../../../components/user/profileTop/ProfileTop'
 import CreatePost from '../../../components/user/createPost/CreatePost'
 import Post from '../../../components/user/post/Post'
-import { useSelector, useDispatch } from 'react-redux'
-import { getUserPost, reset } from '../../../Redux/features/user/userPostSlice'
+import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import Spinner from '../../../components/Spinner'
 import EditProfile from '../../../components/user/profileInfo/EditProfile'
 import './columnTwo.scss'
+import { useState } from 'react'
 
-function ColumnTwo() {
-  const dispatch = useDispatch();
-  const { posts, isLoading, isError, message } = useSelector((state) => state.userPost)
+function ColumnTwo(props) {
+  const [isLoading, setIsLoading] = useState(true)
   const { user } = useSelector((state) => state.userAuth)
+
   useEffect(() => {
-    dispatch(getUserPost())
-    dispatch(reset())
-  }, [])
+
+    if (props?.posts) {
+      setIsLoading(false)
+    }
+  }, [props])
 
   return (
     <div>
       <div className="userProfile-two">
-        <ProfileTop />
+        <ProfileTop profile={props.profile} />
       </div>
       <div className="addPost" style={{ marginTop: '80px' }}>
-        <CreatePost />
+        {user?.urId === props?.profile?.urId ?
+          <CreatePost />
+          : ""}
       </div>
       <div>
         <EditProfile classTitle={'isSmall'} />
       </div>
       <div className="posts">
-        <h5 className='subTitle' style={{ marginTop: '10px' }}>Your Posts</h5>
+        {user?.urId === props?.profile?.urId ?
+          <h5 className='subTitle' style={{ marginTop: '10px' }}>Your Posts</h5>
+          :
+          <h5 className='subTitle' style={{ marginTop: '10px' }}>Posts</h5>
+        }
         <div className="post-one">
           {isLoading ?
             <>
@@ -38,8 +46,8 @@ function ColumnTwo() {
             </>
             :
             <>
-              {posts.map((post, index) => {
-                return <Post key={index} data={post} self={user} />
+              {props.posts.map((post, index) => {
+                return <Post key={index} data={post} />
               })}
             </>
           }
