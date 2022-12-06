@@ -40,7 +40,10 @@ const userSchema = new mongoose.Schema({
     },
     savePost: [],
     following: [],
-    followers :[],
+    followers: [],
+    location: String,
+    LifeStatus: String,
+    Website: String
 
 },
     {
