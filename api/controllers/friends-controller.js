@@ -52,13 +52,13 @@ module.exports = {
                     following: followId
                 }
             }).then((result) => {
-                console.log(result,'hiiii');
+                console.log(result, 'hiiii');
                 UserModel.updateOne({ urId: followId }, {
                     $push: {
                         followers: urId
                     }
                 }).then((response) => {
-                    console.log(response,'rsepnse');
+                    console.log(response, 'rsepnse');
                     res.status(201).json({ success: true, message: 'follwing success' })
 
                 })
@@ -67,30 +67,30 @@ module.exports = {
 
         }
     },
-    doUnfollow : async(req,res,next)=>{
+    doUnfollow: async (req, res, next) => {
         try {
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             const urId = jwtToken.userId
-            const {followId} = req.body
+            const { followId } = req.body
             console.log(req.body, 'followId');
             await UserModel.updateOne({ urId }, {
                 $pull: {
                     following: followId
                 }
             }).then((result) => {
-                console.log(result,'hiiii');
+                console.log(result, 'hiiii');
                 UserModel.updateOne({ urId: followId }, {
                     $pull: {
                         followers: urId
                     }
                 }).then((response) => {
-                    console.log(response,'rsepnse');
+                    console.log(response, 'rsepnse');
                     res.status(201).json({ success: true, message: 'unfollow success' })
 
                 })
             })
         } catch (error) {
-            
+
         }
     },
     getProfileInfo: async (req, res, next) => {
@@ -141,5 +141,79 @@ module.exports = {
         } catch (error) {
 
         }
-    }
+    },
+    getAllFollowing: async (req, res, next) => {
+        try {
+            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
+            const urId = jwtToken.userId
+            console.log('userssdf sdf sd');
+            await UserModel.aggregate([
+                {
+                    $match: {
+                        urId
+                    }
+                },
+                {
+                    $unwind: '$following'
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'following',
+                        foreignField: 'urId',
+                        as: 'data'
+                    }
+                },
+                {
+                    $project: {
+                        firstName: { $first: '$data.firstName' },
+                        lastName: { $first: '$data.lastName' },
+                        userName: { $first: '$data.userName' },
+                        urId: { $first: '$data.urId' },
+                    }
+                }
+            ]).then((resposne) => {
+                res.status(201).json({ success: true, following: resposne, message: 'get follwing users' })
+            })
+        } catch (error) {
+
+        }
+    },
+    getAllFollowers: async (req, res, next) => {
+        try {
+            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
+            const urId = jwtToken.userId
+            await UserModel.aggregate([
+                {
+                    $match: {
+                        urId
+                    }
+                },
+                {
+                    $unwind: '$followers'
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'followers',
+                        foreignField: 'urId',
+                        as: 'data'
+                    }
+                },
+                {
+                    $project: {
+                        firstName: { $first: '$data.firstName' },
+                        lastName: { $first: '$data.lastName' },
+                        userName: { $first: '$data.userName' },
+                        urId: { $first: '$data.urId' },
+                    }
+                }
+            ]).then((resposne) => {
+                res.status(201).json({ success: true, followers: resposne, message: 'get followers users' })
+            })
+        } catch (error) {
+
+        }
+    },
+
 }

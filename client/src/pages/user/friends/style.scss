@@ -1,0 +1,37 @@
+@import '../../../assets/css/user-root.scss';
+@import '../../../assets/css/model.scss';
+
+.friends>.boader {
+    background-color: $primaryColor;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    @include normalShadow;
+    padding: 10px;
+
+    .top {
+        display: flex;
+        margin-bottom: 15px;
+
+       
+
+        div {
+            text-align: center;
+            border-bottom: 1px solid rgb(158, 158, 158);
+            cursor: pointer;
+
+            h5 {
+                font-size: 13px;
+            }
+        }
+
+        .active {
+            border-bottom: 3px solid $roseColor;
+            color: $roseColor;
+        }
+    }
+
+
+}

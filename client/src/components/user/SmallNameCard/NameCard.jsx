@@ -54,7 +54,7 @@ function NameCard(props) {
                     </div>
                     <div className="cardButton">
                         {following ?
-                            <button className='button-gray' onClick={handleUnFollow}>Unfollow</button>
+                            <button className='button-gray' onClick={handleUnFollow}>Following</button>
                             :
                             <button className='button-color' onClick={handleFollow}>Follow</button>
                         }
