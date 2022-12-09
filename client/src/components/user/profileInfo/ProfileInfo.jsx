@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import './profileInfo.scss'
 import Profile from '../../../assets/icons/profile.jpeg'
-import { HiUser } from "@react-icons/all-files/hi/HiUser";
 import { IoIosPin } from "@react-icons/all-files/io/IoIosPin";
 import { FaBirthdayCake } from "@react-icons/all-files/fa/FaBirthdayCake";
 import { RiUserFollowFill } from "@react-icons/all-files/ri/RiUserFollowFill";

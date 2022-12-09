@@ -27,8 +27,8 @@ router.get('/get-user', getUserData)
 
 // Post
 router.post('/post', verifyUser, doPost)
-router.get('/user-post', verifyUser, getUserPost)
 router.put('/like', verifyUser, likePost)
+router.get('/user-post', verifyUser, getUserPost)
 router.get('/save-post', verifyUser, getAllSavePost)
 router.put('/save-post', verifyUser, savePost)
 router.delete('/save-post/:urId/:postId', verifyUser, removeSavePost)

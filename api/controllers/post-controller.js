@@ -7,7 +7,7 @@ module.exports = {
     // Post
     doPost: async (req, res, next) => {
         try {
-            let body = req.body     //text,image,video,urId
+            let body = req.body     //text,file,urId
 
             body.postId = customId(10, 'PS')
             body.createDate = new Date();

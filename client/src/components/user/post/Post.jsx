@@ -35,6 +35,11 @@ function Post(props) {
     const [postLike, setPostLike] = useState(false)
     const [save, setSave] = useState(false)
     const [remove, setRemove] = useState(false)
+    const [commentInput, setCommentInput] = useState(false)
+
+    const handleCommentClick = () => {
+        setCommentInput(true)
+    }
 
 
     const handleShow = () => {
@@ -45,31 +50,30 @@ function Post(props) {
         }
     }
     const handleLike = (likeStatus) => {
-        axios.put('/like', { urId: user.urId, postId: post.postId, like: likeStatus ? true : false }, { withCredentials: true }).then((result) => {
-            if (result.data.like) {
-                setPostLike(true)
-                setPost({
-                    ...post,
-                    reactCount: post.reactCount + 1,
-                })
-            } else {
-                setPost({
-                    ...post,
-                    reactCount: post.reactCount - 1,
-                })
-                setPostLike(false)
-            }
-        })
+        if (likeStatus) {
+            setPostLike(true)
+            setPost({
+                ...post,
+                reactCount: post.reactCount + 1,
+            })
+        } else {
+            setPost({
+                ...post,
+                reactCount: post.reactCount - 1,
+            })
+            setPostLike(false)
+        }
+        axios.put('/like', { urId: user.urId, postId: post.postId, like: likeStatus ? true : false }, { withCredentials: true })
     }
     const handleSave = () => {
         axios.put('/save-post', { urId: user?.urId, postId: post?.postId }, { withCredentials: true }).then((result) => {
             if (result) {
-               
+
                 dispatch(addSavePost({ postId: post.postId }))
                 setSave(true)
             }
         }).catch((error) => {
-           
+
         })
     }
     const handleRemoveSave = () => {
@@ -78,7 +82,7 @@ function Post(props) {
             toast.success('Post removed form save list')
             dispatch(removeSavePost({ postId: post.postId }))
         }).catch((error) => {
-         
+
         })
     }
     const handleRemove = () => {
@@ -95,7 +99,7 @@ function Post(props) {
     }
 
     useEffect(() => {
-      
+
         let arr = props?.data?.reactions.filter(item => item == user?.urId)
         arr = arr === undefined ? [] : arr
         if (arr[0]) {
@@ -222,7 +226,7 @@ function Post(props) {
                                     </span>
                                     <span className='text'>Like</span>
                                 </div>
-                                <div className="comment">
+                                <div className="comment" onClick={handleCommentClick}>
                                     <span className='icon'>
                                         <BiComment />
                                     </span>
@@ -234,7 +238,7 @@ function Post(props) {
                         <div className="bottom">
 
                             <div className="comment-side">
-                                <Comment data={post.comments} postId={post.postId} urId={post.urId} />
+                                <Comment data={post.comments} input={commentInput} postId={post.postId} urId={post.urId} />
                             </div>
 
                         </div>

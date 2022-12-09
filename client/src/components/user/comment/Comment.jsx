@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './comment.scss'
 import Profile from '../../../assets/icons/profile.jpeg'
 import { useState } from 'react';
@@ -17,6 +17,8 @@ function Comment(props) {
     const [comment, setComment] = useState([])
     const { user } = useSelector((state) => state.userAuth)
     const [more, setMore] = useState(false)
+    const inputRef = useRef(null);
+
 
     const handleInput = (e) => {
         setInput(e.target.value)
@@ -62,6 +64,9 @@ function Comment(props) {
                 }
             }
         }
+        if (props.input) {
+            inputRef.current.focus();
+        }
 
     }, [props, more])
     return (
@@ -84,11 +89,11 @@ function Comment(props) {
                             <div className="comments">
                                 {/* Item Start */}
 
-                                {comment.map((value) => {
+                                {comment.map((value,index) => {
                                     let time = postDateFormatChange(value.time)
                                     return <>
                                         {value.comId ?
-                                            <div className="item-div">
+                                            <div className="item-div" key={index}>
                                                 <div className="image">
                                                     <img src={Profile} alt="" />
                                                 </div>
@@ -129,7 +134,7 @@ function Comment(props) {
                                     </div>
                                 </div>
                                 <div className="comment">
-                                    <input type="text" value={input} name='comment' onKeyPress={(e) => submitComment(e)}
+                                    <input ref={inputRef} type="text" value={input} name='comment' onKeyPress={(e) => submitComment(e)}
                                         onChange={handleInput} placeholder='Write comment...' autoComplete="off" />
                                     <div onClick={() => submitComment()}>
                                         <MdSend />

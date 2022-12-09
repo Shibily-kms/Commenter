@@ -21,11 +21,9 @@ const postDateFormatChange = (date) => {
         let day = parseInt(hour / 24)
         return day + (day == 1 ? ' day' : ' days')
     } else if (diffrend > 604800000) {    // Get Date
-        const monthList = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        let day = post.getDay()
-        let month = monthList[post.getMonth()]
-        let year = post.getFullYear()
-        return day + ' ' + month + ' ' + year
+
+        let fullDate = post.toDateString()
+        return fullDate;
     }
 }
 

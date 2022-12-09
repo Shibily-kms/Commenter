@@ -27,6 +27,11 @@ function ColumnTwo(props) {
       </div>
       <div className="addPost" style={{ marginTop: '80px' }}>
         {user?.urId === props?.profile?.urId ?
+          <h5 className='subTitle' style={{ marginTop: '10px' }}>Your Posts</h5>
+          :
+          <h5 className='subTitle' style={{ marginTop: '10px' }}>Posts</h5>
+        }
+        {user?.urId === props?.profile?.urId ?
           <CreatePost />
           : ""}
       </div>
@@ -34,11 +39,6 @@ function ColumnTwo(props) {
         <EditProfile classTitle={'isSmall'} />
       </div>
       <div className="posts">
-        {user?.urId === props?.profile?.urId ?
-          <h5 className='subTitle' style={{ marginTop: '10px' }}>Your Posts</h5>
-          :
-          <h5 className='subTitle' style={{ marginTop: '10px' }}>Posts</h5>
-        }
         <div className="post-one">
           {isLoading ?
             <>

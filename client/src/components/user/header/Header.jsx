@@ -16,7 +16,6 @@ function Header() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { action } = useSelector((state) => state.sidebarToggle)
-  const { admin } = useSelector((state) => state.adminAuth)
   const { user } = useSelector((state) => state.userAuth)
   const [cookies, setCookie] = useCookies(['commenter']);
 

@@ -28,5 +28,5 @@ const postSchema = new mongoose.Schema({
         timestamps: true
     })
 
-const UserModel = mongoose.model('posts', postSchema)
-module.exports = UserModel
+const PostModel = mongoose.model('posts', postSchema)
+module.exports = PostModel

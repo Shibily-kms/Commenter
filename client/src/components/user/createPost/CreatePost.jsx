@@ -3,11 +3,12 @@ import { FaPhotoVideo } from "@react-icons/all-files/fa/FaPhotoVideo";
 import { GrClose } from "@react-icons/all-files/gr/GrClose";
 import './createPost.scss'
 import Profile from '../../../assets/icons/profile.jpeg'
-import { useSelector, useDispatch } from 'react-redux'
-import { doPost,reset } from '../../../Redux/features/user/userPostSlice'
+import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import Spinner from '../../Spinner'
 import axiosFile from '../../../config/axiosFile'
+import Post from '../../../components/user/post/Post'
+import axios from '../../../config/axios'
 
 function CreatePost() {
     // State
@@ -15,12 +16,10 @@ function CreatePost() {
     const [showImg, setShowImg] = useState(false)
     const { user } = useSelector((state) => state.userAuth)
     const [loading, setLoading] = useState(false)
-    const { isSuccess, isError, isLoading, message } = useSelector((state) => state.userPost)
-    const [error, setError] = useState(false)
     const [form, setForm] = useState({ text: '', file: [], urId: null })
     const [ready, setReady] = useState(false)
-    const dispatch = useDispatch()
     const inputRef = useRef(null);
+    const [post, setPost] = useState([])
 
     const handelText = (e) => {
         setForm({
@@ -34,11 +33,27 @@ function CreatePost() {
         inputRef.current.click();
     }
 
+    const doPost = (formData) => {
+        axios.post('/post', formData, { withCredentials: true }).then((result) => {
+            setPost([result.data.post, ...post])
+            setLoading(false)
+            setShow(false)
+            setShowImg(false)
+            setForm({ text: '', file: [], urId: null })
+            toast.success(result.data.message)
+        }).catch((error) => {
+            toast.error(error.response.data.message)
+            setLoading(false)
+           
+        })
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         if (showImg || form.text) {
             if (!showImg) {
-                dispatch(doPost(form))
+                doPost(form)
             } else {
                 setLoading(true)
                 const formData = new FormData()
@@ -60,12 +75,14 @@ function CreatePost() {
                     }
 
                 }).catch((error) => {
-                    setError('Network down')
+                    toast.error('Network down')
+                    setLoading(false)
                 })
             }
 
         } else {
             toast.error('Type Something')
+            setLoading(false)
         }
 
     }
@@ -81,25 +98,11 @@ function CreatePost() {
         setShowImg(event.target.files[0])
     }
     useEffect(() => {
-        if (isSuccess) {
-            setShow(false)
-            setShowImg(false)
-            setLoading(false)
-            setForm({ text: '', file: [], urId: null })
-            toast.success(message)
-            dispatch(reset())
-        }
-        if (isError || error) {
-            setLoading(false)
-            toast.error(message || error)
-            setError(false)
-        }
         if (ready) {
-            dispatch(doPost(form))
+            doPost(form)
             setReady(false)
         }
-
-    }, [isSuccess, isError, ready,message])
+    }, [ ready])
 
     return (
         <div>
@@ -113,12 +116,19 @@ function CreatePost() {
                         <FaPhotoVideo />
                     </div>
                 </div>
+                {post[0] ?
+                    <div className="newPost">
+                        {post.map((item, index) => {
+                            return <Post data={item} key={index} />
+                        })}
+                    </div>
+                    : ''}
                 {show ?
                     <div className="postModal">
                         <div className="pages" >
                             <div className="shadow" onClick={() => setShow(false)}></div>
                             <div className="boader-div">
-                                {isLoading || loading ?
+                                { loading ?
                                     <div className="loading">
                                         <Spinner />
                                     </div> : ''
@@ -148,7 +158,7 @@ function CreatePost() {
                                         </div>
                                         <input type="file" onChange={handleFileChange} ref={inputRef} hidden name='file' accept="image/*,video/*" />
                                         <div className="section-two">
-                                            <textarea name="text" onChange={handelText} id="" cols="20" rows="5" value={form.text ? form.text : ''} placeholder={user ? user.firstName + ', Type something...' : ''}></textarea>
+                                            <textarea autoFocus name="text" onChange={handelText} id="" cols="20" rows="5" value={form.text ? form.text : ''} placeholder={user ? user.firstName + ', Type something...' : ''}></textarea>
                                             {showImg ? <img src={URL.createObjectURL(showImg)} alt="" /> : ''}
                                         </div>
 
