@@ -1,6 +1,6 @@
 import React from 'react'
 import './nameCard.scss'
-import Profile from '../../../assets/icons/profile.jpeg'
+import Profile from '../../../assets/icons/profile.jpg'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import axios from '../../../config/axios'
@@ -45,7 +45,11 @@ function NameCard(props) {
                 <div className="cardBoader">
                     <div className="cardName">
                         <div className="image">
-                            <img src={Profile} alt="" />
+                            {props?.data?.profile ?
+                                <img src={props.data.profile} alt="" />
+                                :
+                                <img src={Profile} alt="" />
+                            }
                         </div>
                         <div>
                             <h5>{props?.data?.firstName + ' ' + props?.data?.lastName}</h5>

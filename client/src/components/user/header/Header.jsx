@@ -10,7 +10,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie';
 import Logo from '../../../assets/icons/newLogo.png'
-import Profile from '../../../assets/icons/profile.jpeg'
+import Profile from '../../../assets/icons/profile.jpg'
 
 function Header() {
   const dispatch = useDispatch()
@@ -54,7 +54,12 @@ function Header() {
 
           {/* Profile */}
           <div className="profile-icon" style={{ cursor: 'pointer' }} onClick={() => navigate('/' + user.userName)}>
-            <img src={Profile} alt="" />
+            {user?.profile ?
+              <img src={user.profile} alt="" />
+              :
+              <img src={Profile} alt="" />
+            }
+           
 
           </div>
 

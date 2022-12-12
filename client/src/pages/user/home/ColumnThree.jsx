@@ -9,10 +9,10 @@ function ColumnThree() {
   const [suggest, setSuggest] = useState([])
   const [loading, setLoading] = useState(false)
   useEffect(() => {
-    console.log('its working');
+  
     setLoading(true)
     axios.get('/friends-suggestions/10', { withCredentials: true }).then((result) => {
-      console.log(result,'get data');
+    
       setLoading(false)
       setSuggest(result.data.users)
     })

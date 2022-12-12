@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import './comment.scss'
-import Profile from '../../../assets/icons/profile.jpeg'
+import Profile from '../../../assets/icons/profile.jpg'
 import { useState } from 'react';
 import axios from '../../../config/axios'
 import { postDateFormatChange } from '../../../assets/js/user/post-helpers'
@@ -26,7 +26,7 @@ function Comment(props) {
     const submitComment = (e) => {
         if (e === undefined || e.charCode == 13) {
             if (input != '') {
-                axios.post('/comment', { urId: user.urId, userName: user.userName, postId: props.postId, text: input }, { withCredentials: true }).then((result) => {
+                axios.post('/comment', { urId: user.urId, userName: user.userName, postId: props.postId, text: input, profile: user?.profile }, { withCredentials: true }).then((result) => {
                     setInput('')
                     setComment([...comment, result.data.comment])
 
@@ -89,13 +89,17 @@ function Comment(props) {
                             <div className="comments">
                                 {/* Item Start */}
 
-                                {comment.map((value,index) => {
+                                {comment.map((value, index) => {
                                     let time = postDateFormatChange(value.time)
                                     return <>
                                         {value.comId ?
                                             <div className="item-div" key={index}>
                                                 <div className="image">
-                                                    <img src={Profile} alt="" />
+                                                    {value?.profile ?
+                                                        <img src={value.profile} alt="" />
+                                                        :
+                                                        <img src={Profile} alt="" />
+                                                    }
                                                 </div>
                                                 <div className="box">
                                                     <div className="content">
@@ -130,7 +134,11 @@ function Comment(props) {
                             <div className="reaction-side">
                                 <div className="reaction ">
                                     <div className="image">
-                                        <img src={Profile} alt="" />
+                                        {user?.profile ?
+                                            <img src={user.profile} alt="" />
+                                            :
+                                            <img src={Profile} alt="" />
+                                        }
                                     </div>
                                 </div>
                                 <div className="comment">

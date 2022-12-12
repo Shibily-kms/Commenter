@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import './post.scss'
-import Profile from '../../../assets/icons/profile.jpeg'
+import Profile from '../../../assets/icons/profile.jpg'
 import Comment from '../comment/Comment'
 import { useState } from 'react';
 import { postDateFormatChange } from '../../../assets/js/user/post-helpers'
@@ -132,7 +132,12 @@ function Post(props) {
                     <div className="top">
                         <div className="profile">
                             <div className="image">
-                                <img src={Profile} alt="" />
+                                {post?.profile ?
+                                    <img src={post.profile} alt="" />
+                                    :
+                                    <img src={Profile} alt="" />
+                                }
+                              
                             </div>
                             <div>
                                 <h5>{post?.firstName + ' ' + post?.lastName}</h5>

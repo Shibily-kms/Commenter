@@ -27,6 +27,16 @@ export const getUserData = createAsyncThunk('user/get-data', async (thunkAPI) =>
     }
 })
 
+// Edit Profile
+export const editProfile = createAsyncThunk('user/edit-profile', async (form, thunkAPI) => {
+    try {
+        return await axios.put('/edit-profile', form, { withCredentials: true })
+    } catch (error) {
+        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 
 const userAuthSlice = createSlice({
     name: 'userAuth',
@@ -57,6 +67,7 @@ const userAuthSlice = createSlice({
     extraReducers: {
         [userLoagIN.pending]: (state) => {
             state.isLoading = true
+            state.isSuccess = false
         },
         [userLoagIN.fulfilled]: (state, action) => {
 
@@ -72,10 +83,26 @@ const userAuthSlice = createSlice({
             state.message = action.payload
         },
         [getUserData.fulfilled]: (state, action) => {
+            state.user = action.payload.data.user
 
+        },
+        [editProfile.pending]: (state) => {
+            state.isLoading = true
+            state.isSuccess = false
+        },
+        [editProfile.fulfilled]: (state, action) => {
+
+            state.isLoading = false
             state.isSuccess = true
             state.user = action.payload.data.user
-        }
+            state.message = action.payload.data.message
+
+        },
+        [editProfile.rejected]: (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+        },
     }
 })
 

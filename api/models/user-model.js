@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
     profile: {
         type: String
     },
+    dob:String,
     cover: {
         type: String
     },
@@ -43,7 +44,7 @@ const userSchema = new mongoose.Schema({
     followers: [],
     location: String,
     LifeStatus: String,
-    Website: String
+    website: String
 
 },
     {

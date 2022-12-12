@@ -1,0 +1,67 @@
+@import '../../../assets/css/user-root.scss';
+@import '../../../assets/css/model.scss';
+
+.editProfile>.boader {
+    @include normalBox;
+    padding: 10px;
+
+    .top {
+        h5 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+    }
+
+    .content {
+        .image-div {
+            display: flex;
+            justify-content: center;
+
+            .profile {
+                position: relative;
+
+                .image {
+                    width: 120px;
+                    height: 120px;
+                    min-height: 120px;
+                    min-width: 120px;
+                    border-radius: 100%;
+                    -webkit-border-radius: 100%;
+                    -moz-border-radius: 100%;
+                    -ms-border-radius: 100%;
+                    -o-border-radius: 100%;
+                    overflow: hidden;
+                    border: 3px solid $roseColor;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .icon {
+                    width: 35px;
+                    height: 35px;
+                    background-color: $roseColor;
+                    color: $primaryColor;
+                    position: absolute;
+                    bottom: -0px;
+                    right: -0px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 21px;
+                    border-radius: 100px;
+                    -webkit-border-radius: 100px;
+                    -moz-border-radius: 100px;
+                    -ms-border-radius: 100px;
+                    -o-border-radius: 100px;
+                    cursor: pointer;
+                }
+            }
+        }
+        .formDiv{
+           
+            margin-top: 10px;
+        }
+    }
+}

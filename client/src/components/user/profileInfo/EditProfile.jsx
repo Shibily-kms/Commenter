@@ -11,7 +11,7 @@ function EditProfile(props) {
     return (
         <div>
             <div className={props?.classTitle ? `${props.classTitle} editProfile` : ''} style={{ marginTop: '15px' }}>
-                <button className='button-color '><FaUserEdit /> Edit Profile</button>
+                <button className='button-color' onClick={() => navigate('/settings/edit-profile')}><FaUserEdit /> Edit Profile</button>
                 {location.pathname === '/save-posts' ?
                     <></>
                     :

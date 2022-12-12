@@ -46,19 +46,19 @@ module.exports = {
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             const urId = jwtToken.userId
             let { followId } = req.body
-            console.log(req.body, 'followId');
+         
             await UserModel.updateOne({ urId }, {
                 $push: {
                     following: followId
                 }
             }).then((result) => {
-                console.log(result, 'hiiii');
+             
                 UserModel.updateOne({ urId: followId }, {
                     $push: {
                         followers: urId
                     }
                 }).then((response) => {
-                    console.log(response, 'rsepnse');
+                  
                     res.status(201).json({ success: true, message: 'follwing success' })
 
                 })
@@ -72,19 +72,19 @@ module.exports = {
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             const urId = jwtToken.userId
             const { followId } = req.body
-            console.log(req.body, 'followId');
+           
             await UserModel.updateOne({ urId }, {
                 $pull: {
                     following: followId
                 }
             }).then((result) => {
-                console.log(result, 'hiiii');
+              
                 UserModel.updateOne({ urId: followId }, {
                     $pull: {
                         followers: urId
                     }
                 }).then((response) => {
-                    console.log(response, 'rsepnse');
+                  
                     res.status(201).json({ success: true, message: 'unfollow success' })
 
                 })
@@ -118,6 +118,7 @@ module.exports = {
                             firstName: { $first: '$author.firstName' },
                             lastName: { $first: '$author.lastName' },
                             userName: { $first: '$author.userName' },
+                            profile: { $first: '$author.profile' }
                         }
                     },
                     {
@@ -146,7 +147,7 @@ module.exports = {
         try {
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             const urId = jwtToken.userId
-            console.log('userssdf sdf sd');
+          
             await UserModel.aggregate([
                 {
                     $match: {
@@ -170,6 +171,7 @@ module.exports = {
                         lastName: { $first: '$data.lastName' },
                         userName: { $first: '$data.userName' },
                         urId: { $first: '$data.urId' },
+                        profile : {$first : '$data.profile'}
                     }
                 }
             ]).then((resposne) => {
@@ -206,6 +208,7 @@ module.exports = {
                         lastName: { $first: '$data.lastName' },
                         userName: { $first: '$data.userName' },
                         urId: { $first: '$data.urId' },
+                        profile : {$first : '$data.profile'}
                     }
                 }
             ]).then((resposne) => {

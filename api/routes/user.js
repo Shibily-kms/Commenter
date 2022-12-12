@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const upload = require('../config/multer')
 const { checkSignUpData, sendOtp, verifyOtp, doSingUp, verifyUserNameOrEmail, setNewPassword,
     doSingIn, getUserData } = require('../controllers/auth-controller')
 const { verifyUser } = require('../middlewares/verify-middleware')
@@ -7,7 +8,7 @@ const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, get
     doComment, removeComment } = require('../controllers/post-controller')
 const { getFriendsSuggestions, doFollow, getProfileInfo, doUnfollow, getAllFollowing,
     getAllFollowers } = require('../controllers/friends-controller')
-
+const { editProfile } = require('../controllers/user-controller')
 
 
 
@@ -48,5 +49,8 @@ router.get('/:userName', verifyUser, getProfileInfo)
 // Comment
 router.post('/comment', verifyUser, doComment)
 router.delete('/comment/:comId/:postId', verifyUser, removeComment)
+
+// User
+router.put('/edit-profile', verifyUser, upload.single('profile'), editProfile)
 
 module.exports = router;

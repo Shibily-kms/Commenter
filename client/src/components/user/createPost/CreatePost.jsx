@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { FaPhotoVideo } from "@react-icons/all-files/fa/FaPhotoVideo";
 import { GrClose } from "@react-icons/all-files/gr/GrClose";
 import './createPost.scss'
-import Profile from '../../../assets/icons/profile.jpeg'
+import Profile from '../../../assets/icons/profile.jpg'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import Spinner from '../../Spinner'
@@ -44,7 +44,7 @@ function CreatePost() {
         }).catch((error) => {
             toast.error(error.response.data.message)
             setLoading(false)
-           
+
         })
     }
 
@@ -102,14 +102,18 @@ function CreatePost() {
             doPost(form)
             setReady(false)
         }
-    }, [ ready])
+    }, [ready])
 
     return (
         <div>
             <div className="create-post-tag">
                 <div className="boader">
                     <div className="image">
-                        <img src={Profile} alt="" />
+                        {user?.profile ?
+                            <img src={user.profile} alt="" />
+                            :
+                            <img src={Profile} alt="" />
+                        }
                     </div>
                     <input onClick={() => setShow(true)} type="text" value={form.text ? form.text : ''} placeholder={user ? user.firstName + ', Type something...' : ''} />
                     <div className="icon" onClick={() => setShow(true)}>
@@ -128,7 +132,7 @@ function CreatePost() {
                         <div className="pages" >
                             <div className="shadow" onClick={() => setShow(false)}></div>
                             <div className="boader-div">
-                                { loading ?
+                                {loading ?
                                     <div className="loading">
                                         <Spinner />
                                     </div> : ''

@@ -3,7 +3,7 @@ let signUpFormFunction = function (obj) {
     let uregex = /^[A-Za-z0-9 ]+$/
 
     let firstnameValid = regex.test(obj.firstName);
-    let lastnameValid = regex.test(obj.lastName);  
+    let lastnameValid = regex.test(obj.lastName);
     let usernameValid = uregex.test(obj.userName);
 
     if (obj.firstName === null || obj.lastName === null || obj.userName === null || obj.emailId === null || obj.dob === null ||
@@ -49,7 +49,7 @@ let signUpFormFunction = function (obj) {
 }
 
 let passwordValidation = (obj) => {
-    if ( obj.password === null || obj.cpassword === null ) {
+    if (obj.password === null || obj.cpassword === null) {
         return {
             success: false,
             message: 'Fill the form Completed'
@@ -72,8 +72,30 @@ let passwordValidation = (obj) => {
     }
 }
 
-const postValidation = ()=>{
+const editprofileValidation = (obj) => {
+    let regex = /^[A-Za-z ]+$/
 
+
+    let firstnameValid = regex.test(obj.firstName);
+    let lastnameValid = regex.test(obj.lastName);
+
+    if (obj.firstName === null || obj.lastName === null || obj.emailId === null || obj.dob === null) {
+        return {
+            success: false,
+            message: 'Fill the required inputs'
+        }
+    } else if (!firstnameValid || !lastnameValid) {
+
+        return {
+            success: false,
+            message: 'Clear symbols in Name inputs'
+        }
+    } else {
+        return {
+            success: true,
+            message: 'Validation Completed'
+        }
+    }
 }
 
-export { signUpFormFunction, passwordValidation, postValidation };
+export { signUpFormFunction, passwordValidation, editprofileValidation };

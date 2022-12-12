@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import './profileInfo.scss'
-import Profile from '../../../assets/icons/profile.jpeg'
+import Profile from '../../../assets/icons/profile.jpg'
 import { IoIosPin } from "@react-icons/all-files/io/IoIosPin";
 import { FaBirthdayCake } from "@react-icons/all-files/fa/FaBirthdayCake";
 import { RiUserFollowFill } from "@react-icons/all-files/ri/RiUserFollowFill";
@@ -24,7 +24,11 @@ function ProfileInfo({ profile }) {
                         <div className="itemDiv ">
 
                             <div className="image">
-                                <img src={Profile} alt="" />
+                                {profile?.profile ?
+                                    <img src={profile.profile} alt="" />
+                                    :
+                                    <img src={Profile} alt="" />
+                                }
                             </div>
                             <span> {profile ? '@' + profile.userName : ''}</span>
                         </div>
