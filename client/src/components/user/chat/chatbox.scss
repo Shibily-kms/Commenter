@@ -80,4 +80,31 @@
             color: white;
         }
     }
+
+    // Start Content
+    .start-content{
+        padding: 5px;
+
+        width: 100%;
+        height: calc(100vh - 90px);
+        overflow: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .start{
+            color: $lightDarkColor;
+            text-align: center;
+            span{
+                font-size: 35px;
+            }
+            p{
+                margin: 0;
+            }
+        }
+    }
 }

@@ -7,6 +7,7 @@ import { setTrue, setFalse } from '../../../Redux/features/sidebar/sidebarSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import LogoFrame from './LogoFrame'
 import Chatbox from '../chat/Chatbox'
+import StartChat from '../chat/StartChat'
 import ChatFriends from '../chat-frients/ChatFriends'
 import axios from '../../../config/axios'
 import Spinner from '../../Spinner'
@@ -59,7 +60,7 @@ function MessageLayout() {
                                     <div className="content">
                                         {currentChat ?
                                             <Chatbox current={currentChat} messages={messages} setMessage={setMessages} />
-                                            : "Start new chat"
+                                            : <StartChat/>
                                         }
                                     </div>
                                 </div>

@@ -95,4 +95,11 @@
             }
         }
     }
+    .centerBoader{
+        display: flex;
+        justify-content: center;
+        .box{
+            background-color: #fff4b3;
+        }
+    }
 }

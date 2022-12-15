@@ -12,7 +12,7 @@ import { IoChevronBack } from "@react-icons/all-files/io5/IoChevronBack";
 import { IoMdSend } from "@react-icons/all-files/io/IoMdSend";
 
 
-function Chatbox({ current, messages, setMessages }) {
+function Chatbox({ current, messages }) {
     const { user } = useSelector((state) => state.userAuth)
     const [now, setNow] = useState(null)
     const [newMessage, setNewMessage] = useState('')

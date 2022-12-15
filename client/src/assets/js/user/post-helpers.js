@@ -28,11 +28,17 @@ const postDateFormatChange = (date) => {
 }
 
 const messageDateFormatChange = (date) => {
-    
-    let post = new Date(date)
-    return post.toLocaleTimeString()
 
+    let post = new Date(date).toLocaleTimeString()
 
+    if (post.length === 11) {
+        post = post.slice(0, 5) + post.slice(8, 11)
+    } else {
+        post = post.slice(0, 4) + post.slice(7, 10);
+    }
+    return post
 }
+
+
 
 export { postDateFormatChange, messageDateFormatChange };
