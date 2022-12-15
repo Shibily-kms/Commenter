@@ -101,7 +101,9 @@
 
 // Round Icon
 .round-icon {
-    width: 37px;
+    width: 40px;
+    min-width: 40px;
+    min-height: 37px;
     height: 37px;
     background-color: $secondaryColor600;
     display: flex;
@@ -120,7 +122,7 @@
     -o-transition: 0.8s ease-in-out;
     cursor: pointer;
     font-size: 21px;
-    
+
 }
 
 // Scroll bar
@@ -146,7 +148,27 @@
 
 // SubTitle
 
-.subTitle{
+.subTitle {
     font-size: 15px;
     font-weight: 700;
+}
+
+@mixin profileImg($size: 40px) {
+    width: $size;
+    height: $size ;
+    overflow: hidden;
+    border: solid 1px rgb(206, 206, 206);
+    margin-right: 10px;
+
+    img {
+        width: $size ;
+        height: $size ;
+    }
+
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    -ms-border-radius: 100px;
+    -o-border-radius: 100px;
+
 }

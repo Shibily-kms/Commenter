@@ -13,6 +13,8 @@ import SavePost from '../pages/user/savePost/SavePost';
 import Friends from '../pages/user/friends/Friends'
 import EditProfile from '../pages/user/settings/EditProfile';
 import Settings from '../pages/user/settings/Settings'
+import ChangePassword from '../pages/user/settings/ChangePassword';
+import MessagePage from '../pages/user/message/MessagePage';
 
 
 
@@ -40,6 +42,8 @@ function User() {
       <Route path="/friends" element={<Friends />} />
       <Route path="/settings" element={<Settings />} />
       <Route path='/settings/edit-profile' element={<EditProfile />} />
+      <Route path='/settings/change-password' element={<ChangePassword />} />
+      <Route path='/message' element={<MessagePage />} />
     </Routes>
   )
 }

@@ -1,0 +1,70 @@
+@import '../../../assets/css/model.scss';
+
+.FriendsList>.boader {
+
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 5px;
+    border-bottom: 1px solid $lightColor400;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $secondaryColor300;
+    }
+
+    .side-one {
+        display: flex;
+        align-items: center;
+
+        .profile {
+            .image {
+                @include profileImg;
+            }
+        }
+
+        .content {
+            h5 {
+                margin: 0;
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            p {
+                margin: 0;
+                font-size: 11px;
+                color: $lightDarkColor;
+            }
+        }
+    }
+
+    .side-two {
+
+        display: flex;
+        align-items: center;
+
+        .last {
+            text-align: end;
+
+            height: fit-content;
+
+            span {
+                background-color: $vilateColor;
+                font-size: 11px;
+                padding: 0 6px;
+                border-radius: 100px;
+                -webkit-border-radius: 100px;
+                -moz-border-radius: 100px;
+                -ms-border-radius: 100px;
+                -o-border-radius: 100px;
+                color: white;
+            }
+
+            p {
+                color: $vilateColor;
+                margin: 0;
+                font-size: 11px;
+            }
+        }
+
+    }
+}

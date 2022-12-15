@@ -6,7 +6,6 @@ function EditProfile() {
   return (
     <div>
       <Layout columnTwo={< EditProfileComponent/>} />
-
     </div>
   )
 }

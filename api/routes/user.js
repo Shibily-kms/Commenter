@@ -8,7 +8,9 @@ const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, get
     doComment, removeComment } = require('../controllers/post-controller')
 const { getFriendsSuggestions, doFollow, getProfileInfo, doUnfollow, getAllFollowing,
     getAllFollowers } = require('../controllers/friends-controller')
-const { editProfile } = require('../controllers/user-controller')
+const { editProfile,getUsersOne } = require('../controllers/user-controller')
+const {newConversation,getConversation} = require('../controllers/conversation-controller')
+const {doMessage,getMessage} = require('../controllers/message-controller')
 
 
 
@@ -52,5 +54,17 @@ router.delete('/comment/:comId/:postId', verifyUser, removeComment)
 
 // User
 router.put('/edit-profile', verifyUser, upload.single('profile'), editProfile)
+router.get('/users/:urId',verifyUser,getUsersOne)
+
+// Conversation
+router.post('/conversation',verifyUser,newConversation)
+router.get('/conversation/:urId',verifyUser,getConversation)
+
+
+// Message 
+router.post('/message',verifyUser,doMessage)
+router.get('/message/:conId',verifyUser,getMessage)
+
+
 
 module.exports = router;

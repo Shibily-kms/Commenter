@@ -27,4 +27,12 @@ const postDateFormatChange = (date) => {
     }
 }
 
-export { postDateFormatChange };
+const messageDateFormatChange = (date) => {
+    
+    let post = new Date(date)
+    return post.toLocaleTimeString()
+
+
+}
+
+export { postDateFormatChange, messageDateFormatChange };

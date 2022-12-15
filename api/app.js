@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const app = express() // Initializing express
 app.use(cookieParser())
+const socketIO = require('socket.io');
 const dotenv = require('dotenv').config({ path: '../.env' })
 const connectDB = require('./config/db')
 
@@ -22,6 +23,50 @@ app.use(cors({
     credentials: true,
     allowedHeaders: ['Content-Type', 'Access']
 }))
+
+const io = socketIO(process.env.SOCKET_PORT, {
+    cors: {
+        origin: 'http://localhost:3000',
+    },
+});
+
+let users = []
+
+const addUser = (urId, socketId) => {
+    !users.some(user => user.urId === urId) &&
+        users.push({ urId, socketId });
+}
+
+const removeUser = (socketId) => {
+    users = users.filter(user => user.socketId !== socketId)
+}
+
+const getUser = (id) => {
+    return users.find(user => user.urId === id)
+}
+
+io.on('connection', (socket) => {
+    // console.log('a user connected');
+    // take urId and socketId from user
+    socket.on('addUser', urId => {
+        addUser(urId, socket.id);
+        io.emit('getUsers', users)
+    })
+    // Send and Get message
+    socket.on('sendMessage', ({ senderId, receiverId, text }) => {
+        const user = getUser(receiverId);
+        io.to(user?.socketId).emit('getMessage', {
+            senderId, text
+        })
+    })
+
+    // Disconnect
+    socket.on('disconnect', () => {
+        // console.log('a user disconnected !');
+        removeUser(socket.id)
+        io.emit('getUsers', users)
+    })
+})
 
 // Middlewares
 app.use(express.json())

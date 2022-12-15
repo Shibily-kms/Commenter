@@ -1,0 +1,83 @@
+@import '../../../assets/css/user-root.scss';
+@import '../../../assets/css/model.scss';
+
+.chatBox>.boader {
+    background-color: $primaryColor;
+    border-radius: 5px;
+    width: 100%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    @include normalShadow;
+    overflow: hidden;
+
+    .top {
+        background-color: $secondaryColor300;
+
+        .profile {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            padding: 5px;
+            border-bottom: solid 1px $lightColor400;
+
+            .back {
+                margin-right: 5px;
+            }
+
+            .image {
+                @include profileImg;
+            }
+
+            .name {
+                h5 {
+                    font-size: 15px;
+                    font-weight: 600;
+                    margin: 0;
+                }
+
+                h6 {
+                    font-size: 12px;
+                    font-weight: normal;
+                    margin: 0;
+                    color: $lightDarkColor;
+                }
+            }
+        }
+    }
+
+    // Content
+    .content {
+        padding: 5px;
+
+        width: 100%;
+        height: calc(100vh - 190px);
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+    }
+
+    // Bottom
+    .bottom {
+        background-color: $secondaryColor300;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        border-top: solid 1px $lightColor400;
+
+        input {
+            @include normalInput;
+            width: 100%;
+            padding: 8px;
+        }
+
+        .icon {
+            background-color: $roseColor;
+            color: white;
+        }
+    }
+}

@@ -58,24 +58,22 @@ module.exports = {
     editProfile: async (req, res, next) => {
         try {
             let flag = false
-            console.log(req.body, 'body');
+          
             const body = req.body // {firstName, lastName, emailId,file, dob, location, website}
             const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
             const urId = jwtToken.userId
-            console.log('hi');
+
             let user = await UserModel.findOne({ urId })
-            console.log(user.emailId != body.emailId, 'status');
+           
             if (user.emailId != body.emailId) {
-                console.log('hiiiiiiiiiiiiiiii');
                 await UserModel.findOne({ emailId: body.emailId }).then((response) => {
-                    console.log(response, 'resposnessssssssss');
                     if (response) {
-                        console.log('flag is true');
+                      
                         flag = true
                     }
                 })
             }
-            console.log(flag, 'flag');
+           
             if (flag) {
                 res.status(400).json({ status: false, message: 'this email Id existed' })
             } else {
@@ -108,6 +106,22 @@ module.exports = {
 
         } catch (error) {
             res.status(500).json({ status: false, message: 'update faild' })
+        }
+    },
+    getUsersOne: async (req, res, next) => {
+       
+        try {
+            let urId = req.params.urId
+            const user = await UserModel.findOne({ urId })
+            let obj = {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                userName : user.userName,
+                profile : user.profile
+            }
+            res.status(201).json({status:true,user:obj,message:'get user small info'})
+        } catch (error) {
+            res.status(500).json({ status: false, error })
         }
     }
 }

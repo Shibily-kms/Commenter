@@ -28,7 +28,6 @@ function EditProfileComponent() {
 
   const handleInput = (e) => {
     setError(null)
-    console.log(e.target.name, 'hiii');
     if (e.target.name == 'profile') {
       if (e.target.files && e.target.files[0]) {
         const formData = new FormData()
