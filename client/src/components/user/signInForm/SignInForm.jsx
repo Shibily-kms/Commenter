@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from '../../../config/axios'
 import './signInForm.scss'
 import { FaRegEye } from "@react-icons/all-files/fa/FaRegEye";

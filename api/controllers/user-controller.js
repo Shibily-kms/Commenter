@@ -60,8 +60,7 @@ module.exports = {
             let flag = false
           
             const body = req.body // {firstName, lastName, emailId,file, dob, location, website}
-            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-            const urId = jwtToken.userId
+            const urId = req.user.urId
 
             let user = await UserModel.findOne({ urId })
            

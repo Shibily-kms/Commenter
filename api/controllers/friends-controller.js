@@ -7,8 +7,7 @@ module.exports = {
     getFriendsSuggestions: async (req, res, next) => {
         try {
             const { count } = req.params
-            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-            const urId = jwtToken.userId
+            const urId = req.user.urId
             // await UserModel.findOne({ urId }).then((user) => {
             //     let following = user.following
             //     let followers = user.followers
@@ -43,8 +42,7 @@ module.exports = {
     doFollow: async (req, res, next) => {
         try {
 
-            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-            const urId = jwtToken.userId
+            const urId = req.user.urId
             let { followId } = req.body
          
             await UserModel.updateOne({ urId }, {
@@ -69,8 +67,8 @@ module.exports = {
     },
     doUnfollow: async (req, res, next) => {
         try {
-            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-            const urId = jwtToken.userId
+          
+            const urId = req.user.urId
             const { followId } = req.body
            
             await UserModel.updateOne({ urId }, {
@@ -145,8 +143,8 @@ module.exports = {
     },
     getAllFollowing: async (req, res, next) => {
         try {
-            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-            const urId = jwtToken.userId
+            
+            const urId = req.user.urId
           
             await UserModel.aggregate([
                 {
@@ -183,8 +181,8 @@ module.exports = {
     },
     getAllFollowers: async (req, res, next) => {
         try {
-            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-            const urId = jwtToken.userId
+            
+            const urId = req.user.urId
             await UserModel.aggregate([
                 {
                     $match: {

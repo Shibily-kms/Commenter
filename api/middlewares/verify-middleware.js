@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-
+const UserModel = require('../models/user-model')
 
 const verifyAdmin = (req, res, next) => {
     try {
@@ -14,15 +14,27 @@ const verifyAdmin = (req, res, next) => {
         throw error;
     }
 }
-
-const verifyUser = (req, res, next) => {
+  
+const verifyUser = async (req, res, next) => {
     try {
-        const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-
-        if (jwtToken) {
-            next()
+        const jwtToken = jwt?.verify(req.cookies?.commenter, process.env.TOKEN_KEY)
+        if (jwtToken) { 
+            const urId = jwtToken.userId  
+            const user = await UserModel.findOne({ urId })
+            if (!user) {
+                return res.status(400).json({ status: false, message: 'Invalid token' })
+            }
+            if (user.status === 'Blocked') {
+                res.status(400).json({ status: false, message: 'This Account Blocked' })
+            } else {
+                req.user = {
+                    urId: user.urId, 
+                    userName: user.userName
+                }
+                next()
+            }
         } else {
-            res.status(400).json({ success: false, error: true, message: 'user token key get lost' })
+            return res.status(400).json({ status: false, message: 'Invalid token' })
         }
     } catch (error) {
         throw error;

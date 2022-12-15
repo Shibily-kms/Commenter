@@ -32,7 +32,7 @@ module.exports = {
     sendOtp: async (req, res, next) => {
         try {
             let body = req.body
-            otpHelper.dosms(body.number).then((response) => {     
+            otpHelper.dosms(body.number).then((response) => {
                 if (response) {
                     res.status(201).json({ success: true, message: 'Otp Sended to this number' })
                 }
@@ -119,8 +119,12 @@ module.exports = {
             const maxAge = 60 * 60 * 24;
 
             let user = await UserModel.findOne({ $or: [{ userName: body.userName }, { emailId: body.userName }] })
+
             if (user) {
 
+                if (user.status === "Blocked") {
+                    return res.status(400).json({ status: false, message: 'This Account Blocked' })
+                }
                 let status = await bcrypt.compare(body.password, user.password);
                 if (status) {
                     delete user._doc.password
@@ -147,26 +151,18 @@ module.exports = {
         } catch (error) {
             throw error;
         }
-    },
+    },    
     getUserData: async (req, res, next) => {
         try {
 
-            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
+            const user = await UserModel.findOne({ urId: req.user.urId })
+            delete user._doc.password
+            res.status(200).json({
+                user: user,
+                status: true,
+                message: 'User Verified'
+            })
 
-            if (jwtToken) {
-
-                const userId = jwtToken.userId
-                const user = await UserModel.findOne({ urId: userId })
-                delete user._doc.password
-                res.status(200).json({
-                    user: user,
-                    status: true,
-                    message: 'User Verified'
-                })
-            } else {
-
-                res.status(400).json({ status: false, error: true, message: 'Auth filed' })
-            }
         } catch (error) {
 
             res.status(400).json({ status: false, error: true, message: 'Auth filed' })
@@ -231,10 +227,10 @@ module.exports = {
                 const email = jwtToken.email
                 res.status(200).json({
                     admin: email,
-                    status: true, 
+                    status: true,
                     message: 'Admin Verified'
                 })
-            } 
+            }
         } catch (error) {
 
             res.status(400).json({ status: false, error: true, message: 'Auth filed' })

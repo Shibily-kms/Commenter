@@ -45,7 +45,7 @@ function ProfileInfo({ profile }) {
                                 <div className="icon">
                                     <FaBirthdayCake />
                                 </div>
-                                <p>Date of Birth</p>
+                                <p>{profile?.dob ? profile.dob : 'null'}</p>
                             </div>
                             : ''}
                         <div className="itemDiv">

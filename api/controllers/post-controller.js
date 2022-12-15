@@ -31,8 +31,8 @@ module.exports = {
     getUserPost: async (req, res, next) => {
         try {
 
-            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-            const urId = jwtToken.userId
+
+            const urId = req.user.urId
             await PostModel.aggregate([
                 {
                     $match: {
@@ -155,69 +155,66 @@ module.exports = {
     // Get All Post
     getAllSavePost: async (req, res, next) => {
         try {
-            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-            if (jwtToken) {
-                const urId = jwtToken.userId
-                await UserModel.aggregate([
-                    {
-                        $match: {
-                            urId
-                        }
-                    },
-                    {
-                        $unwind: '$savePost'
-                    },
-                    {
-                        $project: {
-                            _id: 0, urId: 1, savePost: 1
-                        }
-                    },
-                    {
-                        $lookup: {
-                            from: 'posts',
-                            localField: 'savePost',
-                            foreignField: 'postId',
-                            as: 'posts'
-                        }
-                    },
-                    {
-                        $unwind: '$posts'
-                    },
-                    {
-                        $lookup: {
-                            from: 'users',
-                            localField: 'posts.urId',
-                            foreignField: 'urId',
-                            as: 'how'
-                        }
-                    },
-                    {
-                        $project: {
-                            post: '$posts',
-                            firstName: { $first: '$how.firstName' },
-                            lastName: { $first: '$how.lastName' },
-                            userName: { $first: '$how.userName' },
-                            profile: { $first: '$how.profile' }
-                        }
+
+            const urId = req.user.urId
+            await UserModel.aggregate([
+                {
+                    $match: {
+                        urId
                     }
+                },
+                {
+                    $unwind: '$savePost'
+                },
+                {
+                    $project: {
+                        _id: 0, urId: 1, savePost: 1
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'posts',
+                        localField: 'savePost',
+                        foreignField: 'postId',
+                        as: 'posts'
+                    }
+                },
+                {
+                    $unwind: '$posts'
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'posts.urId',
+                        foreignField: 'urId',
+                        as: 'how'
+                    }
+                },
+                {
+                    $project: {
+                        post: '$posts',
+                        firstName: { $first: '$how.firstName' },
+                        lastName: { $first: '$how.lastName' },
+                        userName: { $first: '$how.userName' },
+                        profile: { $first: '$how.profile' }
+                    }
+                }
 
 
-                ]).then((posts) => {
-                    posts = posts.map((item) => {
-                        item.post.firstName = item.firstName
-                        item.post.lastName = item.lastName
-                        item.post.userName = item.userName
-                        item.post.profile = item.profile
-                        return item.post
-                    }).reverse()
+            ]).then((posts) => {
+                posts = posts.map((item) => {
+                    item.post.firstName = item.firstName
+                    item.post.lastName = item.lastName
+                    item.post.userName = item.userName
+                    item.post.profile = item.profile
+                    return item.post
+                }).reverse()
 
-                    // posts = posts.sort((a, b) => a - b)
-                    res.status(201).json({ success: true, posts: posts, message: 'get all save posts' })
-                })
+                // posts = posts.sort((a, b) => a - b)
+                res.status(201).json({ success: true, posts: posts, message: 'get all save posts' })
+            })
 
-            } else {
-                res.status(400).json({ error: true, message: 'Token missed' })
-            }
+
         } catch (error) {
             throw error;
         }
@@ -240,8 +237,8 @@ module.exports = {
     // Home Post
     getHomePost: async (req, res, next) => {
         try {
-            const jwtToken = jwt.verify(req.cookies.commenter, process.env.TOKEN_KEY)
-            const urId = jwtToken.userId
+           
+            const urId = req.user.urId
 
             let otherPost = await UserModel.aggregate([
                 {
@@ -350,7 +347,7 @@ module.exports = {
     doComment: async (req, res, next) => {
         try {
 
-            const { urId, userName, postId, text,profile } = req.body
+            const { urId, userName, postId, text, profile } = req.body
             let obj = {
                 urId,
                 userName,

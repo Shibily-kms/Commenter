@@ -8,9 +8,9 @@ const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, get
     doComment, removeComment } = require('../controllers/post-controller')
 const { getFriendsSuggestions, doFollow, getProfileInfo, doUnfollow, getAllFollowing,
     getAllFollowers } = require('../controllers/friends-controller')
-const { editProfile,getUsersOne } = require('../controllers/user-controller')
-const {newConversation,getConversation} = require('../controllers/conversation-controller')
-const {doMessage,getMessage} = require('../controllers/message-controller')
+const { editProfile, getUsersOne } = require('../controllers/user-controller')
+const { newConversation, getConversation } = require('../controllers/conversation-controller')
+const { doMessage, getMessage } = require('../controllers/message-controller')
 
 
 
@@ -23,10 +23,10 @@ router.post('/sign-up', doSingUp)
 //  Forgot Password
 router.post('/verify-username-or-email', verifyUserNameOrEmail);
 router.post('/new-password', setNewPassword);
-
+ 
 // Sign In
 router.post('/sign-in', doSingIn)
-router.get('/get-user', getUserData)
+router.get('/get-user', verifyUser, getUserData)
 
 // Post
 router.post('/post', verifyUser, doPost)
@@ -54,16 +54,16 @@ router.delete('/comment/:comId/:postId', verifyUser, removeComment)
 
 // User
 router.put('/edit-profile', verifyUser, upload.single('profile'), editProfile)
-router.get('/users/:urId',verifyUser,getUsersOne)
+router.get('/users/:urId', verifyUser, getUsersOne)
 
 // Conversation
-router.post('/conversation',verifyUser,newConversation)
-router.get('/conversation/:urId',verifyUser,getConversation)
+router.post('/conversation', verifyUser, newConversation)
+router.get('/conversation/:urId', verifyUser, getConversation)
 
 
 // Message 
-router.post('/message',verifyUser,doMessage)
-router.get('/message/:conId',verifyUser,getMessage)
+router.post('/message', verifyUser, doMessage)
+router.get('/message/:conId', verifyUser, getMessage)
 
 
 
