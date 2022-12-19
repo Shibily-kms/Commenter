@@ -1,0 +1,78 @@
+@import '../../../assets/css/model.scss';
+@import '../../../assets/css/user-root.scss';
+
+.notifi {
+
+    .boader {
+        padding: 7px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $secondaryColor300;
+        }
+
+        .icon {
+
+            margin-right: 5px;
+
+            .welcome {
+                color: $primaryColor;
+                background-color: rgb(66, 66, 66);
+            }
+
+            .follow {
+                color: $primaryColor;
+                background-color: rgb(0, 192, 182);
+            }
+
+            .like {
+                color: $primaryColor;
+                background-color: rgb(0, 98, 190);
+            }
+
+            .report {
+                color: $primaryColor;
+                background-color: rgb(230, 0, 0);
+            }
+        }
+
+        .text {
+
+            width: 100%;
+            min-height: 45px;
+            max-height: 45px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+
+            p {
+                margin: 0;
+                font-size: 11px;
+            }
+        }
+
+        .time {
+
+            margin-left: 5px;
+            min-width: fit-content;
+
+            p {
+                margin: 0;
+                font-size: 10px;
+                color: $lightDarkColor;
+            }
+
+        }
+    }
+
+    .view {
+        background-color: #ffe1f0;
+
+        &:hover {
+            background-color: #ffd3e9;
+
+        }
+    }
+}

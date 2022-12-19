@@ -1,0 +1,14 @@
+@import '../../../assets/css/model.scss';
+
+.notifications>.boader {
+    @include normalBox();
+    padding: 10px;
+    h5{
+        font-size: 17px;
+        font-weight: 600;
+        margin: 0;
+    }
+    .items{
+        
+    }
+}

@@ -7,7 +7,7 @@ import Sidebar from '../../../components/user/sidebar/Sidebar'
 import { setTrue, setFalse } from '../../../Redux/features/sidebar/sidebarSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import LogoFrame from '../../../components/user/layout/LogoFrame'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import axios from '../../../config/axios'
 import { useState } from 'react';
 import Error404 from '../../../components/error/Error404';
@@ -19,15 +19,26 @@ function Profile() {
     const [profile, setProfile] = useState({})
     const [posts, setPosts] = useState([])
     const [error, setError] = useState(false)
+    const [searchParams] = useSearchParams()
 
     useEffect(() => {
         axios.get(location.pathname, { withCredentials: true }).then((response) => {
             setProfile(response.data.profile)
-            setPosts(response.data.posts)
+            let postId = searchParams.get('postId')
+            if (postId) {
+                setPosts(
+                    response.data.posts.filter((value) => { 
+                        return value.postId === postId
+                    })
+                )
+            } else {
+                setPosts(response.data.posts)
+            }
         }).catch((error) => {
             setError(true)
         })
     }, [])
+
 
     const handleSidebar = () => {
         if (action) {
@@ -62,18 +73,18 @@ function Profile() {
                                         </div>
                                     </div>
                                 </div>
-                             
-                                    <div className="section-two">
-                                        <div className=" columnThree">
-                                            <div className="content-div">
-                                                <div className="content">
-                                                    <ColumnThree profile={profile} />
-                                                </div>
+
+                                <div className="section-two">
+                                    <div className=" columnThree">
+                                        <div className="content-div">
+                                            <div className="content">
+                                                <ColumnThree profile={profile} />
                                             </div>
                                         </div>
-
                                     </div>
-                                  
+
+                                </div>
+
                             </div>
                         }
 

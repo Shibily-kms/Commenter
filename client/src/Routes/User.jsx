@@ -15,7 +15,7 @@ import EditProfile from '../pages/user/settings/EditProfile';
 import Settings from '../pages/user/settings/Settings'
 import ChangePassword from '../pages/user/settings/ChangePassword';
 import MessagePage from '../pages/user/message/MessagePage';
-
+import Notifications from '../pages/user/notifications/Notifications';
 
 
 function User() {
@@ -32,7 +32,7 @@ function User() {
     }
 
     if (isError) {
-      
+
     }
   }, [isError])
 
@@ -44,14 +44,15 @@ function User() {
       <Route path='/otp' element={<Otp />} />
       <Route path='/sign-in' element={<SignIn />} />
       <Route path='/new-password' element={<NewPasswod />} />
-      <Route path='/:profile' element={<Profile />} />
       <Route path="/save-posts" element={<SavePost />} />
       <Route path="/friends" element={<Friends />} />
       <Route path="/settings" element={<Settings />} />
       <Route path='/settings/edit-profile' element={<EditProfile />} />
       <Route path='/settings/change-password' element={<ChangePassword />} />
       <Route path='/message' element={<MessagePage />} />
-    </Routes>
+      <Route path='/notifications' element={<Notifications />} />
+      <Route path='/:profile' element={<Profile />} />
+    </Routes >
   )
 }
 

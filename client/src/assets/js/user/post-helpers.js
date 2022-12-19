@@ -39,6 +39,21 @@ const messageDateFormatChange = (date) => {
     return post
 }
 
+const notifiDateFormatChange = (date) => {
+    let now = new Date()
+    let notf = new Date(date)
+    let diffrend = now - notf
+    if (diffrend <= 604800000) {  // Get Days
+        let seconds = diffrend / 1000
+        let minuts = parseInt(seconds / 60)
+        let hour = parseInt(minuts / 60)
+        let day = parseInt(hour / 24)
+        return day === 0 ? 'Today' : day + (day == 1 ? ' day' : ' days')
+    } else {
+        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        return notf.getDate() + ' ' + months[notf.getMonth()]
+    }
+}
 
 
-export { postDateFormatChange, messageDateFormatChange };
+export { postDateFormatChange, messageDateFormatChange, notifiDateFormatChange };

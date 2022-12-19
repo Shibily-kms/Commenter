@@ -63,7 +63,7 @@ function Post(props) {
             })
             setPostLike(false)
         }
-        axios.put('/like', { urId: user.urId, postId: post.postId, like: likeStatus ? true : false }, { withCredentials: true })
+        axios.put('/like', { urId: user.urId, postId: post.postId, posterId: post.urId, like: likeStatus ? true : false }, { withCredentials: true })
     }
     const handleSave = () => {
         axios.put('/save-post', { urId: user?.urId, postId: post?.postId }, { withCredentials: true }).then((result) => {
@@ -137,7 +137,7 @@ function Post(props) {
                                     :
                                     <img src={Profile} alt="" />
                                 }
-                              
+
                             </div>
                             <div>
                                 <h5>{post?.firstName + ' ' + post?.lastName}</h5>

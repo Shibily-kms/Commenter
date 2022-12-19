@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom'
 import { useCookies } from 'react-cookie';
 import Logo from '../../../assets/icons/newLogo.png'
 import Profile from '../../../assets/icons/profile.jpg'
+import { useState } from 'react';
+import axios from '../../../config/axios'
 
 function Header() {
   const dispatch = useDispatch()
@@ -18,11 +20,16 @@ function Header() {
   const { action } = useSelector((state) => state.sidebarToggle)
   const { user } = useSelector((state) => state.userAuth)
   const [cookies, setCookie] = useCookies(['commenter']);
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     if (!cookies.commenter) {
       navigate('/sign-in')
     }
+    axios.get('/notifications/new-count', { withCredentials: true }).then((result) => {
+      console.log(result,'result');
+      setCount(result.data.count)
+    })
   }, [])
 
   const handleSidebar = () => {
@@ -47,10 +54,12 @@ function Header() {
             <input className='d-none d-md-block' type="text" placeholder='Search commenter' />
           </div>
           {/* Notification */}
-          <div className="round-icon">
+          {count ? 
+          <div className="round-icon" onClick={()=> navigate('/notifications')}>
             <IoNotificationsSharp />
-            <span>21</span>
+            <span>{count}</span>
           </div>
+          :''}
 
           {/* Profile */}
           <div className="profile-icon" style={{ cursor: 'pointer' }} onClick={() => navigate('/' + user.userName)}>
@@ -59,7 +68,7 @@ function Header() {
               :
               <img src={Profile} alt="" />
             }
-           
+
 
           </div>
 
