@@ -44,7 +44,8 @@ const userSchema = new mongoose.Schema({
     followers: [],
     location: String,
     LifeStatus: String,
-    website: String
+    website: String,
+    notifications:[]
 
 },
     {

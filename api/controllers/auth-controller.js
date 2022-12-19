@@ -3,6 +3,7 @@ const { customId } = require('../helpers/customId-helpers')
 const otpHelper = require('../helpers/otp-helpers')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
+const { sendNotification } = require('../helpers/notification-helpers')
 
 
 // Admin And User Authenditaion
@@ -65,6 +66,11 @@ module.exports = {
             body.urId = customId(6, 'UR')
             UserModel.create(body).then((response) => {
                 if (response) {
+                    sendNotification(body.urId, body.userName, {
+                        type: 'welcome',
+                        text: 'Welcome to Commenter. Start your unlimited enjoyment with commenter application',
+                        path: '/' + body.userName
+                    })
                     res.status(201).json({ success: true, message: 'user sign up success' })
                 } else {
                     res.status(400).json({ success: false, message: 'User Sign up not completed , try now' })
@@ -151,7 +157,7 @@ module.exports = {
         } catch (error) {
             throw error;
         }
-    },    
+    },
     getUserData: async (req, res, next) => {
         try {
 

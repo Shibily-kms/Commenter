@@ -1,7 +1,7 @@
 const UserModel = require('../models/user-model')
 const PostModel = require('../models/post-model')
 const jwt = require('jsonwebtoken')
-
+const { sendNotification } = require('../helpers/notification-helpers')
 
 module.exports = {
     getFriendsSuggestions: async (req, res, next) => {
@@ -44,19 +44,23 @@ module.exports = {
 
             const urId = req.user.urId
             let { followId } = req.body
-         
+
             await UserModel.updateOne({ urId }, {
                 $push: {
                     following: followId
                 }
             }).then((result) => {
-             
+
                 UserModel.updateOne({ urId: followId }, {
                     $push: {
                         followers: urId
                     }
                 }).then((response) => {
-                  
+                    sendNotification(followId, {
+                        type: 'follow',
+                        text: 'follwing update! @' + req.user.userName + ' followed you',
+                        path: '/friends'
+                    })
                     res.status(201).json({ success: true, message: 'follwing success' })
 
                 })
@@ -67,22 +71,22 @@ module.exports = {
     },
     doUnfollow: async (req, res, next) => {
         try {
-          
+
             const urId = req.user.urId
             const { followId } = req.body
-           
+
             await UserModel.updateOne({ urId }, {
                 $pull: {
                     following: followId
                 }
             }).then((result) => {
-              
+
                 UserModel.updateOne({ urId: followId }, {
                     $pull: {
                         followers: urId
                     }
                 }).then((response) => {
-                  
+
                     res.status(201).json({ success: true, message: 'unfollow success' })
 
                 })
@@ -143,9 +147,9 @@ module.exports = {
     },
     getAllFollowing: async (req, res, next) => {
         try {
-            
+
             const urId = req.user.urId
-          
+
             await UserModel.aggregate([
                 {
                     $match: {
@@ -169,7 +173,7 @@ module.exports = {
                         lastName: { $first: '$data.lastName' },
                         userName: { $first: '$data.userName' },
                         urId: { $first: '$data.urId' },
-                        profile : {$first : '$data.profile'}
+                        profile: { $first: '$data.profile' }
                     }
                 }
             ]).then((resposne) => {
@@ -181,7 +185,7 @@ module.exports = {
     },
     getAllFollowers: async (req, res, next) => {
         try {
-            
+
             const urId = req.user.urId
             await UserModel.aggregate([
                 {
@@ -206,7 +210,7 @@ module.exports = {
                         lastName: { $first: '$data.lastName' },
                         userName: { $first: '$data.userName' },
                         urId: { $first: '$data.urId' },
-                        profile : {$first : '$data.profile'}
+                        profile: { $first: '$data.profile' }
                     }
                 }
             ]).then((resposne) => {

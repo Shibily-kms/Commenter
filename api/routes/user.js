@@ -8,7 +8,7 @@ const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, get
     doComment, removeComment } = require('../controllers/post-controller')
 const { getFriendsSuggestions, doFollow, getProfileInfo, doUnfollow, getAllFollowing,
     getAllFollowers } = require('../controllers/friends-controller')
-const { editProfile, getUsersOne } = require('../controllers/user-controller')
+const { editProfile, getUsersOne,getAllNotifications,viewNotification,getNewNotifiCount } = require('../controllers/user-controller')
 const { newConversation, getConversation } = require('../controllers/conversation-controller')
 const { doMessage, getMessage } = require('../controllers/message-controller')
 
@@ -25,7 +25,7 @@ router.post('/verify-username-or-email', verifyUserNameOrEmail);
 router.post('/new-password', setNewPassword);
  
 // Sign In
-router.post('/sign-in', doSingIn)
+router.post('/sign-in', doSingIn) 
 router.get('/get-user', verifyUser, getUserData)
 
 // Post
@@ -46,7 +46,6 @@ router.post('/follow', verifyUser, doFollow)
 router.post('/unfollow', verifyUser, doUnfollow)
 router.get('/following', verifyUser, getAllFollowing)
 router.get('/followers', verifyUser, getAllFollowers)
-router.get('/:userName', verifyUser, getProfileInfo)
 
 // Comment
 router.post('/comment', verifyUser, doComment)
@@ -65,6 +64,13 @@ router.get('/conversation/:urId', verifyUser, getConversation)
 router.post('/message', verifyUser, doMessage)
 router.get('/message/:conId', verifyUser, getMessage)
 
+// Notifications
+router.get('/notifications',verifyUser,getAllNotifications)
+router.post('/notifications/view',verifyUser,viewNotification)
+router.get('/notifications/new-count',verifyUser,getNewNotifiCount)
+
+// Profile
+router.get('/:userName', verifyUser, getProfileInfo)
 
 
 module.exports = router;

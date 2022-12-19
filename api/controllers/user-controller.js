@@ -58,21 +58,21 @@ module.exports = {
     editProfile: async (req, res, next) => {
         try {
             let flag = false
-          
+
             const body = req.body // {firstName, lastName, emailId,file, dob, location, website}
             const urId = req.user.urId
 
             let user = await UserModel.findOne({ urId })
-           
+
             if (user.emailId != body.emailId) {
                 await UserModel.findOne({ emailId: body.emailId }).then((response) => {
                     if (response) {
-                      
+
                         flag = true
                     }
                 })
             }
-           
+
             if (flag) {
                 res.status(400).json({ status: false, message: 'this email Id existed' })
             } else {
@@ -108,19 +108,75 @@ module.exports = {
         }
     },
     getUsersOne: async (req, res, next) => {
-       
+
         try {
             let urId = req.params.urId
             const user = await UserModel.findOne({ urId })
             let obj = {
                 firstName: user.firstName,
                 lastName: user.lastName,
-                userName : user.userName,
-                profile : user.profile
+                userName: user.userName,
+                profile: user.profile
             }
-            res.status(201).json({status:true,user:obj,message:'get user small info'})
+            res.status(201).json({ status: true, user: obj, message: 'get user small info' })
         } catch (error) {
             res.status(500).json({ status: false, error })
+        }
+    },
+
+    // Notifications
+    getAllNotifications: async (req, res, next) => {
+        try {
+            console.log('hi');
+            const urId = req.user.urId
+            await UserModel.findOne({ urId }).then((user) => {
+                let notifi = user.notifications.reverse()
+
+                res.status(201).json({ status: true, notifications: notifi, message: 'get all notifications' })
+            })
+        } catch (error) {
+
+        }
+    },
+    viewNotification: async (req, res, next) => {
+        try {
+            const { urId, msgId } = req.body
+            await UserModel.updateOne({ urId, 'notifications.msgId': msgId }, {
+                $set: {
+                    'notifications.$.status': true
+                }
+            }).then((result) => {
+                res.status(201).json({ status: true, message: 'This notification opened' })
+            }).catch((error) => {
+                res.status(400).json({ status: false, message: 'urId or msgId is not valid' })
+            })
+        } catch (error) {
+
+        }
+    },
+    getNewNotifiCount: async (req, res, next) => {
+        try {
+            await UserModel.aggregate([
+                {
+                    $match: { urId: req.user.urId }
+                },
+                {
+                    $project: { _id: 0, notifications: 1 }
+                },
+                {
+                    $unwind: '$notifications'
+                },
+                {
+                    $group: {
+                        _id: '$notifications.status', 'sum': { $sum: 1 }
+                    }
+                }
+            ]).then((result) => {
+                result = result.filter((value) => value._id === false)
+                res.status(200).json({ status: true, count: result[0] ? result[0].sum : 0 })
+            })
+        } catch (error) {
+
         }
     }
 }

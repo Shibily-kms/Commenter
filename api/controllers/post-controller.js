@@ -2,6 +2,7 @@ const { customId } = require('../helpers/customId-helpers')
 const PostModel = require('../models/post-model')
 const UserModel = require('../models/user-model')
 const jwt = require('jsonwebtoken')
+const { sendNotification } = require('../helpers/notification-helpers')
 
 module.exports = {
     // Post
@@ -80,7 +81,7 @@ module.exports = {
     likePost: async (req, res, next) => {
         try {
 
-            const { urId, postId, like } = req.body
+            const { urId, postId, posterId, like } = req.body
             if (like) {
                 await PostModel.updateOne({ postId }, {
                     $push: {
@@ -90,6 +91,11 @@ module.exports = {
                         reactCount: 1
                     }
                 }).then(() => {
+                    sendNotification(posterId, {
+                        type: 'like',
+                        text: '@' + req.user.userName + ' like your post. Post ID : ' + postId,
+                        path: postId
+                    })
                     res.status(201).json({ success: true, error: false, urId, postId, like: true, message: 'liked' })
                 }).catch((error) => {
                     res.status(201).json({ success: true, error: false, message: "can't find the post" })
@@ -237,7 +243,7 @@ module.exports = {
     // Home Post
     getHomePost: async (req, res, next) => {
         try {
-           
+
             const urId = req.user.urId
 
             let otherPost = await UserModel.aggregate([
