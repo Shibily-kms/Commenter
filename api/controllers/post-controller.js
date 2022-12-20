@@ -1,6 +1,7 @@
 const { customId } = require('../helpers/customId-helpers')
 const PostModel = require('../models/post-model')
 const UserModel = require('../models/user-model')
+const ReportModel = require('../models/report-model')
 const jwt = require('jsonwebtoken')
 const { sendNotification } = require('../helpers/notification-helpers')
 
@@ -402,6 +403,24 @@ module.exports = {
 
             })
 
+        } catch (error) {
+
+        }
+    },
+    reportPost: async (req, res, next) => {
+        try {
+            const body = req.body
+            await ReportModel.create(body).then((result) => {
+                PostModel.updateOne({ postId: body.postId }, {
+                    $addToSet: {
+                        reports: body.reporterId
+                    }
+                }).then(() => {
+                    res.status(201).json({ status: true, message: 'Report submitted' })
+                })
+            }).catch((error) => {
+                res.status(400).json({ status: false, error })
+            })
         } catch (error) {
 
         }

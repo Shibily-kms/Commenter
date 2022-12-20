@@ -9,6 +9,7 @@ import axios from '../../../config/axios'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { addSavePost, removeSavePost } from '../../../Redux/features/user/authSlice'
+import Report from '../report/Report';
 
 // Icons
 import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots";
@@ -20,6 +21,7 @@ import { AiOutlineLink } from "@react-icons/all-files/ai/AiOutlineLink";
 import { BsTrashFill } from "@react-icons/all-files/bs/BsTrashFill";
 import { GrFormClose } from "@react-icons/all-files/gr/GrFormClose";
 import { BiComment } from "@react-icons/all-files/bi/BiComment";
+import { GoReport } from "@react-icons/all-files/go/GoReport";
 
 
 
@@ -36,19 +38,14 @@ function Post(props) {
     const [save, setSave] = useState(false)
     const [remove, setRemove] = useState(false)
     const [commentInput, setCommentInput] = useState(false)
+    const [report, setReport] = useState(false)
 
     const handleCommentClick = () => {
         setCommentInput(true)
     }
 
 
-    const handleShow = () => {
-        if (show) {
-            setShow(false)
-        } else {
-            setShow(true)
-        }
-    }
+
     const handleLike = (likeStatus) => {
         if (likeStatus) {
             setPostLike(true)
@@ -99,26 +96,30 @@ function Post(props) {
     }
 
     useEffect(() => {
-
-        let arr = props?.data?.reactions.filter(item => item == user?.urId)
-        arr = arr === undefined ? [] : arr
-        if (arr[0]) {
-            setPostLike(true)
+        let report = props?.data?.reports ? props?.data?.reports.filter(item => item === user?.urId) : []
+        report = report === undefined ? [] : report
+        if (report[0]) {
+            setRemove(true)
         } else {
-            setPostLike(false)
+
+            let arr = props?.data?.reactions.filter(item => item == user?.urId)
+            arr = arr === undefined ? [] : arr
+            if (arr[0]) {
+                setPostLike(true)
+            } else {
+                setPostLike(false)
+            }
+
+            let checkSave = user?.savePost.filter(item => item == props?.data?.postId)
+            checkSave = checkSave === undefined ? [] : checkSave
+            if (checkSave[0]) {
+                setSave(true)
+            } else {
+                setSave(false)
+            }
+
+            setDate(postDateFormatChange(props?.data?.createDate))
         }
-
-        let checkSave = user?.savePost.filter(item => item == props?.data?.postId)
-        checkSave = checkSave === undefined ? [] : checkSave
-        if (checkSave[0]) {
-            setSave(true)
-        } else {
-            setSave(false)
-        }
-
-
-        setDate(postDateFormatChange(props?.data?.createDate))
-
 
         if (props?.data) {
             setPost(props.data)
@@ -147,7 +148,7 @@ function Post(props) {
                         </div>
 
                         <div className="options">
-                            <div className="DropIcon" onClick={handleShow}>
+                            <div className="DropIcon" onClick={() => setShow((show) => !show)}>
                                 {show ? <GrFormClose /> : <BsThreeDots />}
                             </div>
                             {show ?
@@ -183,7 +184,11 @@ function Post(props) {
                                             <BsTrashFill />
                                             <p>Remove</p>
                                         </div>
-                                        : ''
+                                        :
+                                        <div className="itemDiv" onClick={() => { setReport((report) => !report) }}>
+                                            <GoReport />
+                                            <p>Report</p>
+                                        </div>
                                     }
 
                                 </div>
@@ -214,12 +219,7 @@ function Post(props) {
                                         <span>{post?.commentCount}</span>
                                     </div>
                                 </div>
-                                {/* <div>
-                                    <div className="icon">
-                                        <span className='simpale bg-secondary'><MdSave /></span>
-                                        <span>0</span>
-                                    </div>
-                                </div> */}
+
                             </div>
                         </div>
                         <div className="like-div">
@@ -250,6 +250,10 @@ function Post(props) {
                     </>
 
                 </div>
+                {/* Report Post */}
+                {report ?
+                    <Report data={{ postId: props.data.postId, urId: props.data.urId, setRemove }} />
+                    : ''}
             </div>
         </div>
     )

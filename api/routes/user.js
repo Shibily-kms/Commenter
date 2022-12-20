@@ -5,10 +5,10 @@ const { checkSignUpData, sendOtp, verifyOtp, doSingUp, verifyUserNameOrEmail, se
     doSingIn, getUserData } = require('../controllers/auth-controller')
 const { verifyUser } = require('../middlewares/verify-middleware')
 const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, getAllSavePost, getHomePost,
-    doComment, removeComment } = require('../controllers/post-controller')
+    doComment, removeComment,reportPost } = require('../controllers/post-controller')
 const { getFriendsSuggestions, doFollow, getProfileInfo, doUnfollow, getAllFollowing,
     getAllFollowers } = require('../controllers/friends-controller')
-const { editProfile, getUsersOne,getAllNotifications,viewNotification,getNewNotifiCount } = require('../controllers/user-controller')
+const { editProfile, getUsersOne, getAllNotifications, viewNotification, getNewNotifiCount } = require('../controllers/user-controller')
 const { newConversation, getConversation } = require('../controllers/conversation-controller')
 const { doMessage, getMessage } = require('../controllers/message-controller')
 
@@ -23,9 +23,9 @@ router.post('/sign-up', doSingUp)
 //  Forgot Password
 router.post('/verify-username-or-email', verifyUserNameOrEmail);
 router.post('/new-password', setNewPassword);
- 
+
 // Sign In
-router.post('/sign-in', doSingIn) 
+router.post('/sign-in', doSingIn)
 router.get('/get-user', verifyUser, getUserData)
 
 // Post
@@ -65,12 +65,15 @@ router.post('/message', verifyUser, doMessage)
 router.get('/message/:conId', verifyUser, getMessage)
 
 // Notifications
-router.get('/notifications',verifyUser,getAllNotifications)
-router.post('/notifications/view',verifyUser,viewNotification)
-router.get('/notifications/new-count',verifyUser,getNewNotifiCount)
+router.get('/notifications', verifyUser, getAllNotifications)
+router.post('/notifications/view', verifyUser, viewNotification)
+router.get('/notifications/new-count', verifyUser, getNewNotifiCount)
 
 // Profile
 router.get('/:userName', verifyUser, getProfileInfo)
+
+// Report Post
+router.post('/report-post', verifyUser, reportPost)
 
 
 module.exports = router;
