@@ -96,7 +96,7 @@ function Post(props) {
     }
 
     useEffect(() => {
-        let report = props?.data?.reports ? props?.data?.reports.filter(item => item === user?.urId) : []
+        let report = props?.data?.reports ? props?.data?.reports.filter(item => item.reporterId === user?.urId) : []
         report = report === undefined ? [] : report
         if (report[0]) {
             setRemove(true)

@@ -5,13 +5,13 @@ const { checkSignUpData, sendOtp, verifyOtp, doSingUp, verifyUserNameOrEmail, se
     doSingIn, getUserData } = require('../controllers/auth-controller')
 const { verifyUser } = require('../middlewares/verify-middleware')
 const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, getAllSavePost, getHomePost,
-    doComment, removeComment,reportPost } = require('../controllers/post-controller')
+    doComment, removeComment } = require('../controllers/post-controller')
 const { getFriendsSuggestions, doFollow, getProfileInfo, doUnfollow, getAllFollowing,
     getAllFollowers } = require('../controllers/friends-controller')
 const { editProfile, getUsersOne, getAllNotifications, viewNotification, getNewNotifiCount } = require('../controllers/user-controller')
 const { newConversation, getConversation } = require('../controllers/conversation-controller')
 const { doMessage, getMessage } = require('../controllers/message-controller')
-
+const { reportPost } = require('../controllers/report-controller');
 
 
 // Sing Up And Otp

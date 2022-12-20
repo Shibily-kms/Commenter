@@ -19,7 +19,15 @@ const postSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    reports:[],
+    reports: [],
+    reportCount: {
+        type: Number,
+        default: 0
+    },
+    block: {
+        type: Boolean,
+        default: false
+    },
 
     createDate: Date
 

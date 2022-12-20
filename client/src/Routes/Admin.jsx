@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import SingIn from '../pages/admin/SingIn'
 import Dashboard from '../pages/admin/DashboardPage'
 import UserList from '../pages/admin/UserList'
+import Report from '../pages/admin/Report'
 import { useEffect } from 'react'
 import { useSelector,  useDispatch } from 'react-redux'
 import { getAdminData, reset } from '../Redux/features/admin/adminAuthSlice'
@@ -26,6 +27,7 @@ function Admin() {
       <Routes>
         <Route path='/sign-in' element={<SingIn />} />
         <Route path='/user-list' element={<UserList />} />
+        <Route path='/reports' element={<Report />} />
         <Route exact path='/' element={<Dashboard />} />
       </Routes>
     </div>
