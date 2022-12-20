@@ -1,8 +1,7 @@
 const UserModel = require('../models/user-model')
 const { customId } = require('../helpers/customId-helpers')
 const jwt = require('jsonwebtoken')
-const VoiceResponse = require('twilio/lib/twiml/VoiceResponse')
-
+const bcrypt = require('bcrypt');
 
 // About User 
 module.exports = {
@@ -175,6 +174,31 @@ module.exports = {
                 result = result.filter((value) => value._id === false)
                 res.status(200).json({ status: true, count: result[0] ? result[0].sum : 0 })
             })
+        } catch (error) {
+
+        }
+    },
+    changePassword: async (req, res, next) => {
+        try {
+            console.log(req.body, 'body');
+            const { current, password, confirm, urId } = req.body
+            await UserModel.findOne({ urId }).then(async (user) => {
+                let status = await bcrypt.compare(current, user.password);
+                if (status) {
+                    console.log('hi pasow');
+                    const change = await bcrypt.hash(password, 10)
+                    await UserModel.updateOne({ urId }, {
+                        $set: {
+                            password: change
+                        }
+                    }).then(() => {
+                        res.status(201).json({ status: true, message: 'Password changed' })
+                    }).catch((error) => console.log(error))
+                } else {
+                    res.status(400).json({ status: false, message: 'Invalid current password' })
+                }
+            })
+
         } catch (error) {
 
         }

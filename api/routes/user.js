@@ -3,12 +3,17 @@ const router = express.Router();
 const upload = require('../config/multer')
 const { checkSignUpData, sendOtp, verifyOtp, doSingUp, verifyUserNameOrEmail, setNewPassword,
     doSingIn, getUserData } = require('../controllers/auth-controller')
+
 const { verifyUser } = require('../middlewares/verify-middleware')
+
 const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, getAllSavePost, getHomePost,
     doComment, removeComment } = require('../controllers/post-controller')
+
 const { getFriendsSuggestions, doFollow, getProfileInfo, doUnfollow, getAllFollowing,
     getAllFollowers } = require('../controllers/friends-controller')
-const { editProfile, getUsersOne, getAllNotifications, viewNotification, getNewNotifiCount } = require('../controllers/user-controller')
+
+const { editProfile, getUsersOne, getAllNotifications, viewNotification, getNewNotifiCount,
+    changePassword } = require('../controllers/user-controller')
 const { newConversation, getConversation } = require('../controllers/conversation-controller')
 const { doMessage, getMessage } = require('../controllers/message-controller')
 const { reportPost } = require('../controllers/report-controller');
@@ -54,6 +59,7 @@ router.delete('/comment/:comId/:postId', verifyUser, removeComment)
 // User
 router.put('/edit-profile', verifyUser, upload.single('profile'), editProfile)
 router.get('/users/:urId', verifyUser, getUsersOne)
+router.put('/change-password', verifyUser, changePassword)
 
 // Conversation
 router.post('/conversation', verifyUser, newConversation)

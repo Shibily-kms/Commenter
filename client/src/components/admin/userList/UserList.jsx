@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-import {  getUserList, userBlockOrUnblock, reset } from '../../../Redux/features/admin/userList'
+import { getUserList, userBlockOrUnblock, reset } from '../../../Redux/features/admin/userList'
 import { useSelector, useDispatch } from 'react-redux'
 import './user-list.scss'
 import Spinner from '../../Spinner'
@@ -11,14 +11,17 @@ function UserList() {
   const dispatch = useDispatch()
   const { users, isLoading, isError, isSuccess, message } = useSelector((state) => state.userList);
   const changeUserStatus = (urId) => {
-    dispatch(userBlockOrUnblock(urId))
-    dispatch(reset())
+    const ask = window.confirm('Are change this satatus ?');
+    if (ask) {
+      dispatch(userBlockOrUnblock(urId))
+      dispatch(reset())
+    }
   }
   useEffect(() => {
-    if(isError){
+    if (isError) {
       toast.error(message)
     }
-    if(isSuccess){
+    if (isSuccess) {
       toast.success(message)
     }
     dispatch(getUserList())

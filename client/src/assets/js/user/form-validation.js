@@ -48,7 +48,7 @@ let signUpFormFunction = function (obj) {
     }
 }
 
-let passwordValidation = (obj) => {
+const passwordValidation = (obj) => {
     if (obj.password === null || obj.cpassword === null) {
         return {
             success: false,
@@ -60,6 +60,30 @@ let passwordValidation = (obj) => {
             message: 'Password must be at least 6 characters long'
         }
     } else if (obj.password !== obj.cpassword) {
+        return {
+            success: false,
+            message: 'Password not match'
+        }
+    } else {
+        return {
+            success: true,
+            message: 'Validation Completed'
+        }
+    }
+}
+
+const NewPasswordValidation = (obj) => {
+    if (obj.current === null || obj.password === null || obj.confirm === null) {
+        return {
+            success: false,
+            message: 'Fill the form Completed'
+        }
+    } else if (obj.password.length < 6) {
+        return {
+            success: false,
+            message: 'Password must be at least 6 characters long'
+        }
+    } else if (obj.password !== obj.confirm) {
         return {
             success: false,
             message: 'Password not match'
@@ -98,4 +122,4 @@ const editprofileValidation = (obj) => {
     }
 }
 
-export { signUpFormFunction, passwordValidation, editprofileValidation };
+export { signUpFormFunction, passwordValidation, editprofileValidation, NewPasswordValidation };
