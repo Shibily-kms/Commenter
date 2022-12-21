@@ -5,11 +5,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import axios from '../../../config/axios'
 import { follow, unfollow } from '../../../Redux/features/user/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 function NameCard(props) {
     const { user } = useSelector((state) => state.userAuth)
     const [following, setFollowing] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleFollow = () => {
 
@@ -43,7 +45,7 @@ function NameCard(props) {
         <div>
             <div className="nameCard">
                 <div className="cardBoader">
-                    <div className="cardName">
+                    <div className="cardName" onClick={() => navigate('/' + props?.data?.userName)}>
                         <div className="image">
                             {props?.data?.profile ?
                                 <img src={props.data.profile} alt="" />
@@ -65,7 +67,7 @@ function NameCard(props) {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

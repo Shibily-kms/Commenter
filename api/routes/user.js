@@ -13,9 +13,12 @@ const { getFriendsSuggestions, doFollow, getProfileInfo, doUnfollow, getAllFollo
     getAllFollowers } = require('../controllers/friends-controller')
 
 const { editProfile, getUsersOne, getAllNotifications, viewNotification, getNewNotifiCount,
-    changePassword } = require('../controllers/user-controller')
+    changePassword, searchUser } = require('../controllers/user-controller')
+
 const { newConversation, getConversation } = require('../controllers/conversation-controller')
+
 const { doMessage, getMessage } = require('../controllers/message-controller')
+
 const { reportPost } = require('../controllers/report-controller');
 
 
@@ -81,5 +84,7 @@ router.get('/:userName', verifyUser, getProfileInfo)
 // Report Post
 router.post('/report-post', verifyUser, reportPost)
 
+// Search
+router.get('/search/user/:search', verifyUser, searchUser)
 
 module.exports = router;

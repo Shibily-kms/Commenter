@@ -202,5 +202,33 @@ module.exports = {
         } catch (error) {
 
         }
+    },
+    searchUser: async (req, res, next) => {
+        try {
+            let key = req.params.search
+            let searchKey = new RegExp(`/^${key}/i`)
+            await UserModel.aggregate([
+                {
+                    $match: {
+                        $or: [
+                            { userName: { $regex: key, $options: 'si' } },
+                            { firstName: { $regex: key, $options: 'si' } },
+                            { lastName: { $regex: key, $options: 'si' } },
+                        ]
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0, urId: 1, firstName: 1, lastName: 1, userName: 1, profile: 1
+                    }
+                }
+            ]).then((user) => {
+                res.status(201).json({ statsu: true, result: user, message: 'get search result' })
+            }).catch((error) => {
+                res.status(400).json({ statsu: false, message: 'some error' })
+            })
+        } catch (error) {
+
+        }
     }
 }
