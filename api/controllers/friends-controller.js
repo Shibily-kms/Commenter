@@ -8,21 +8,22 @@ module.exports = {
         try {
             const { count } = req.params
             const urId = req.user.urId
-            // await UserModel.findOne({ urId }).then((user) => {
-            //     let following = user.following
-            //     let followers = user.followers
-            //     if (following != []) {
-            //         // await UserModel.
-            //     } else if (followers != [] || following == []) { 
-
-            //     } else {
-            //     }
-            // })
+          
+            let ThisUser = await UserModel.findOne({ urId })
+            let following = ThisUser.following
+            following.push(ThisUser.urId)
+            let list = []
 
             await UserModel.find().then((users) => {
-                let list = users.filter((user) => {
-                    return user.urId != urId
-                })
+                list = users
+                for (let i = 0; i < following.length; i++) {
+                    for (let j = 0; j < list.length; j++) {
+                        if (following[i] === list[j].urId) {
+                            list.splice(j, 1);
+                        }
+                    }
+                }
+
                 list = list.map((user) => {
                     return {
                         urId: user.urId,
@@ -32,6 +33,7 @@ module.exports = {
                         profile: user?.profile
                     }
                 })
+
                 res.status(201).json({ success: true, users: list, message: 'user-list' })
             })
         } catch (error) {
