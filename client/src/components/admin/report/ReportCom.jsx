@@ -12,7 +12,6 @@ function ReportCom() {
     const [loading, setLoading] = useState(false)
 
     const blockPost = (postId, urId, count, reason) => {
-        console.log(postId, 'print this');
         const ask = window.confirm('Are you block this post ?')
         if (ask) {
             axios.post('/admin/block-post', { postId, urId, count, reason }, { withCredentials: true }).then(() => {

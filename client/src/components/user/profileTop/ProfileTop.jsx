@@ -11,9 +11,7 @@ function ProfileTop(props) {
     const navigate = useNavigate()
     const { user } = useSelector((state) => state.userAuth)
     const handleMessage = () => {
-        console.log('hiii');
         axios.post('/conversation', { senderId: user.urId, receiverId: props.profile.urId }, { withCredentials: true }).then((result) => {
-            console.log(result, 'result');
             navigate('/message', { state: { conversation: result.data } })
         })
     }

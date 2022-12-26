@@ -7,10 +7,8 @@ function CountSection() {
     const [userCount, setuserCount] = useState({})
     useEffect(() => {
         // Get Counts
-        console.log('hhhh');
         axios.get('/admin/dashboard-count', { withCredentials: true }).then((result) => {
             setuserCount(result.data.MainArray[0])
-            console.log(result, 'rsu');
         })
     }, [])
     return (

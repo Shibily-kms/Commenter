@@ -20,7 +20,6 @@ function MessageContent({ current, data }) {
                 added.push({ text: new Date(data[i]?.createdAt).toDateString(), date: true })
                 added.push(data[i])
             } else {
-                console.log(new Date(data[i]?.createdAt).toDateString(), 'prin');
                 if (new Date(data[i]?.createdAt).toDateString() === new Date(data[i - 1]?.createdAt).toDateString()) {
                     added.push(data[i])
                 } else {

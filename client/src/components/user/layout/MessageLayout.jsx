@@ -32,7 +32,6 @@ function MessageLayout() {
     }
 
     useEffect(() => {
-        console.log(location, 'location');
         if (location.state) {
             setCurrentChat(location.state.conversation)
         }
@@ -40,7 +39,6 @@ function MessageLayout() {
 
     useEffect(() => {
         axios.get('/conversation/' + user?.urId, { withCredentials: true }).then((res) => {
-            console.log(res,'converstation');
             setConversation(res.data.conversation)
         })
     }, [user])

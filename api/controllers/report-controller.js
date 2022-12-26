@@ -33,7 +33,6 @@ const reportPost = async (req, res, next) => {
 const getAllReports = async (req, res, next) => {
     try {
         await PostModel.find({ reportCount: { $not: { $eq: 0 } } }).then((result) => {
-            console.log(result);
             res.status(201).json({ status: true, reports: result, message: 'get all reports' })
         })
     } catch (error) {
@@ -44,7 +43,6 @@ const getAllReports = async (req, res, next) => {
 const blockPost = async (req, res, next) => {
     try {
         const { postId, urId, count, reason } = req.body
-        console.log(postId, 'sdflsdl');
         PostModel.updateOne({ postId }, {
             $set: {
                 block: true,

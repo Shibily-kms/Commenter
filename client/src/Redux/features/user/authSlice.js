@@ -99,7 +99,6 @@ const userAuthSlice = createSlice({
 
         },
         [editProfile.rejected]: (state, action) => {
-            console.log('get user data');
             state.isLoading = false
             state.isError = true
             state.message = action.payload

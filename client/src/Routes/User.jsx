@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useCookies } from 'react-cookie';
 import { getUserData, reset } from '../Redux/features/user/authSlice'
@@ -19,20 +19,13 @@ import Notifications from '../pages/user/notifications/Notifications';
 
 
 function User() {
-  const [cookies, setCookie, removeCookie] = useCookies(['commenter']);
+  const [cookies, setCookie] = useCookies(['commenter']);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
   const { user, isError } = useSelector((state) => state.userAuth)
   useEffect(() => {
-    console.log('hi user useEffect')
     if (!user && cookies.commenter) {
-      console.log(1);
       dispatch(getUserData())
       dispatch(reset())
-    }
-
-    if (isError) {
-
     }
   }, [isError])
 

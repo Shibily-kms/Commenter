@@ -1,4 +1,4 @@
-let signUpFormFunction = function (obj) {
+const signUpFormFunction = function (obj) {
     let regex = /^[A-Za-z ]+$/
     let uregex = /^[A-Za-z0-9 ]+$/
 

@@ -9,12 +9,9 @@ function ColumnTwo() {
     const { user } = useSelector((state) => state.userAuth)
     const [notification, setNotification] = useState(null)
     useEffect(() => {
-        console.log('hi notifi colum 2');
         axios.get('/notifications', { withCredentials: true }).then((result) => {
-            console.log(result.data.notifications,'result');
             setNotification(result.data.notifications)
         }).catch((error) => {
-            console.log(error);
         })
     }, [])
     return (

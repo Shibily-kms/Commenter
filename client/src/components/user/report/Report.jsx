@@ -14,7 +14,6 @@ function Report(props) {
     const { user } = useSelector((state) => state.userAuth)
 
     const handleSubmit = (e) => {
-        console.log(reason);
         e.preventDefault();
         const obj = {
             reason,
