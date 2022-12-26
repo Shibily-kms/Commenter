@@ -4,10 +4,11 @@ import Post from '../../../components/user/post/Post'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import Spinner from '../../../components/Spinner'
+import NullPost from '../../../components/other/nullPost/Nulldefault'
 import EditProfile from '../../../components/user/profileInfo/EditProfile'
 import '../profile/ColumnTwo'
 import axios from '../../../config/axios'
-
+import { FcAddImage } from "@react-icons/all-files/fc/FcAddImage";
 
 
 function CoulmnTwo() {
@@ -44,11 +45,11 @@ function CoulmnTwo() {
             </>
             :
             <>
-              {savePost ? savePost.map((post, index) => {
+              {savePost[0] ? savePost.map((post, index) => {
 
                 return <Post savePage={true} key={index} data={post} />
 
-              }) : ''}
+              }) : <NullPost icon={<FcAddImage />} header='Let start' desc='Save your favorite post' />}
             </>
           }
         </div>

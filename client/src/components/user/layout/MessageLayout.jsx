@@ -12,6 +12,7 @@ import StartChat from '../chat/StartChat'
 import ChatFriends from '../chat-frients/ChatFriends'
 import axios from '../../../config/axios'
 import Spinner from '../../Spinner'
+import NullPost from '../../other/nullPost/Nulldefault'
 
 
 function MessageLayout() {
@@ -22,6 +23,7 @@ function MessageLayout() {
     const [conversation, setConversation] = useState([])
     const [currentChat, setCurrentChat] = useState(null)
     const [messages, setMessages] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const handleSidebar = () => {
         if (action) {
@@ -38,7 +40,9 @@ function MessageLayout() {
     }, [])
 
     useEffect(() => {
+        setLoading(true)
         axios.get('/conversation/' + user?.urId, { withCredentials: true }).then((res) => {
+            setLoading(false)
             setConversation(res.data.conversation)
         })
     }, [user])
@@ -80,22 +84,23 @@ function MessageLayout() {
                                     <div className="content-div">
                                         <div className="content">
                                             <div className="friendsList">
-                                                {conversation[0] ?
+                                                {loading ?
+                                                    <Spinner /> :
                                                     <>
-                                                        {conversation.map((value) => {
-                                                            return <>
-                                                                <div onClick={() => setCurrentChat(value)}>
-                                                                    <ChatFriends data={value} current={user} />
-                                                                </div>
+                                                        {conversation[0] ?
+                                                            <>
+                                                                {conversation.map((value) => {
+                                                                    return <>
+                                                                        <div onClick={() => setCurrentChat(value)}>
+                                                                            <ChatFriends data={value} current={user} />
+                                                                        </div>
+                                                                    </>
+                                                                })}
                                                             </>
-                                                        })}
-                                                    </>
 
-                                                    :
-                                                    <Spinner />}
-
-
-
+                                                            : <p className='text-center mt-5'>No conversations!</p>
+                                                        }
+                                                    </>}
                                             </div>
                                         </div>
                                     </div>

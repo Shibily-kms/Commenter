@@ -25,9 +25,10 @@ const newConversation = async (req, res, next) => {
 
 const getConversation = async (req, res, next) => {
     try {
-        const conversation = await ConversationModel.find({
+        let conversation = await ConversationModel.find({
             members: { $in: [req.params.urId] }
         })
+        conversation = conversation.reverse()
         res.status(201).json({ status: true, conversation, message: 'get conversation' })
     } catch (error) {
         res.status(500).json(error)

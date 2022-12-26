@@ -1,0 +1,25 @@
+@import '../../../assets/css/model.scss';
+
+.nullPost>.boader {
+    @include normalBox();
+    margin-top: 15px;
+    height: 300px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    .icon{
+        text-align: center;
+        font-size: 80px;
+        width: 100%;
+    }
+    .text{
+        width: 100%;
+        text-align: center;
+         h4{
+            font-size: 18px;
+            font-weight: 600;
+         }
+    }
+}

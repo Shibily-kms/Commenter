@@ -3,7 +3,9 @@ import CreatePost from '../../../components/user/createPost/CreatePost'
 import Post from '../../../components/user/post/Post'
 import axios from '../../../config/axios'
 import Spinner from '../../../components/Spinner'
+import NullPost from '../../../components/other/nullPost/Nulldefault'
 import { useSearchParams } from 'react-router-dom'
+import { FcAddImage } from "@react-icons/all-files/fc/FcAddImage";
 
 
 function ColumnTwo() {
@@ -47,13 +49,13 @@ function ColumnTwo() {
                         <Spinner />
                         :
                         <>
-                            {posts != [] ?
+                            {posts[0] ?
                                 <>
                                     {posts.map((item) => {
 
                                         return <Post data={item} />
                                     })}
-                                </> : ''}
+                                </> : <NullPost icon={<FcAddImage />} header='Let start' desc='Add post and Follow friends' />}
                         </>}
                 </div>
             </div>

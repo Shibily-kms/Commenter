@@ -3,6 +3,8 @@ import { useEffect } from 'react'
 import NameCard from '../../../components/user/SmallNameCard/NameCard'
 import './style.scss'
 import axios from '../../../config/axios'
+import NullPost from '../../../components/other/nullPost/Nulldefault'
+import { FaUserFriends } from "@react-icons/all-files/fa/FaUserFriends";
 
 function ColumnTwo() {
   const [active, setActive] = useState('section-one')
@@ -13,7 +15,7 @@ function ColumnTwo() {
     if (value) {
       setAction(true)
       setActive('section-two')
-    }else{
+    } else {
       setAction(false)
       setActive('section-one')
     }
@@ -46,10 +48,14 @@ function ColumnTwo() {
             </div>
           </div>
           <div className="content">
-
-            {result.map((user) => {
-              return <NameCard data={user} />
-            })}
+            {result[0] ?
+              <>
+                {result.map((user) => {
+                  return <NameCard data={user} />
+                })}
+              </>
+              : <NullPost icon={<FaUserFriends/>} header='Start Following' />
+            }
 
           </div>
         </div>

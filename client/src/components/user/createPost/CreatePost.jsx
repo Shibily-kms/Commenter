@@ -163,7 +163,12 @@ function CreatePost() {
                                         <input type="file" onChange={handleFileChange} ref={inputRef} hidden name='file' accept="image/*,video/*" />
                                         <div className="section-two">
                                             <textarea autoFocus name="text" onChange={handelText} id="" cols="20" rows="5" value={form.text ? form.text : ''} placeholder={user ? user.firstName + ', Type something...' : ''}></textarea>
-                                            {showImg ? <img src={URL.createObjectURL(showImg)} alt="" /> : ''}
+                                            {showImg ? <div className='showImage'>
+                                                <img src={URL.createObjectURL(showImg)} alt="" />
+                                                <div className="round-icon" onClick={() => setShowImg(false)}>
+                                                    <GrClose />
+                                                </div>
+                                            </div> : ''}
                                         </div>
 
                                         <div className="section-three">

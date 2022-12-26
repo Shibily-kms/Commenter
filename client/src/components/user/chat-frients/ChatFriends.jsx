@@ -28,10 +28,10 @@ function ChatFriends({ data, current }) {
                         </div>
                         <div className="content">
                             <h5>{user?.firstName + " " + user?.lastName} </h5>
-                            <p>Last Message</p>
+                            {/* <p>Last Message</p> */}
                         </div>
                     </div>
-                    <div className="side-two">
+                    {/* <div className="side-two">
                         <div className="last">
 
                             <span className="count">22
@@ -39,7 +39,7 @@ function ChatFriends({ data, current }) {
                             <p>02:30 PM</p>
 
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

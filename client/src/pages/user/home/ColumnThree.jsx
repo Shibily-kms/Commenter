@@ -9,12 +9,13 @@ function ColumnThree() {
   const [suggest, setSuggest] = useState([])
   const [loading, setLoading] = useState(false)
   useEffect(() => {
-  
+
     setLoading(true)
     axios.get('/friends-suggestions/10', { withCredentials: true }).then((result) => {
-    
       setLoading(false)
       setSuggest(result.data.users)
+    }).catch((error) => {
+      setLoading(false)
     })
   }, [])
   return (
@@ -27,13 +28,13 @@ function ColumnThree() {
           </>
           :
           <>
-            {suggest ?
+            {suggest[0] ?
               <>
                 {suggest.map((user) => {
                   return <NameCard data={user} />
                 })}
               </>
-              : ""
+              : <p className='text-center'>No suggestions</p>
             }
           </>
         }

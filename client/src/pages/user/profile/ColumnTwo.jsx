@@ -6,8 +6,12 @@ import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import Spinner from '../../../components/Spinner'
 import EditProfile from '../../../components/user/profileInfo/EditProfile'
+import NullPost from '../../../components/other/nullPost/Nulldefault'
 import './columnTwo.scss'
 import { useState } from 'react'
+import { FcAddImage } from "@react-icons/all-files/fc/FcAddImage";
+
+
 
 function ColumnTwo(props) {
   const [isLoading, setIsLoading] = useState(true)
@@ -45,10 +49,13 @@ function ColumnTwo(props) {
               <Spinner />
             </>
             :
-            <>
-              {props.posts.map((post, index) => {
-                return <Post key={index} data={post} />
-              })}
+            <> {props.posts[0] ?
+              <>
+                {props.posts.map((post, index) => {
+                  return <Post key={index} data={post} />
+                })}
+              </>
+              : <NullPost icon={<FcAddImage />} header='Let start' desc='Add post and Follow friends'/>}
             </>
           }
         </div>

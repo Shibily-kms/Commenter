@@ -8,6 +8,7 @@ import axios from '../../../config/axios'
 
 
 function ReportCom() {
+   
     const [reports, setReports] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -45,9 +46,17 @@ function ReportCom() {
         {
             field: 'reason',
             headerName: 'Reason',
-            width: 300,
+            width: 280,
         },
         { field: 'count', headerName: 'Count', width: 200 },
+        {
+            field: 'view',
+            headerName: 'View Post',
+            width: 100,
+            renderCell: (value) => {
+                return (<><button className='button-gray mx-1' onClick={() => window.open(`/?postId=${value.row.id}`, '_blank', 'noopener,noreferrer')}>View</button></>)
+            }
+        },
         {
             field: 'action',
             headerName: 'Action',

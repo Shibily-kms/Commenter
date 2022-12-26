@@ -66,9 +66,9 @@ const doSingUp = async (req, res, next) => {
         body.urId = customId(6, 'UR')
         UserModel.create(body).then((response) => {
             if (response) {
-                sendNotification(body.urId, body.userName, {
+                sendNotification(body.urId, {
                     type: 'welcome',
-                    text: 'Welcome to Commenter. Start your unlimited enjoyment with commenter application',
+                    text: `Hi ${body.firstName} ${body.lastName}, Welcome to Commenter. Start your unlimited enjoyment with commenter application`,
                     path: '/' + body.userName
                 })
                 res.status(201).json({ success: true, message: 'user sign up success' })
