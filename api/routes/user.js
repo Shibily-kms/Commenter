@@ -7,7 +7,7 @@ const { checkSignUpData, sendOtp, verifyOtp, doSingUp, verifyUserNameOrEmail, se
 const { verifyUser } = require('../middlewares/verify-middleware')
 
 const { doPost, getUserPost, likePost, savePost, removeSavePost, deletePost, getAllSavePost, getHomePost,
-    doComment, removeComment } = require('../controllers/post-controller')
+    doComment, removeComment, getOnePost } = require('../controllers/post-controller')
 
 const { getFriendsSuggestions, doFollow, getProfileInfo, doUnfollow, getAllFollowing,
     getAllFollowers } = require('../controllers/friends-controller')
@@ -38,6 +38,7 @@ router.get('/get-user', verifyUser, getUserData)
 
 // Post
 router.post('/post', verifyUser, doPost)
+router.get('/post/:postId', verifyUser, getOnePost)
 router.put('/like', verifyUser, likePost)
 router.get('/user-post', verifyUser, getUserPost)
 router.get('/save-post', verifyUser, getAllSavePost)
@@ -86,5 +87,7 @@ router.post('/report-post', verifyUser, reportPost)
 
 // Search
 router.get('/search/user/:search', verifyUser, searchUser)
+
+
 
 module.exports = router;

@@ -36,7 +36,7 @@ function SettingsComponent() {
                                 <IoIosArrowForward />
                             </div>
                         </div>
-                        <div className="item-div" onClick={() => navigate('privacy-and-security')}>
+                        {/* <div className="item-div" onClick={() => navigate('privacy-and-security')}>
                             <div className="one">
                                 <MdVerifiedUser />
                                 <span>Privacy and security</span>
@@ -44,7 +44,7 @@ function SettingsComponent() {
                             <div className="two">
                                 <IoIosArrowForward />
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

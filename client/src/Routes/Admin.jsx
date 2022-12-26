@@ -28,7 +28,7 @@ function Admin() {
         <Route path='/sign-in' element={<SingIn />} />
         <Route path='/user-list' element={<UserList />} />
         <Route path='/reports' element={<Report />} />
-        <Route exact path='/' element={<Dashboard />} />
+        {/* <Route exact path='/' element={<Dashboard />} /> */}
       </Routes>
     </div>
   )

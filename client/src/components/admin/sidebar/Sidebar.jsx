@@ -35,13 +35,13 @@ function Sidebar() {
                 <hr />
                 <div className="menu-div">
                     <div className="menu-items">
-                        <NavLink  to='/admin' end >
+                        {/* <NavLink  to='/admin' end >
                             <div className="menu">
                                 <RiDashboardFill />
                                 <h5>Dashboard</h5>
                                 <div></div>
                             </div>
-                        </NavLink>
+                        </NavLink> */}
                         <NavLink to='/admin/user-list' >
                             <div className="menu">
                                 <FaUserFriends />

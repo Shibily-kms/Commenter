@@ -41,12 +41,12 @@ function SignInForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(loginAdmin(form))
-        navigate('/admin')
+        navigate('/admin/user-list')
     }
 
     useEffect(() => {
         if (cookies.commenterAdmin) {
-            navigate('/admin')
+            navigate('/admin/user-list')
         }
     }, [])
 

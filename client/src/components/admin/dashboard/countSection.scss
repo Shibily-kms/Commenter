@@ -1,0 +1,52 @@
+@import '../../../assets/css/user-root.scss';
+@import '../../../assets/css/model.scss';
+
+.dashboard>.boader {
+    .row {
+        .box {
+            @include normalBox();
+            padding: 10px;
+            color: white;
+            background-color: crimson;
+            margin: 5px 0;
+
+            .top {
+               
+                text-align: center;
+                padding: 15px 0;
+                border-bottom: 1px solid rgb(145, 145, 145);
+
+                h5 {
+                    font-size: 15px;
+                    margin: 0;
+                }
+
+                h2 {
+                    font-weight: 600;
+                }
+
+            }
+            .bottom{
+                display: flex;
+                text-align: center;
+                margin-top: 5px;
+                .one{
+                    width: 100%;
+                }   
+                .two{
+                    width: 100%;
+                    
+                }
+                h5{
+                    font-size: 14px;
+                    margin: 0;
+                }
+                h4{
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+            }
+        }
+
+    }
+}

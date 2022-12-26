@@ -17,7 +17,6 @@ import { AiFillLike } from "@react-icons/all-files/ai/AiFillLike";
 import { RiMessage2Fill } from "@react-icons/all-files/ri/RiMessage2Fill";
 import { MdSave } from "@react-icons/all-files/md/MdSave";
 import { AiOutlineLike } from "@react-icons/all-files/ai/AiOutlineLike";
-import { AiOutlineLink } from "@react-icons/all-files/ai/AiOutlineLink";
 import { BsTrashFill } from "@react-icons/all-files/bs/BsTrashFill";
 import { GrFormClose } from "@react-icons/all-files/gr/GrFormClose";
 import { BiComment } from "@react-icons/all-files/bi/BiComment";
@@ -174,10 +173,10 @@ function Post(props) {
                                             <p>Save </p>
                                         </div>
                                     }
-                                    <div className="itemDiv">
+                                    {/* <div className="itemDiv" onClick={handleCopy}>
                                         <AiOutlineLink />
                                         <p>Copy Link</p>
-                                    </div>
+                                    </div> */}
 
                                     {user?.urId === post?.urId ?
                                         <div className="itemDiv" onClick={handleRemove}>

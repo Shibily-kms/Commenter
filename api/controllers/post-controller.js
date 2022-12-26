@@ -78,6 +78,48 @@ module.exports = {
             throw error;
         }
     },
+    getOnePost: async (req, res, next) => {
+        try {
+            let postId = req.params.postId
+            await PostModel.aggregate([
+                {
+                    $match: {
+                        postId,
+
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'urId',
+                        foreignField: 'urId',
+                        as: 'how'
+                    }
+                },
+                {
+                    $project: {
+                        urId: 1, postId: 1, text: 1, file: 1, comments: 1, reactions: 1, createDate: 1,
+                        commentCount: 1,
+                        reports: 1,
+                        reportCount: 1,
+                        reactCount: 1,
+                        block: 1,
+                        firstName: { $first: '$how.firstName' },
+                        lastName: { $first: '$how.lastName' },
+                        userName: { $first: '$how.userName' },
+                        profile: { $first: '$how.profile' }
+                    }
+                }
+            ]).then((result) => {
+                res.status(201).json({ status: true, post: result[0], message: 'get one post' })
+            }).catch((error) => {
+                res.status(400).json({ status: false, message: 'PostId not match' })
+            })
+
+        } catch (error) {
+
+        }
+    },
     // Like Post
     likePost: async (req, res, next) => {
         try {
@@ -300,7 +342,7 @@ module.exports = {
                 }
 
             ])
-           
+
             otherPost = otherPost.filter((value) => value.post.block !== true)
             otherPost = otherPost.map((item) => {
                 item.post.firstName = item.firstName

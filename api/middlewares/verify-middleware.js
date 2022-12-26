@@ -17,6 +17,7 @@ const verifyAdmin = (req, res, next) => {
   
 const verifyUser = async (req, res, next) => {
     try {
+        console.log(req.cookies?.commenter,'token');
         const jwtToken = jwt?.verify(req.cookies?.commenter, process.env.TOKEN_KEY)
         if (jwtToken) { 
             const urId = jwtToken.userId  

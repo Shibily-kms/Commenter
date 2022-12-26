@@ -2,9 +2,21 @@ import React from 'react'
 import './profileTop.scss'
 import Profile from '../../../assets/icons/profile.jpg'
 import { useSelector } from 'react-redux'
+import { RiMessage2Fill } from "@react-icons/all-files/ri/RiMessage2Fill";
+import axios from '../../../config/axios'
+import { useNavigate } from 'react-router-dom'
+
 
 function ProfileTop(props) {
+    const navigate = useNavigate()
     const { user } = useSelector((state) => state.userAuth)
+    const handleMessage = () => {
+        console.log('hiii');
+        axios.post('/conversation', { senderId: user.urId, receiverId: props.profile.urId }, { withCredentials: true }).then((result) => {
+            console.log(result, 'result');
+            navigate('/message', { state: { conversation: result.data } })
+        })
+    }
 
     return (
         <div>
@@ -25,6 +37,12 @@ function ProfileTop(props) {
                         <p>{props?.profile?.urId ? props.profile.followers.length + ' Followers | ' + props.profile.following.length + ' Following'
                             : 'Loading...'}</p>
                     </div>
+                    {props?.profile?.urId === user?.urId ?
+                        "" :
+                        <div className="message" onClick={handleMessage}>
+                            <button className='button-color'><RiMessage2Fill /></button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

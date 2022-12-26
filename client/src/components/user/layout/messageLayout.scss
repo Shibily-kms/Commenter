@@ -19,7 +19,7 @@
             .content-div {
                 width: 430px;
 
-               
+
             }
         }
 
@@ -52,13 +52,26 @@
                             @include normalShadow;
                             padding: 5px;
                             height: calc(100vh - 90px);
-                            overflow-y :scroll;
+                            overflow-y: scroll;
                         }
 
                     }
                 }
             }
         }
+
+        @media screen and (max-width: 850px) {
+
+            .section-one>.mobile {
+                display: none;
+            }
+            .section-two>.mobile {
+                display: none;
+            }
+          
+        }
+
+
 
         @media screen and (max-width: 1150px) {
 
@@ -79,9 +92,13 @@
 
 @media screen and (max-width: 850px) {
     .page {
-        .content-div{
+        .content-div {
             width: 100%;
         }
+    }
+
+    .section-two {
+        display: none;
     }
 }
 

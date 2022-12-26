@@ -3,18 +3,36 @@ import CreatePost from '../../../components/user/createPost/CreatePost'
 import Post from '../../../components/user/post/Post'
 import axios from '../../../config/axios'
 import Spinner from '../../../components/Spinner'
+import { useSearchParams } from 'react-router-dom'
 
 
 function ColumnTwo() {
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(false)
-    const [author, setAuthor] = useState({})
+    const [searchParams] = useSearchParams()
+
+
     useEffect(() => {
         setLoading(true)
-        axios.get('/post', { withCredentials: true }).then((result) => {
-            setLoading(false)
-            setPosts(result.data.posts)
-        })
+        let postId = searchParams.get('postId')
+        if (postId) {
+            axios.get('/post/' + postId, { withCredentials: true }).then((result) => {
+                setLoading(false)
+                if (result.data.post?.postId) {
+                    setPosts([result.data.post])
+                } else {
+                    setPosts([])
+                }
+            }).catch(() => {
+                setLoading(false)
+                setPosts([])
+            })
+        } else {
+            axios.get('/post', { withCredentials: true }).then((result) => {
+                setLoading(false)
+                setPosts(result.data.posts)
+            })
+        }
 
     }, [])
 
@@ -33,7 +51,7 @@ function ColumnTwo() {
                                 <>
                                     {posts.map((item) => {
 
-                                        return <Post data={item}  />
+                                        return <Post data={item} />
                                     })}
                                 </> : ''}
                         </>}

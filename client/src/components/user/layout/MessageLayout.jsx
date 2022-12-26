@@ -5,6 +5,7 @@ import Header from '../header/Header'
 import Sidebar from '../sidebar/Sidebar'
 import { setTrue, setFalse } from '../../../Redux/features/sidebar/sidebarSlice'
 import { useSelector, useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 import LogoFrame from './LogoFrame'
 import Chatbox from '../chat/Chatbox'
 import StartChat from '../chat/StartChat'
@@ -15,6 +16,7 @@ import Spinner from '../../Spinner'
 
 function MessageLayout() {
     const dispatch = useDispatch()
+    const location = useLocation()
     const { action } = useSelector((state) => state.sidebarToggle)
     const { user } = useSelector((state) => state.userAuth)
     const [conversation, setConversation] = useState([])
@@ -30,7 +32,15 @@ function MessageLayout() {
     }
 
     useEffect(() => {
+        console.log(location, 'location');
+        if (location.state) {
+            setCurrentChat(location.state.conversation)
+        }
+    }, [])
+
+    useEffect(() => {
         axios.get('/conversation/' + user?.urId, { withCredentials: true }).then((res) => {
+            console.log(res,'converstation');
             setConversation(res.data.conversation)
         })
     }, [user])
@@ -56,11 +66,11 @@ function MessageLayout() {
                         <div className="section-div">
 
                             <div className="section-one">
-                                <div className="content-div">
+                                <div className={currentChat ? "content-div " : 'content-div mobile'}>
                                     <div className="content">
                                         {currentChat ?
-                                            <Chatbox current={currentChat} messages={messages} setMessage={setMessages} />
-                                            : <StartChat/>
+                                            <Chatbox current={currentChat} messages={messages} setCurrent={setCurrentChat} />
+                                            : <StartChat />
                                         }
                                     </div>
                                 </div>
@@ -68,7 +78,7 @@ function MessageLayout() {
 
                             <div className="section-two">
 
-                                <div className=" columnThree">
+                                <div className={currentChat ? " columnThree mobile" : 'columnThree'}  >
                                     <div className="content-div">
                                         <div className="content">
                                             <div className="friendsList">

@@ -12,7 +12,7 @@ import { IoChevronBack } from "@react-icons/all-files/io5/IoChevronBack";
 import { IoMdSend } from "@react-icons/all-files/io/IoMdSend";
 
 
-function Chatbox({ current, messages }) {
+function Chatbox({ current, messages, setCurrent }) {
     const { user } = useSelector((state) => state.userAuth)
     const [now, setNow] = useState(null)
     const [newMessage, setNewMessage] = useState('')
@@ -65,14 +65,14 @@ function Chatbox({ current, messages }) {
     useEffect(() => {
         socket.current.emit('addUser', user.urId)
         socket.current.on('getUsers', users => {
-        
+
         })
     }, [user])
 
     useEffect(() => {
         const friendId = current.members.find((m) => m !== user.urId)
         axios.get('/users/' + friendId, { withCredentials: true }).then((res) => {
-           
+
             setNow(res.data.user)
         })
 
@@ -85,7 +85,7 @@ function Chatbox({ current, messages }) {
                 <div className="boader">
                     <div className="top">
                         <div className="profile">
-                            <div className="round-icon back">
+                            <div className="round-icon back" onClick={() => setCurrent(null)}>
                                 <IoChevronBack />
                             </div>
                             <div className="image">

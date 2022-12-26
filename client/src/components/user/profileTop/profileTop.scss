@@ -1,4 +1,4 @@
-@import '../../../assets/css/model.scss' ;
+@import '../../../assets/css/model.scss';
 
 .cover-section {
     margin-top: -15px;
@@ -20,7 +20,7 @@
 }
 
 .cover-section>.profile {
-    
+
     position: absolute;
     display: flex;
     align-items: center;
@@ -39,24 +39,45 @@
         margin-right: 15px;
         border: 4px white solid;
         @include normalShadow;
-        img{
+
+        img {
             width: 120px;
             height: 120px;
         }
     }
-    .name{
-        
+
+    .name {
+
         margin-top: 60px;
-        h4{
+
+        h4 {
             font-size: 20px;
             font-weight: 800;
             margin: 0;
         }
-        p{
+
+        p {
             margin: 0;
             font-size: 12px;
             font-size: 700;
-            color:gray;
+            color: gray;
         }
+    }
+
+    .message {
+
+        margin-top: 60px;
+        margin-left: 20px;
+        display: flex;
+        button{
+           font-size: 18px;
+           width: 45px;
+           border-radius:200px ;
+           -webkit-border-radius:200px ;
+           -moz-border-radius:200px ;
+           -ms-border-radius:200px ;
+           -o-border-radius:200px ;
+}
+
     }
 }

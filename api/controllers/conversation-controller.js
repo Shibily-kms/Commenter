@@ -3,17 +3,25 @@ const { customId } = require('../helpers/customId-helpers')
 
 
 module.exports = {
+    
     newConversation: async (req, res, next) => {
-        const newConversation = new ConversationModel({
-            conId: customId(7),
-            members: [req.body.senderId, req.body.receiverId]
-        })
 
-        try {
-            const savedConversation = await newConversation.save()
-            res.status(200).json(savedConversation)
-        } catch (error) {
-            res.status(500).json(error)
+        const conversation = await ConversationModel.findOne({ members: { $all: [req.body.senderId, req.body.receiverId] } })
+        if (conversation) {
+            res.status(200).json(conversation)
+        } else {
+            const newConversation = new ConversationModel({
+                conId: customId(7),
+                members: [req.body.senderId, req.body.receiverId]
+            })
+
+            try {
+                const savedConversation = await newConversation.save()
+                res.status(200).json(savedConversation)
+            } catch (error) {
+                res.status(500).json(error)
+            }
+
         }
     },
 
